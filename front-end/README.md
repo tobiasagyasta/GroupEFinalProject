@@ -4,11 +4,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Installation
 
-To start, clone the repository first and move to the front end folder :
+To start, move to the front end folder :
 
 ```
-git clone https://github.com/tobiasagyasta/GroupEFinalProject.git
-
 cd front-end
 ```
 
