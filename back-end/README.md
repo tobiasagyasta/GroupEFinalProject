@@ -10,11 +10,9 @@
 
 ## How To Start
 
-To start, clone the repository first and move to the back end folder :
+To start, move to the back end folder :
 
 ```
-git clone https://github.com/tobiasagyasta/GroupEFinalProject.git
-
 cd back-end
 ```
 
