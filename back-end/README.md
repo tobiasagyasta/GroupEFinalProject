@@ -10,6 +10,15 @@
 
 ## How To Start
 
+To start, clone the repository first and move to the back end folder :
+
+```
+git clone https://github.com/tobiasagyasta/GroupEFinalProject.git
+
+cd back-end
+```
+
+
 #### Local Deployment through Flask
 
 In order to view the API using flask, you can clone the repository and enter these following commands in the root location:
