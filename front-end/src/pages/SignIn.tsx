@@ -20,7 +20,7 @@ export default function SignIn() {
 							<Input
 								id="email"
 								type="email"
-								placeholder="m@example.com"
+								placeholder="email@gmail.com"
 								required
 							/>
 						</div>
@@ -39,8 +39,8 @@ export default function SignIn() {
 						<Button type="submit" className="w-full">
 							Login
 						</Button>
-						<Button variant="outline" className="w-full">
-							Login with Google
+						<Button type="submit" className="w-full">
+							Login Github
 						</Button>
 					</div>
 					<div className="flex flex-col text-center">
@@ -59,10 +59,9 @@ export default function SignIn() {
 			<div className="hidden bg-muted lg:block">
 				<img
 					src="https://images.unsplash.com/photo-1486754735734-325b5831c3ad?"
-					alt="Image"
 					width="1920"
 					height="1080"
-					className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+					className="h-full w-full object-cover "
 				/>
 			</div>
 		</div>
