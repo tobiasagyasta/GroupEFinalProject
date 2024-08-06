@@ -10,9 +10,10 @@ To start, move to the front end folder :
 cd front-end
 ```
 
-Then, install all of the dependencies :
+Then, use the terminal to install and update all of the dependencies :
 
-### `npm install`
+1. `npm install`
+2. `npm update`
 
 In the project directory, you can run:
 
