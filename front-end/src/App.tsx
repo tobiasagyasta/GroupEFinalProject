@@ -9,11 +9,9 @@ function App() {
 			<Link to="/signup" className="mt-4 underline text-blue-600">
 				Go to Sign Up
 			</Link>
-		
 					<Link to="/companyprofile" className="mt-4 underline text-blue-600">
 					Go to Company Profile
 				</Link>
-				
 			</div>
 	);
 }

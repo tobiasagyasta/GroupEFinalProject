@@ -8,6 +8,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import CompanyProfile from "./pages/CompanyProfile";
 
+
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement
 );
@@ -17,8 +18,10 @@ root.render(
 			<Routes>
 				<Route path="/" element={<App />} />
 				<Route path="/signin" element={<SignIn />} />
+
 				<Route path="/signup" element={<SignUp />} />
 				<Route path="/companyprofile" element={<CompanyProfile />} />
+
 			</Routes>
 		</Router>
 	</React.StrictMode>
