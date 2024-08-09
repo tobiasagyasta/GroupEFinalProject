@@ -17,7 +17,13 @@ function AgricultureEcommerce() {
     <div className="min-h-screen">
       {/* Navbar */}
       <nav className="bg-white shadow p-4 flex justify-between items-center sticky top-0 z-50">
-        <div className="text-2xl font-bold">HarvestHub</div>
+        <div className="text-2xl font-bold">
+          <img
+            src="../images/logoharvest.png"
+            alt="HarvestHub Logo"
+            className="h-10 w-auto"
+          />
+        </div>
 
         <div className="flex items-center space-x-4">
           <div className="relative w-[400px]">
@@ -37,25 +43,7 @@ function AgricultureEcommerce() {
             href="#"
             className="text-gray-700 border border-gray-300 rounded px-4 py-2 hover:text-blue-500 hover:shadow-md transition-shadow duration-300"
           >
-            Berita
-          </a>
-          <a
-            href="#"
-            className="text-gray-700 border border-gray-300 rounded px-4 py-2 hover:text-blue-500 hover:shadow-md transition-shadow duration-300"
-          >
-            Komunitas Tani
-          </a>
-          <a
-            href="#"
-            className="text-gray-700 border border-gray-300 rounded px-4 py-2 hover:text-blue-500 hover:shadow-md transition-shadow duration-300"
-          >
             Tentang HarvestHub
-          </a>
-          <a
-            href="#"
-            className="text-gray-700 border border-gray-300 rounded px-4 py-2 hover:text-blue-500 hover:shadow-md transition-shadow duration-300"
-          >
-            Kontak
           </a>
         </div>
 
@@ -78,7 +66,7 @@ function AgricultureEcommerce() {
       >
         <div className="text-center">
           <h1 className="text-4xl font-bold text-black mb-2 -mt-2">
-            Bring the Farm to your Table
+            Produk Terbaik, Terpercaya, Langsung dari Petani Lokal!
           </h1>
           <div className="mt-4">
             <button className="bg-black text-white px-4 py-2 rounded mr-2 mb-20 hover:shadow-lg transition-shadow duration-300">
@@ -305,16 +293,16 @@ function AgricultureEcommerce() {
             </div>
           </div>
           <div>
-            <h3 className="text-lg font-bold mb-2">Use Cases</h3>
+            <h3 className="text-lg font-bold mb-2">HarvestHub</h3>
             <ul className="text-gray-700">
               <li>
                 <a href="#">Blog</a>
               </li>
               <li>
-                <a href="#">Career</a>
+                <a href="#">Karir</a>
               </li>
               <li>
-                <a href="#">Affiliate Program</a>
+                <a href="#">Program Afiliasi</a>
               </li>
               <li>
                 <a href="#">Promo</a>
@@ -322,36 +310,27 @@ function AgricultureEcommerce() {
             </ul>
           </div>
           <div>
-            <h3 className="text-lg font-bold mb-2">Explore</h3>
+            <h3 className="text-lg font-bold mb-2">Jual</h3>
             <ul className="text-gray-700">
               <li>
-                <a href="#">Design</a>
+                <a href="#">Pusat Edukasi Seller</a>
               </li>
               <li>
-                <a href="#">Prototyping</a>
-              </li>
-              <li>
-                <a href="#">Development features</a>
-              </li>
-              <li>
-                <a href="#">Design systems</a>
+                <a href="#">Daftar Official Store</a>
               </li>
             </ul>
           </div>
           <div>
-            <h3 className="text-lg font-bold mb-2">Resources</h3>
+            <h3 className="text-lg font-bold mb-2">Bantuan dan Panduan</h3>
             <ul className="text-gray-700">
               <li>
-                <a href="#">Blog</a>
+                <a href="#">HarvestHub Care</a>
               </li>
               <li>
-                <a href="#">Best practices</a>
+                <a href="#">Syarat dan Ketentuan</a>
               </li>
               <li>
-                <a href="#">Support</a>
-              </li>
-              <li>
-                <a href="#">Developers</a>
+                <a href="#">Kebijakan dan Privasi</a>
               </li>
             </ul>
           </div>

@@ -6,8 +6,11 @@ function App() {
       <Link to="/signin" className="mt-4 underline text-blue-600">
         Go to Sign In
       </Link>
-      <Link to="/mainpage1" className="mt-4 underline text-blue-600">
+      <Link to="/mainpage" className="mt-4 underline text-blue-600">
         Go to Main Page
+      </Link>
+      <Link to="/sellerpage" className="mt-4 underline text-blue-600">
+        Go to Seller Page
       </Link>
     </div>
   );
