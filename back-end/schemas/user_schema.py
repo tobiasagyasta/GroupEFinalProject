@@ -19,7 +19,7 @@ class UserSchema(Schema):
     address = fields.Str(required=True)
     phone_number = fields.Str(required=True)
     role = fields.Str(required=True, validate=lambda x: x in UserRole.__members__) 
-    profile_picture_url = fields.Url(require_tld=False, relative=True)
+    profile_picture_url = fields.Url()
     
     @validates('email')
     def validate_email(self, value):

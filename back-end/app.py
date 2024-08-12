@@ -9,6 +9,7 @@ from controllers.user_controller import user_bp
 from models.seller import Seller
 
 app = Flask(__name__)
+app.json.sort_keys = False
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.register_blueprint(auth_bp)
 app.register_blueprint(user_bp)
@@ -20,8 +21,8 @@ login_manager.login_view = 'auth_bp.login'
 @login_manager.user_loader
 def load_user(user_id):
     Session = sessionmaker(bind = engine)
-    s = Session()
-    return s.query(User).get(int(user_id))
+    session = Session()
+    return session.query(User).get(int(user_id))
 
 @login_manager.unauthorized_handler
 def unauthorized_callback():

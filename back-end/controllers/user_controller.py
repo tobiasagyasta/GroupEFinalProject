@@ -1,8 +1,9 @@
+from typing import final
 from flask import Blueprint, request, jsonify
 from models.user import User, UserRole
 from models.seller import Seller
 from models.buyer import Buyer
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, joinedload
 from connectors.sql_connector import engine
 from flask_login import login_required, current_user
 from schemas.user_schema import UserSchema, get_schema_for_role
@@ -76,3 +77,109 @@ def create_user():
     except Exception as e:
         session.rollback()
         return jsonify({'error': str(e)}), 500
+    finally:
+        session.close()
+    
+
+@user_bp.route("/me",methods =['GET'])
+@login_required
+def get_current_user():
+    Session = sessionmaker(bind=engine)
+    try:
+        with Session() as session:
+            user = session.query(User).options(
+            joinedload(User.sellers),
+            joinedload(User.buyers)
+        ).filter_by(id=current_user.id).first()
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+        user_data = {
+            "id": user.id,
+            "name": user.name,
+            "email": user.email,
+            "address": user.address,
+            "phone_number": user.phone_number,
+            "role": user.role.value,
+            "profile_picture_url": user.profile_picture_url,
+        }
+        if user.role == UserRole.seller:
+            seller = user.sellers
+            if seller:
+                user_data["farm_name"] = seller.farm_name
+                user_data["farm_location"] = seller.farm_location
+                user_data["bio"] = seller.bio
+            # elif user.role == UserRole.buyer:
+            #     buyer = user.buyers
+            #     if buyer:
+            #         user_data["buyer_id"] = buyer.id
+        return jsonify(user_data), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        session.close()
+        
+        
+@user_bp.route("/me/profile-picture", methods=['PUT'])
+@login_required
+def update_profile_picture():
+    data = request.get_json()
+    try:
+        validated_data = UserSchema(partial=True).load(data)
+        if set(data.keys()) != {'profile_picture_url'}:
+            return jsonify({"error": "Request data can only contain 'profile_picture_url'"}), 400
+        profile_picture_url = validated_data['profile_picture_url']
+    except ValidationError as err:
+        return jsonify(err.messages), 400
+    
+    Session = sessionmaker(bind=engine)
+    try:
+        
+        with Session() as session:
+            user = session.query(User).filter_by(id=current_user.id).first()
+            if not user:
+                return jsonify({"error": "User not found"}), 404
+
+            # Update the profile picture URL
+            user.profile_picture_url = profile_picture_url
+            session.commit()
+
+            return jsonify({"message": "Profile picture updated successfully", "profile_picture_url": validated_data}), 200
+    except Exception as e:
+        session.rollback()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        session.close()
+
+@user_bp.route("/me", methods=['PUT'])
+@login_required
+def update_user():
+    data = request.get_json()
+    schema = UserSchema(partial=True)
+    
+    try:
+        validated_data = schema.load(data)
+    except ValidationError as err:
+        return jsonify(err.messages), 400
+    
+    validated_data.pop('profile_picture_url', None)
+    
+    Session = sessionmaker(bind=engine)
+    try:
+        with Session() as session:
+            # Query for the current user
+            user = session.query(User).filter_by(id=current_user.id).first()
+            if not user:
+                return jsonify({"error": "User not found"}), 404
+            
+            # Update the user fields if they are provided
+            for key, value in validated_data.items():
+                setattr(user, key, value)
+            
+            # Commit the changes to the database
+            session.commit()
+            return jsonify({"message": "User information updated successfully"}), 200
+    except Exception as e:
+        session.rollback()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        session.close()
