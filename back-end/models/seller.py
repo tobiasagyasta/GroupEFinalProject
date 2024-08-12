@@ -6,7 +6,7 @@ class Seller(Base):
     __tablename__ = 'seller'
 
     id = Column(Integer, primary_key=True, autoincrement=True)  # Unique ID for Seller
-    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)  # Foreign key to User
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False, index = True)  # Foreign key to User
     farm_name = Column(String(255), nullable=False)
     farm_location = Column(String(255), nullable=True)
     bio = Column(Text, nullable=True)

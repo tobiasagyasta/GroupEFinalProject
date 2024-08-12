@@ -6,7 +6,7 @@ class Buyer(Base):
     __tablename__ = 'buyer'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False, index= True)
     
     # Define the relationship to the User model
     user = relationship('User', back_populates='buyers')
