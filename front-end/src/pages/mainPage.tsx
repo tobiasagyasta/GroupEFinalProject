@@ -14,11 +14,19 @@ import {
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 function AgricultureEcommerce() {
-	return (
-		<div className="min-h-screen">
-			{/* Navbar */}
-			<nav className="bg-white shadow p-4 flex justify-between items-center sticky top-0 z-50">
-				<div className="text-2xl font-bold">HarvestHub</div>
+
+  return (
+    <div className="min-h-screen">
+      {/* Navbar */}
+      <nav className="bg-white shadow p-4 flex justify-between items-center sticky top-0 z-50">
+        <div className="text-2xl font-bold">
+          <img
+            src="../images/logoharvest.png"
+            alt="HarvestHub Logo"
+            className="h-10 w-auto"
+          />
+        </div>
+
 
 				<div className="flex items-center space-x-4">
 					<div className="relative w-[400px]">
@@ -33,32 +41,16 @@ function AgricultureEcommerce() {
 					</div>
 				</div>
 
-				<div className="space-x-4">
-					<a
-						href="#"
-						className="text-gray-700 border border-gray-300 rounded px-4 py-2 hover:text-blue-500 hover:shadow-md transition-shadow duration-300"
-					>
-						Berita
-					</a>
-					<a
-						href="#"
-						className="text-gray-700 border border-gray-300 rounded px-4 py-2 hover:text-blue-500 hover:shadow-md transition-shadow duration-300"
-					>
-						Komunitas Tani
-					</a>
-					<Link
-						to="/companyprofile"
-						className="text-gray-700 border border-gray-300 rounded px-4 py-2 hover:text-blue-500 hover:shadow-md transition-shadow duration-300"
-					>
-						Tentang HarvestHub
-					</Link>
-					<a
-						href="#"
-						className="text-gray-700 border border-gray-300 rounded px-4 py-2 hover:text-blue-500 hover:shadow-md transition-shadow duration-300"
-					>
-						Kontak
-					</a>
-				</div>
+
+        <div className="space-x-4">
+          <a
+            href="#"
+            className="text-gray-700 border border-gray-300 rounded px-4 py-2 hover:text-blue-500 hover:shadow-md transition-shadow duration-300"
+          >
+            Tentang HarvestHub
+          </a>
+        </div>
+
 
 				<div className="space-x-4">
 					<Link to="/signin">
@@ -74,27 +66,29 @@ function AgricultureEcommerce() {
 				</div>
 			</nav>
 
-			{/* Hero Section */}
-			<header
-				className="w-full min-h-screen flex items-center justify-center bg-cover bg-center"
-				style={{
-					backgroundImage: `url('../images/Background.jpg')`,
-				}}
-			>
-				<div className="text-center">
-					<h1 className="text-4xl font-bold text-black mb-2 -mt-2">
-						Bring the Farm to your Table
-					</h1>
-					<div className="mt-4">
-						<button className="bg-black text-white px-4 py-2 rounded mr-2 mb-20 hover:shadow-lg transition-shadow duration-300">
-							Promo
-						</button>
-						<button className="bg-gray-300 px-4 py-2 rounded mb-40 hover:shadow-lg transition-shadow duration-300">
-							Produk Baru
-						</button>
-					</div>
-				</div>
-			</header>
+
+      {/* Hero Section */}
+      <header
+        className="w-full min-h-screen flex items-center justify-center bg-cover bg-center"
+        style={{
+          backgroundImage: `url('../images/Background.jpg')`,
+        }}
+      >
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-black mb-2 -mt-2">
+            Produk Terbaik, Terpercaya, Langsung dari Petani Lokal!
+          </h1>
+          <div className="mt-4">
+            <button className="bg-black text-white px-4 py-2 rounded mr-2 mb-20 hover:shadow-lg transition-shadow duration-300">
+              Promo
+            </button>
+            <button className="bg-gray-300 px-4 py-2 rounded mb-40 hover:shadow-lg transition-shadow duration-300">
+              Produk Baru
+            </button>
+          </div>
+        </div>
+      </header>
+
 
 			{/* Categories */}
 			<section className="py-12">
@@ -292,78 +286,70 @@ function AgricultureEcommerce() {
 				</div>
 			</div>
 
-			{/* Footer */}
-			<footer className="bg-white p-8 shadow mt-8">
-				<div className="container mx-auto flex justify-between items-start">
-					<div>
-						<h3 className="text-lg font-bold mb-2">Follow Us</h3>
-						<div className="space-x-4">
-							<a href="#" className="text-gray-700">
-								<FontAwesomeIcon icon={faFacebookF} size="lg" />
-							</a>
-							<a href="#" className="text-gray-700">
-								<FontAwesomeIcon icon={faTwitter} size="lg" />
-							</a>
-							<a href="#" className="text-gray-700">
-								<FontAwesomeIcon icon={faInstagram} size="lg" />
-							</a>
-						</div>
-					</div>
-					<div>
-						<h3 className="text-lg font-bold mb-2">Use Cases</h3>
-						<ul className="text-gray-700">
-							<li>
-								<a href="#">Blog</a>
-							</li>
-							<li>
-								<a href="#">Career</a>
-							</li>
-							<li>
-								<a href="#">Affiliate Program</a>
-							</li>
-							<li>
-								<a href="#">Promo</a>
-							</li>
-						</ul>
-					</div>
-					<div>
-						<h3 className="text-lg font-bold mb-2">Explore</h3>
-						<ul className="text-gray-700">
-							<li>
-								<a href="#">Design</a>
-							</li>
-							<li>
-								<a href="#">Prototyping</a>
-							</li>
-							<li>
-								<a href="#">Development features</a>
-							</li>
-							<li>
-								<a href="#">Design systems</a>
-							</li>
-						</ul>
-					</div>
-					<div>
-						<h3 className="text-lg font-bold mb-2">Resources</h3>
-						<ul className="text-gray-700">
-							<li>
-								<a href="#">Blog</a>
-							</li>
-							<li>
-								<a href="#">Best practices</a>
-							</li>
-							<li>
-								<a href="#">Support</a>
-							</li>
-							<li>
-								<a href="#">Developers</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</footer>
-		</div>
-	);
+
+      {/* Footer */}
+      <footer className="bg-white p-8 shadow mt-8">
+        <div className="container mx-auto flex justify-between items-start">
+          <div>
+            <h3 className="text-lg font-bold mb-2">Follow Us</h3>
+            <div className="space-x-4">
+              <a href="#" className="text-gray-700">
+                <FontAwesomeIcon icon={faFacebookF} size="lg" />
+              </a>
+              <a href="#" className="text-gray-700">
+                <FontAwesomeIcon icon={faTwitter} size="lg" />
+              </a>
+              <a href="#" className="text-gray-700">
+                <FontAwesomeIcon icon={faInstagram} size="lg" />
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 className="text-lg font-bold mb-2">HarvestHub</h3>
+            <ul className="text-gray-700">
+              <li>
+                <a href="#">Blog</a>
+              </li>
+              <li>
+                <a href="#">Karir</a>
+              </li>
+              <li>
+                <a href="#">Program Afiliasi</a>
+              </li>
+              <li>
+                <a href="#">Promo</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-lg font-bold mb-2">Jual</h3>
+            <ul className="text-gray-700">
+              <li>
+                <a href="#">Pusat Edukasi Seller</a>
+              </li>
+              <li>
+                <a href="#">Daftar Official Store</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-lg font-bold mb-2">Bantuan dan Panduan</h3>
+            <ul className="text-gray-700">
+              <li>
+                <a href="#">HarvestHub Care</a>
+              </li>
+              <li>
+                <a href="#">Syarat dan Ketentuan</a>
+              </li>
+              <li>
+                <a href="#">Kebijakan dan Privasi</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
 }
 
 export default AgricultureEcommerce;
