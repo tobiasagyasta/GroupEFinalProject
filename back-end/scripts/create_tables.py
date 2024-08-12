@@ -26,11 +26,10 @@ try:
     # Example data for Seller
     seller_user = User(
         name='Bobby Johnson',
-        email='bob.johnson@example.com',
+        email='bob.johnson@gmail.com',
         address='456 Maple Ave',
         phone_number='555-5678',
-        role=UserRole.seller, 
-        profile_picture_url='https://avatar.iran.liara.run/public/boy'
+        role=UserRole.seller,
     )
     seller_user.set_password("password")
     session.add(seller_user)
@@ -49,11 +48,10 @@ try:
     # Example data for Buyer
     buyer_user = User(
         name='Alice Smith',
-        email='alice.smith@example.com',
+        email='alice.smith@gmail.com',
         address='789 Elm St',
         phone_number='555-1234',
         role=UserRole.buyer,  # Ensure UserRole is defined
-        profile_picture_url='https://avatar.iran.liara.run/public/girl'
     )
     buyer_user.set_password("password")
     session.add(buyer_user)

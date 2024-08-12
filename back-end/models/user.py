@@ -1,4 +1,6 @@
 from models.base import Base
+from models.buyer import Buyer
+from models.seller import Seller
 from sqlalchemy import Column, Integer, VARCHAR, Enum, DateTime
 from sqlalchemy.orm import  relationship
 from sqlalchemy.sql import func
@@ -20,7 +22,7 @@ class User(Base, UserMixin):
     address = Column(VARCHAR(255))
     phone_number = Column(VARCHAR(255))
     role = Column(Enum(UserRole), nullable=False)
-    profile_picture_url = Column(VARCHAR(255))
+    profile_picture_url = Column(VARCHAR(255), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
