@@ -7,6 +7,7 @@ import App from "./App";
 import SignIn from "./pages/SignIn";
 
 import AgricultureEcommerce from "./pages/mainPage";
+import Dashboard from "./pages/SellerPage";
 
 import SignUp from "./pages/SignUp";
 import CompanyProfile from "./pages/CompanyProfile";
@@ -28,6 +29,7 @@ root.render(
         <Route path="/productpage1" element={<VegetableProductPage />} />
         <Route path="/productpage2" element={<FruitProductPage />} />
         <Route path="/productpage3" element={<BundlingPackagePage />} />
+        <Route path="/sellerpage" element={<Dashboard />} />
       </Routes>
     </Router>
   </React.StrictMode>

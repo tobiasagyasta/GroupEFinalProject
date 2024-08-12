@@ -13,6 +13,7 @@ import {
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 function AgricultureEcommerce() {
+
   return (
     <div className="min-h-screen">
       {/* Navbar */}
@@ -24,6 +25,7 @@ function AgricultureEcommerce() {
             className="h-10 w-auto"
           />
         </div>
+
 
         <div className="flex items-center space-x-4">
           <div className="relative w-[400px]">
@@ -38,6 +40,7 @@ function AgricultureEcommerce() {
           </div>
         </div>
 
+
         <div className="space-x-4">
           <a
             href="#"
@@ -46,6 +49,7 @@ function AgricultureEcommerce() {
             Tentang HarvestHub
           </a>
         </div>
+
 
         <div className="space-x-4">
           <button className="bg-gray-200 px-4 py-2 rounded hover:shadow-md transition-shadow duration-300">
@@ -56,6 +60,7 @@ function AgricultureEcommerce() {
           </button>
         </div>
       </nav>
+
 
       {/* Hero Section */}
       <header
@@ -78,6 +83,7 @@ function AgricultureEcommerce() {
           </div>
         </div>
       </header>
+
 
       {/* Categories */}
       <section className="py-12">
@@ -274,6 +280,7 @@ function AgricultureEcommerce() {
           </div>
         </div>
       </div>
+
 
       {/* Footer */}
       <footer className="bg-white p-8 shadow mt-8">
