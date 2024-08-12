@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFacebookF, faTwitter, faInstagram } from "@fortawesome/free-brands-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 interface BlogPost {
   id: number;
@@ -10,65 +14,28 @@ interface BlogPost {
 }
 
 const CompanyProfile: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [expandedArticleId, setExpandedArticleId] = useState<number | null>(null);
 
   const blogPosts: BlogPost[] = [
     {
       id: 1,
-      title: "Presiden Indonesia tanam saham di sektor pertanian",
-      content: `
-        Presiden Indonesia Investasi di Sektor Pertanian: Langkah Strategis untuk Pembangunan Ekonomi Berkelanjutan
-        Jakarta, 9 Agustus 2024 - Presiden Indonesia telah mengambil langkah strategis dengan menanam saham di sektor pertanian,
-        sebagai bagian dari upaya untuk memperkuat ketahanan pangan nasional dan mendorong pertumbuhan ekonomi yang berkelanjutan.
-        Langkah ini menunjukkan komitmen pemerintah dalam mendukung sektor yang menjadi tulang punggung perekonomian Indonesia.
-        Sektor pertanian memiliki peran penting dalam perekonomian Indonesia, menyumbang lebih dari 13% dari produk domestik bruto (PDB)
-        dan menyediakan lapangan kerja bagi sekitar 30% dari angkatan kerja. Dengan investasi ini, Presiden berharap dapat meningkatkan
-        produktivitas dan efisiensi di sektor pertanian, serta meningkatkan kesejahteraan petani di seluruh negeri. Fokus Investasi
-        Presiden menanam saham di beberapa perusahaan pertanian yang bergerak di berbagai subsektor, termasuk tanaman pangan,
-        perkebunan, hortikultura, dan peternakan. Salah satu fokus utama dari investasi ini adalah pada teknologi pertanian modern,
-        seperti penggunaan sistem irigasi yang lebih efisien, pengembangan benih unggul, dan adopsi teknologi digital dalam pengelolaan
-        lahan dan rantai pasokan. “Investasi ini bukan hanya soal keuntungan finansial, tetapi juga soal keberlanjutan. Kita ingin
-        memastikan bahwa sektor pertanian kita mampu memenuhi kebutuhan pangan nasional sambil tetap menjaga kelestarian lingkungan,”
-        ujar Presiden dalam pernyataannya.
-      `,
-      image: "https://unsplash.com/photos/aerial-photography-of-yellow-cultivator-on-brown-field-8yHxJV5PPsA"
+      title: "Inovasi Teknologi Pertanian: Mendorong Masa Depan Pertanian",
+      content: `Teknologi pertanian telah mengalami kemajuan pesat dalam beberapa tahun terakhir. Dari drone yang memantau kesehatan tanaman hingga sistem irigasi otomatis yang menghemat air, teknologi modern menawarkan solusi inovatif untuk tantangan yang dihadapi oleh petani saat ini. Di HarvestHub, kami mengintegrasikan teknologi ini ke dalam platform kami untuk memberikan petani alat yang mereka butuhkan untuk meningkatkan hasil panen dan mengelola operasi mereka dengan lebih efisien.`,
+      image: "/images/Blog1.avif",
     },
     {
       id: 2,
-      title: "Bibit unggul asli Indonesia",
-      content: `
-        Presiden menyoroti pentingnya pengembangan bibit unggul asli Indonesia dalam investasi ini. Menurutnya, bibit unggul lokal
-        memiliki potensi besar untuk meningkatkan hasil pertanian, karena telah beradaptasi dengan kondisi iklim dan tanah di berbagai
-        wilayah Indonesia. Dalam konteks ini, investasi Presiden tidak hanya difokuskan pada aspek finansial, tetapi juga pada penelitian
-        dan pengembangan bibit unggul yang dapat menghasilkan varietas tanaman dengan kualitas dan produktivitas tinggi. Inovasi dan
-        Teknologi untuk Mendukung Pertanian Selain pengembangan bibit unggul, investasi ini juga diarahkan pada penerapan teknologi
-        modern dalam proses pertanian. Presiden menggarisbawahi pentingnya adopsi teknologi seperti sistem irigasi cerdas, drone
-        untuk pemantauan lahan, dan penggunaan aplikasi digital untuk manajemen pertanian. Dengan dukungan teknologi, petani dapat
-        lebih efisien dalam mengelola lahan, mengurangi kerugian pasca panen, dan meningkatkan kualitas hasil pertanian. Dampak Positif
-        bagi Perekonomian dan Kesejahteraan Petani Langkah Presiden ini diprediksi akan membawa dampak positif bagi perekonomian nasional.
-        Dengan meningkatnya produktivitas pertanian, Indonesia dapat mengurangi ketergantungan pada impor pangan, menjaga stabilitas harga,
-        dan memperkuat posisi sebagai negara agraris yang mandiri. Selain itu, kesejahteraan petani juga akan meningkat melalui akses
-        yang lebih baik ke bibit unggul, teknologi, dan pasar. Investasi di sektor pertanian ini sejalan dengan visi pemerintah untuk
-        membangun ekonomi yang inklusif dan berkelanjutan. Dengan fokus pada pengembangan bibit unggul asli Indonesia dan teknologi
-        pertanian, Presiden berharap sektor ini dapat menjadi motor penggerak utama dalam mencapai ketahanan pangan dan kesejahteraan
-        masyarakat secara keseluruhan.
-      `,
-      image: "https://unsplash.com/photos/young-farmers-examing-planted-young-corn-in-spring-qwyWheO1T48"
+      title: "Pertanian Berkelanjutan: Melindungi Planet Sambil Memenuhi Kebutuhan Pangan",
+      content: `Pertanian berkelanjutan adalah tentang menemukan keseimbangan antara produksi pangan dan perlindungan lingkungan. Dengan mengadopsi praktik seperti rotasi tanaman, penggunaan kompos, dan pengelolaan hama secara alami, petani dapat meningkatkan kesuburan tanah dan mengurangi dampak negatif terhadap ekosistem. Kami di HarvestHub menyediakan produk dan solusi yang mendukung praktik ini, memastikan bahwa petani dapat memenuhi kebutuhan pangan dunia tanpa merusak lingkungan.`,
+      image: "/images/Blog2.avif",
     },
     {
       id: 3,
-      title: "Inovasi Pertanian Modern",
-      content: `
-        Inovasi pertanian modern menjadi salah satu pilar utama dalam upaya meningkatkan produktivitas dan efisiensi sektor pertanian.
-        Teknologi seperti sistem irigasi pintar, penggunaan drone untuk pemantauan lahan, dan aplikasi manajemen pertanian semakin
-        banyak diadopsi oleh petani. Teknologi-teknologi ini memungkinkan petani untuk mengelola lahan dengan lebih efisien, mengurangi
-        kerugian pasca panen, dan meningkatkan hasil pertanian. Pengembangan teknologi pertanian tidak hanya berfokus pada peningkatan
-        hasil produksi, tetapi juga pada keberlanjutan dan perlindungan lingkungan. Dengan terus berinovasi, sektor pertanian diharapkan
-        dapat memenuhi kebutuhan pangan global sambil menjaga kelestarian sumber daya alam.
-      `,
-      image: "https://unsplash.com/photos/closeup-photography-of-green-plant-inside-green-house-oK9EKfqv8HE"
-    }
+      title: "Manfaat Pertanian Organik: Lebih dari Sekadar Pilihan",
+      content: `Pertanian organik tidak hanya menguntungkan bagi kesehatan manusia tetapi juga untuk kesehatan planet. Dengan menghindari penggunaan pestisida sintetis dan pupuk kimia, pertanian organik membantu menjaga kualitas tanah dan air. Produk organik kami yang tersedia di platform kami memastikan bahwa konsumen mendapatkan produk yang tidak hanya lezat tetapi juga diproduksi dengan cara yang bertanggung jawab. Bergabunglah dengan kami dalam mendukung pertanian organik dan nikmati manfaatnya untuk kesehatan Anda dan lingkungan.`,
+      image: "/images/Blog3.avif",
+    },
   ];
 
   const postsPerPage = 2;
@@ -93,32 +60,50 @@ const CompanyProfile: React.FC = () => {
 
   return (
     <div>
-      <nav className="sticky top-0 z-30 bg-[#8A9A5B] p-4 shadow-md">
-        <div className="container mx-auto flex items-center justify-between">
-          <div className="text-white text-2xl font-bold">HarvestHub</div>
-          <ul className="flex space-x-4 text-white">
-            <li><a href="#home">Beranda</a></li>
-            <li><a href="#about-us">Tentang Kami</a></li>
-            <li><a href="#company-policy">Kebijakan Perusahaan</a></li>
-            <li><a href="#certifications">Sertifikasi & Penghargaan</a></li>
-            <li><a href="#blog">Blog atau Berita</a></li>
-          </ul>
+      <nav className="bg-white shadow p-2 flex justify-between items-center sticky top-0 z-50">
+        <Link to="/" className="flex items-center">
+          <img
+            src="/images/logo.png"
+            alt="Company Logo"
+            className="w-16 h-auto"
+          />
+        </Link>
+        <div className="space-x-4">
+          <a
+            href="#home"
+            className="text-gray-700 border border-gray-300 rounded px-3 py-1 hover:text-blue-500 hover:shadow-md transition-shadow duration-300"
+          >
+            Beranda
+          </a>
+          <a
+            href="#about-us"
+            className="text-gray-700 border border-gray-300 rounded px-3 py-1 hover:text-blue-500 hover:shadow-md transition-shadow duration-300"
+          >
+            Tentang Kami
+          </a>
+          <a
+            href="#company-policy"
+            className="text-gray-700 border border-gray-300 rounded px-3 py-1 hover:text-blue-500 hover:shadow-md transition-shadow duration-300"
+          >
+            Kebijakan Perusahaan
+          </a>
+          <a
+            href="#certifications"
+            className="text-gray-700 border border-gray-300 rounded px-3 py-1 hover:text-blue-500 hover:shadow-md transition-shadow duration-300"
+          >
+            Sertifikasi & Penghargaan
+          </a>
+          <a
+            href="#blog"
+            className="text-gray-700 border border-gray-300 rounded px-3 py-1 hover:text-blue-500 hover:shadow-md transition-shadow duration-300"
+          >
+            Blog atau Berita
+          </a>
         </div>
       </nav>
 
-      <section id="home" className="relative w-full h-screen">
+      <section id="home" className="relative w-full h-screen mb-2">
         <div className="absolute inset-0 bg-[#8A9A5B] opacity-50 z-10"></div>
-        <video
-          autoPlay
-          loop
-          muted
-          className="absolute inset-0 w-full h-full object-cover z-0"
-        >
-          <source
-            src="https://www.youtube.com/watch?v=nziA33FrhoI&t=29s"
-            type="video/mp4"
-          />
-        </video>
         <div className="relative z-20 flex flex-col items-center justify-center h-full text-center text-white">
           <h1 className="text-4xl md:text-6xl font-bold mb-4">
             Selamat Datang di HarvestHub E-commerce
@@ -126,129 +111,245 @@ const CompanyProfile: React.FC = () => {
           <p className="text-lg md:text-xl mb-8">
             Pelajari lebih lanjut tentang visi, misi, dan layanan kami
           </p>
-          <Button variant="default" size="lg">
-            Pelajari Lebih Lanjut
-          </Button>
+          <Link to="#about-us">
+            <Button variant="default" size="lg">
+              Pelajari Lebih Lanjut
+            </Button>
+          </Link>
         </div>
+        <video
+          src="/images/The Farmer.mp4"
+          autoPlay
+          muted
+          loop
+          className="absolute inset-0 w-full h-full object-cover"
+        />
       </section>
 
-      <section id="about-us" className="container mx-auto px-4 py-16">
+      <section id="about-us" className="container mx-auto px-4 py-12 mb-2">
         <Card>
           <CardHeader>
             <CardTitle>Tentang Kami</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>
-              HarvestHub adalah platform e-commerce terkemuka yang menawarkan berbagai produk berkualitas tinggi dari berbagai
-              kategori, termasuk elektronik, pakaian, peralatan rumah tangga, dan banyak lagi. Kami berkomitmen untuk menyediakan
-              pengalaman belanja online yang aman, nyaman, dan memuaskan. Tim kami bekerja keras untuk memastikan bahwa setiap produk
-              yang kami tawarkan memenuhi standar kualitas tertinggi, dan kami terus memperbarui katalog kami dengan produk-produk terbaru
-              dan terbaik dari berbagai merek terpercaya. Kami juga berkomitmen untuk memberikan layanan pelanggan yang luar biasa, dengan
-              dukungan yang cepat dan ramah untuk membantu Anda dengan semua pertanyaan dan kebutuhan Anda.
+            <p className="text-lg text-justify">
+              HarvestHub adalah lebih dari sekadar platform e-commerce; kami
+              adalah mitra strategis dalam perjalanan pertanian modern. Kami
+              berkomitmen untuk menghubungkan petani lokal dengan pasar global
+              melalui teknologi canggih dan solusi inovatif.
+              <br />
+              <br />
+              Dengan latar belakang dalam pertanian organik dan ramah
+              lingkungan, kami memahami tantangan yang dihadapi petani dalam
+              menjalankan praktik yang berkelanjutan. Oleh karena itu, kami
+              menawarkan berbagai produk dan layanan yang dirancang untuk
+              meningkatkan efisiensi dan hasil panen. Platform kami menyajikan
+              teknologi terbaru seperti sensor pintar, analitik data, dan sistem
+              manajemen pertanian terintegrasi, yang memungkinkan petani untuk
+              membuat keputusan yang lebih baik dan berbasis data.
+              <br />
+              <br />
+              Visi kami adalah menciptakan ekosistem di mana semua orang
+              memiliki akses ke makanan sehat dan berkelanjutan, sambil
+              memberdayakan komunitas pertanian dengan alat dan sumber daya yang
+              mereka butuhkan untuk berkembang. Misi kami adalah menjembatani
+              kesenjangan antara petani dan konsumen dengan memberikan produk
+              yang berkualitas tinggi dan mempromosikan praktik pertanian yang
+              bertanggung jawab.
             </p>
           </CardContent>
         </Card>
       </section>
 
-      <section id="company-policy" className="container mx-auto px-4 py-16">
+      <section id="company-policy" className="container mx-auto px-4 py-12 mb-2">
         <Card>
           <CardHeader>
             <CardTitle>Kebijakan Perusahaan</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>
-              Di HarvestHub, kami berkomitmen untuk menjaga privasi dan keamanan data pelanggan kami, serta memastikan bahwa semua
-              transaksi dilakukan dengan aman dan transparan. Selain itu, kami juga memiliki kebijakan pengembalian barang yang
-              fleksibel untuk memastikan kepuasan pelanggan. Tim kami selalu siap untuk membantu dan menyelesaikan setiap masalah atau
-              pertanyaan yang mungkin Anda miliki.
+            <p className="text-lg text-justify">
+              Di HarvestHub, kami memegang teguh prinsip-prinsip keberlanjutan
+              dan tanggung jawab sosial. Kami percaya bahwa pertanian
+              berkelanjutan adalah kunci untuk masa depan yang lebih baik dan
+              bahwa setiap keputusan bisnis harus mempertimbangkan dampaknya
+              terhadap masyarakat dan lingkungan.
+              <br />
+              <br />
+              Kebijakan perusahaan kami mencakup:
+              <ul className="list-disc ml-6 mt-4">
+                <li>Komitmen terhadap praktik pertanian berkelanjutan.</li>
+                <li>
+                  Penggunaan teknologi ramah lingkungan untuk mengurangi jejak
+                  karbon.
+                </li>
+                <li>Transparansi dalam rantai pasokan dan pengadaan.</li>
+                <li>
+                  Mendukung inisiatif sosial dan komunitas lokal untuk
+                  kesejahteraan bersama.
+                </li>
+              </ul>
+              <br />
+              Kami percaya bahwa keberhasilan kami bergantung pada keberhasilan
+              komunitas yang kami layani. Oleh karena itu, kami selalu
+              berusaha untuk menjalankan bisnis kami dengan integritas dan
+              tanggung jawab yang tinggi.
             </p>
           </CardContent>
         </Card>
       </section>
 
-      <section id="certifications" className="container mx-auto px-4 py-16">
+      <section id="certifications" className="container mx-auto px-4 py-12 mb-2">
         <Card>
           <CardHeader>
             <CardTitle>Sertifikasi & Penghargaan</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-3 gap-4">
-              <div className="bg-[#8A9A5B] h-24 flex items-center justify-center">
-                <img
-                  src="https://unsplash.com/photos/aerial-photography-of-yellow-cultivator-on-brown-field-8yHxJV5PPsA"
-                  alt="Sertifikasi"
-                  className="w-1/2 h-1/2 object-cover"
-                />
-              </div>
-              <div className="bg-[#8A9A5B] h-24 flex items-center justify-center">
-                <img
-                  src="https://unsplash.com/photos/pdK87ZK6uN4"
-                  alt="Penghargaan"
-                  className="w-1/2 h-1/2 object-cover"
-                />
-              </div>
-              <div className="bg-[#8A9A5B] h-24 flex items-center justify-center">
-                <img
-                  src="https://unsplash.com/photos/7P0DK2wzMWY"
-                  alt="Sertifikasi"
-                  className="w-1/2 h-1/2 object-cover"
-                />
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <img
+                src="/images/certificate1.jpeg"
+                alt="Sertifikasi 1"
+                className="rounded-lg"
+              />
+              <img
+                src="/images/certificate2.jpeg"
+                alt="Sertifikasi 2"
+                className="rounded-lg"
+              />
+              <img
+                src="/images/certificate3.jpeg"
+                alt="Sertifikasi 3"
+                className="rounded-lg"
+              />
             </div>
+            <p className="text-lg text-justify mt-6">
+              Kami bangga dengan pencapaian kami dalam industri ini, yang
+              mencerminkan dedikasi kami terhadap kualitas dan keberlanjutan.
+              Sertifikasi dan penghargaan yang kami terima adalah bukti
+              komitmen kami untuk selalu memberikan yang terbaik bagi pelanggan
+              kami.
+            </p>
           </CardContent>
         </Card>
       </section>
 
-      <section id="blog" className="container mx-auto px-4 py-16">
-        <h2 className="text-2xl font-bold mb-2">Blog atau Berita</h2>
-        <p className="text-muted mb-6">Subheading</p>
-
-        <div className="space-y-6">
+      <section id="blog" className="container mx-auto px-4 py-12 mb-2">
+        <h2 className="text-2xl font-bold mb-8">Blog atau Berita</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {currentPosts.map((post) => (
-            <Card key={post.id}>
-              <div className="flex">
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-1/4 object-cover"
-                />
-                <CardContent className="w-3/4">
-                  <CardHeader>
-                    <CardTitle>{post.title}</CardTitle>
-                  </CardHeader>
-                  <p className="text-black">
-                    {post.id === expandedArticleId ? post.content : `${post.content.slice(0, 200)}...`}
-                  </p>
+            <Card key={post.id} className="mb-6">
+              <img
+                src={post.image}
+                alt={post.title}
+                className="rounded-t-lg"
+              />
+              <CardHeader>
+                <CardTitle>{post.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-lg text-justify">
+                  {expandedArticleId === post.id
+                    ? post.content
+                    : post.content.slice(0, 100) + "..."}
+                </p>
+                {expandedArticleId !== post.id && (
                   <Button
-                    variant="outline"
-                    className="mt-4"
+                    variant="link"
                     onClick={() => handleReadMore(post.id)}
+                    className="text-blue-500 mt-2"
                   >
-                    {post.id === expandedArticleId ? "Lihat Sedikit..." : "Lanjutkan membaca..."}
+                    Lanjutkan Membaca
                   </Button>
-                </CardContent>
-              </div>
+                )}
+              </CardContent>
             </Card>
           ))}
-
-          <div className="flex justify-between items-center mt-6">
-            <Button
-              variant="outline"
-              onClick={() => handlePageChange("previous")}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </Button>
-            <Button
-              variant="default"
-              onClick={() => handlePageChange("next")}
-              disabled={indexOfLastPost >= blogPosts.length}
-            >
-              Next
-            </Button>
-          </div>
+        </div>
+        <div className="flex justify-end mt-8">
+          <Button
+            onClick={() => handlePageChange("previous")}
+            disabled={currentPage === 1}
+            className="mr-4"
+          >
+            Previous
+          </Button>
+          <Button
+            onClick={() => handlePageChange("next")}
+            disabled={indexOfLastPost >= blogPosts.length}
+          >
+            Next
+          </Button>
         </div>
       </section>
+
+      <footer className="bg-white p-8 shadow mt-8">
+				<div className="container mx-auto flex justify-between items-start">
+					<div>
+						<h3 className="text-lg font-bold mb-2">Follow Us</h3>
+						<div className="space-x-4">
+							<a href="#" className="text-gray-700">
+								<FontAwesomeIcon icon={faFacebookF} size="lg" />
+							</a>
+							<a href="#" className="text-gray-700">
+								<FontAwesomeIcon icon={faTwitter} size="lg" />
+							</a>
+							<a href="#" className="text-gray-700">
+								<FontAwesomeIcon icon={faInstagram} size="lg" />
+							</a>
+						</div>
+					</div>
+					<div>
+						<h3 className="text-lg font-bold mb-2">Use Cases</h3>
+						<ul className="text-gray-700">
+							<li>
+								<a href="#">Blog</a>
+							</li>
+							<li>
+								<a href="#">Career</a>
+							</li>
+							<li>
+								<a href="#">Affiliate Program</a>
+							</li>
+							<li>
+								<a href="#">Promo</a>
+							</li>
+						</ul>
+					</div>
+					<div>
+						<h3 className="text-lg font-bold mb-2">Explore</h3>
+						<ul className="text-gray-700">
+							<li>
+								<a href="#">Design</a>
+							</li>
+							<li>
+								<a href="#">Prototyping</a>
+							</li>
+							<li>
+								<a href="#">Development features</a>
+							</li>
+							<li>
+								<a href="#">Design systems</a>
+							</li>
+						</ul>
+					</div>
+					<div>
+						<h3 className="text-lg font-bold mb-2">Resources</h3>
+						<ul className="text-gray-700">
+							<li>
+								<a href="#">Blog</a>
+							</li>
+							<li>
+								<a href="#">Best practices</a>
+							</li>
+							<li>
+								<a href="#">Support</a>
+							</li>
+							<li>
+								<a href="#">Developers</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</footer>
     </div>
   );
 };
