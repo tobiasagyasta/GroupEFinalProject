@@ -350,8 +350,8 @@ const CompanyProfile: React.FC = () => {
 					</div>
 				</div>
 			</footer>
-    </div>
-  );
-};
+		</div>
+	);
+}
 
 export default CompanyProfile;
