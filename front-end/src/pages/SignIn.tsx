@@ -38,7 +38,7 @@ export default function SignIn() {
     <div
       className="w-full min-h-screen flex items-center justify-center bg-cover bg-center"
       style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1716739033863-4bdb0d4ac788?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`,
+        backgroundImage: `url('https://images.unsplash.com/photo-1720420866056-07fe15991f16?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjQ5fHxhZ3JpY3VsdHVyZXxlbnwwfHwwfHx8MA%3D%3D`,
       }}
     >
       <div
