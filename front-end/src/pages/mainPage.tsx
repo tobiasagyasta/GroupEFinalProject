@@ -1,9 +1,7 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useState, useEffect } from "react";
+import { fetchCurrentUser, logout } from "@/lib/api";
 import { Link } from "react-router-dom";
-import { url } from "inspector";
+import { User } from "@/lib/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faFacebookF,
@@ -13,6 +11,20 @@ import {
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 function AgricultureEcommerce() {
+	const [user, setUser] = useState<User | null>(null);
+	useEffect(() => {
+		const fetchUser = async () => {
+			const currentUser = await fetchCurrentUser();
+			setUser(currentUser);
+		};
+		fetchUser();
+	}, []);
+
+	const handleLogout = async () => {
+		await logout();
+		setUser(null); // Update state to reflect the user is logged out
+	};
+
 	return (
 		<div className="min-h-screen">
 			{/* Navbar */}
@@ -40,26 +52,55 @@ function AgricultureEcommerce() {
 
 				<div className="space-x-4">
 					<Link to="/companyprofile">
-						<a
-							href="#"
-							className="text-gray-700 border border-gray-300 rounded px-4 py-2 hover:text-blue-500 hover:shadow-md transition-shadow duration-300"
-						>
+						<button className="text-gray-700 border border-gray-300 rounded px-4 py-2 hover:text-blue-500 hover:shadow-md transition-shadow duration-300">
 							Tentang HarvestHub
-						</a>
+						</button>
 					</Link>
 				</div>
-
+				{user ? (
+					<p className="font-semibold">Selamat datang {user.name}!</p>
+				) : (
+					<></>
+				)}
 				<div className="space-x-4">
-					<Link to="/signin">
-						<button className="bg-gray-200 px-4 py-2 rounded hover:shadow-md transition-shadow duration-300">
-							Masuk
-						</button>
-					</Link>
-					<Link to="/signup">
-						<button className="bg-black text-white px-4 py-2 rounded hover:shadow-md transition-shadow duration-300">
-							Daftar
-						</button>
-					</Link>
+					{user ? (
+						<>
+							{user.role === "seller" && (
+								<Link to="/sellerpage">
+									<button className="bg-blue-500 text-white px-4 py-2 rounded hover:shadow-md transition-shadow duration-300">
+										Seller Page
+									</button>
+								</Link>
+							)}
+							{user.role === "buyer" && (
+								<Link to="#">
+									<button className="bg-blue-500 text-white px-4 py-2 rounded hover:shadow-md transition-shadow duration-300">
+										Buyer Page
+									</button>
+								</Link>
+							)}
+							<button
+								onClick={handleLogout}
+								className="bg-gray-200 px-4 py-2 rounded hover:shadow-md transition-shadow duration-300"
+							>
+								Keluar
+							</button>
+							{/* You might want to display user info or other options here */}
+						</>
+					) : (
+						<>
+							<Link to="/signin">
+								<button className="bg-gray-200 px-4 py-2 rounded hover:shadow-md transition-shadow duration-300">
+									Masuk
+								</button>
+							</Link>
+							<Link to="/signup">
+								<button className="bg-black text-white px-4 py-2 rounded hover:shadow-md transition-shadow duration-300">
+									Daftar
+								</button>
+							</Link>
+						</>
+					)}
 				</div>
 			</nav>
 
@@ -129,9 +170,7 @@ function AgricultureEcommerce() {
 			<div className="container mx-auto p-8">
 				<div className="flex justify-between items-center mb-4">
 					<h1 className="text-2xl font-bold">Penawaran Hari Ini</h1>
-					<a href="#" className="text-blue-500">
-						View All
-					</a>
+					<button className="text-blue-500">View All</button>
 				</div>
 				<div className="grid grid-cols-5 gap-4">
 					{/* Product Item */}
@@ -191,9 +230,7 @@ function AgricultureEcommerce() {
 			<div className="container mx-auto p-8">
 				<div className="flex justify-between items-center mb-4">
 					<h1 className="text-2xl font-bold">Paling Laris</h1>
-					<a href="#" className="text-blue-500">
-						View All
-					</a>
+					<button className="text-blue-500">View All</button>
 				</div>
 				<div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
 					{/* Product Card */}
@@ -282,66 +319,6 @@ function AgricultureEcommerce() {
 			</div>
 
 			{/* Footer */}
-			<footer className="bg-white p-8 shadow mt-8">
-				<div className="container mx-auto flex justify-between items-start">
-					<div>
-						<h3 className="text-lg font-bold mb-2">Follow Us</h3>
-						<div className="space-x-4">
-							<a href="#" className="text-gray-700">
-								<FontAwesomeIcon icon={faFacebookF} size="lg" />
-							</a>
-							<a href="#" className="text-gray-700">
-								<FontAwesomeIcon icon={faTwitter} size="lg" />
-							</a>
-							<a href="#" className="text-gray-700">
-								<FontAwesomeIcon icon={faInstagram} size="lg" />
-							</a>
-						</div>
-					</div>
-					<div>
-						<h3 className="text-lg font-bold mb-2">HarvestHub</h3>
-						<ul className="text-gray-700">
-							<li>
-								<a href="#">Blog</a>
-							</li>
-							<li>
-								<a href="#">Karir</a>
-							</li>
-							<li>
-								<a href="#">Program Afiliasi</a>
-							</li>
-							<li>
-								<a href="#">Promo</a>
-							</li>
-						</ul>
-					</div>
-					<div>
-						<h3 className="text-lg font-bold mb-2">Jual</h3>
-						<ul className="text-gray-700">
-							<li>
-								<a href="#">Pusat Edukasi Seller</a>
-							</li>
-							<li>
-								<a href="#">Daftar Official Store</a>
-							</li>
-						</ul>
-					</div>
-					<div>
-						<h3 className="text-lg font-bold mb-2">Bantuan dan Panduan</h3>
-						<ul className="text-gray-700">
-							<li>
-								<a href="#">HarvestHub Care</a>
-							</li>
-							<li>
-								<a href="#">Syarat dan Ketentuan</a>
-							</li>
-							<li>
-								<a href="#">Kebijakan dan Privasi</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</footer>
 		</div>
 	);
 }

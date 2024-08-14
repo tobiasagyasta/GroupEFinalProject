@@ -19,7 +19,7 @@ def login():
             # print(current_user.role.value)
             return jsonify({'message': 'Login successful', "id": user.id}), 200
         else:
-            return jsonify({'message': 'Invalid credentials'}), 401
+            return jsonify({'message': 'Invalid credentials! Please try again.'}), 401
 
 @auth_bp.route('/logout', methods=['GET'])
 @login_required

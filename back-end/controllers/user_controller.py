@@ -119,7 +119,8 @@ def get_current_user():
         session.close()
         
         
-@user_bp.route("/me/profile-picture", methods=['PUT'])
+
+@user_bp.route("/me/profile-picture/", methods=['PUT'])
 @login_required
 def update_profile_picture():
     data = request.get_json()
@@ -133,7 +134,6 @@ def update_profile_picture():
     
     Session = sessionmaker(bind=engine)
     try:
-        
         with Session() as session:
             user = session.query(User).filter_by(id=current_user.id).first()
             if not user:
@@ -143,7 +143,7 @@ def update_profile_picture():
             user.profile_picture_url = profile_picture_url
             session.commit()
 
-            return jsonify({"message": "Profile picture updated successfully", "profile_picture_url": validated_data}), 200
+            return jsonify({"message": "Profile picture updated successfully", "profile_picture_url": profile_picture_url}), 200
     except Exception as e:
         session.rollback()
         return jsonify({"error": str(e)}), 500
