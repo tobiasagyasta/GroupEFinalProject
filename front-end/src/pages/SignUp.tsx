@@ -201,17 +201,17 @@ export default function MultiStepSignUp() {
 
 	return (
 		<div
-			className="w-full min-h-screen flex items-center justify-center bg-cover bg-center"
+			className='w-full min-h-screen flex items-center justify-center bg-cover bg-center'
 			style={{
 				backgroundImage:
 					"url('https://images.unsplash.com/photo-1563514227147-6d2ff665a6a0?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
 			}}
 		>
-			<div className="relative w-full max-w-xl mx-auto p-6">
-				<div className="absolute inset-0 bg-black opacity-30 z-[-1]"></div>
-				<Card className="bg-white bg-opacity-50 backdrop-blur-md border border-gray-200 shadow-lg rounded-lg p-6">
+			<div className='relative w-full max-w-xl mx-auto p-6'>
+				<div className='absolute inset-0 bg-black opacity-30 z-[-1]'></div>
+				<Card className='bg-white bg-opacity-50 backdrop-blur-md border border-gray-200 shadow-lg rounded-lg p-6'>
 					{step > 1 && (
-						<div className="flex justify-between items-center mb-4">
+						<div className='flex justify-between items-center mb-4'>
 							<div
 								className={`text-center py-2 ${
 									step >= 1 ? "text-black" : "text-gray-400"
@@ -219,7 +219,7 @@ export default function MultiStepSignUp() {
 							>
 								Daftar
 							</div>
-							<BsArrowRightShort className="text-gray-400 mx-2 text-xl" />
+							<BsArrowRightShort className='text-gray-400 mx-2 text-xl' />
 							<div
 								className={`text-center py-2 ${
 									step >= 2 ? "text-black" : "text-gray-400"
@@ -229,7 +229,7 @@ export default function MultiStepSignUp() {
 							</div>
 							{formData.role === "seller" && (
 								<>
-									<BsArrowRightShort className="text-gray-400 mx-2 text-xl" />
+									<BsArrowRightShort className='text-gray-400 mx-2 text-xl' />
 									<div
 										className={`text-center py-2 ${
 											step >= 3 ? "text-black" : "text-gray-400"
@@ -242,16 +242,16 @@ export default function MultiStepSignUp() {
 						</div>
 					)}
 					<CardHeader>
-						<div className="flex justify-between items-center">
-							<CardTitle className="text-2xl text-black">
+						<div className='flex justify-between items-center'>
+							<CardTitle className='text-2xl text-black'>
 								{step === 1 && "Daftar"}
 								{step === 2 && "Detail Akun"}
 								{step === 3 && "Selesaikan Pendaftaran"}
 							</CardTitle>
 							{step === 1 && (
 								<Link
-									to="/signin"
-									className="text-green-600 underline hover:text-green-800 transition-all duration-300"
+									to='/signin'
+									className='text-green-600 underline hover:text-green-800 transition-all duration-300'
 								>
 									Masuk
 								</Link>
@@ -260,44 +260,44 @@ export default function MultiStepSignUp() {
 					</CardHeader>
 					<CardContent>
 						{step === 1 && (
-							<div className="grid gap-4">
-								<div className="mt-2">
+							<div className='grid gap-4'>
+								<div className='mt-2'>
 									<Button
-										variant="outline"
-										className="w-full flex items-center justify-center gap-2 border-green-600 text-black"
+										variant='outline'
+										className='w-full flex items-center justify-center gap-2 border-green-600 text-black'
 									>
 										<FcGoogle />
 										Daftar dengan Google
 									</Button>
 								</div>
-								<div className="text-center text-black my-2">atau</div>
-								<div className="grid gap-2">
-									<Label htmlFor="email" className="text-black">
+								<div className='text-center text-black my-2'>atau</div>
+								<div className='grid gap-2'>
+									<Label htmlFor='email' className='text-black'>
 										Email
 									</Label>
-									<div className="relative">
+									<div className='relative'>
 										<Input
-											id="email"
-											type="email"
-											placeholder="Masukkan email"
+											id='email'
+											type='email'
+											placeholder='Masukkan email'
 											value={formData.email}
 											onChange={handleChange}
 											required
-											className="border-green-600"
+											className='border-green-600'
 										/>
-										<FaEnvelope className="absolute top-3 right-3 text-gray-400" />
+										<FaEnvelope className='absolute top-3 right-3 text-gray-400' />
 									</div>
 									{errors.email && (
-										<div className="text-red-500 text-sm mt-1">
+										<div className='text-red-500 text-sm mt-1'>
 											{errors.email}
 										</div>
 									)}
 								</div>
-								<div className="grid gap-2 mt-2">
-									<Label htmlFor="role" className="text-black">
+								<div className='grid gap-2 mt-2'>
+									<Label htmlFor='role' className='text-black'>
 										Tipe Akun
 									</Label>
-									<div className="flex gap-2 mt-2">
+									<div className='flex gap-2 mt-2'>
 										<Button
 											variant={
 												formData.role === "seller" ? "secondary" : "outline"
@@ -329,30 +329,30 @@ export default function MultiStepSignUp() {
 									</div>
 								</div>
 								<Button
-									variant="default"
+									variant='default'
 									onClick={handleNext}
-									className="w-full bg-green-600 text-white mt-4"
+									className='w-full bg-green-600 text-white mt-4'
 								>
 									Setuju & Daftar
 								</Button>
-								<div className="text-center text-gray-600 mt-4">
-									<div className="text-xs">
-										<span className="text-black">
+								<div className='text-center text-gray-600 mt-4'>
+									<div className='text-xs'>
+										<span className='text-black'>
 											Dengan mendaftar, saya menyetujui{" "}
-											<a href="#" className="text-green-700 underline">
+											<a href='#' className='text-green-700 underline'>
 												Syarat & Ketentuan
 											</a>{" "}
 											serta{" "}
-											<a href="#" className="text-green-800 underline">
+											<a href='#' className='text-green-800 underline'>
 												Kebijakan Privasi HarvestHub
 											</a>
 										</span>
 									</div>
 								</div>
-								<div className="text-center text-gray-600 mt-4">
+								<div className='text-center text-gray-600 mt-4'>
 									<Link
-										to="/"
-										className="text-green-800 underline hover:text-green-700 transition-all duration-300"
+										to='/'
+										className='text-green-800 underline hover:text-green-700 transition-all duration-300'
 									>
 										Kembali ke Beranda
 									</Link>
@@ -360,111 +360,111 @@ export default function MultiStepSignUp() {
 							</div>
 						)}
 						{step === 2 && (
-							<div className="grid gap-4">
-								<div className="grid gap-2">
-									<Label htmlFor="name" className="text-black">
+							<div className='grid gap-4'>
+								<div className='grid gap-2'>
+									<Label htmlFor='name' className='text-black'>
 										Nama Lengkap
 									</Label>
-									<div className="relative">
+									<div className='relative'>
 										<Input
-											id="name"
-											type="text"
-											placeholder="Masukkan nama lengkap"
+											id='name'
+											type='text'
+											placeholder='Masukkan nama lengkap'
 											value={formData.name}
 											onChange={handleChange}
 											required
-											className="border-green-600"
+											className='border-green-600'
 										/>
-										<FaPencilAlt className="absolute top-3 right-3 text-gray-400" />
+										<FaPencilAlt className='absolute top-3 right-3 text-gray-400' />
 									</div>
 									{errors.name && (
-										<div className="text-red-500 text-sm mt-1">
+										<div className='text-red-500 text-sm mt-1'>
 											{errors.name}
 										</div>
 									)}
 								</div>
-								<div className="grid gap-2">
-									<Label htmlFor="phone" className="text-black">
+								<div className='grid gap-2'>
+									<Label htmlFor='phone' className='text-black'>
 										Nomor Handphone
 									</Label>
-									<div className="relative">
+									<div className='relative'>
 										<Input
-											id="phone"
-											type="tel"
-											placeholder="Masukkan nomor handphone"
+											id='phone'
+											type='tel'
+											placeholder='Masukkan nomor handphone'
 											value={formData.phone_number}
 											onChange={handlePhoneChange}
 											required
-											className="border-green-600"
+											className='border-green-600'
 										/>
-										<FaPhone className="absolute top-3 right-3 text-gray-400" />
+										<FaPhone className='absolute top-3 right-3 text-gray-400' />
 									</div>
 									{errors.phone && (
-										<div className="text-red-500 text-sm mt-1">
+										<div className='text-red-500 text-sm mt-1'>
 											{errors.phone}
 										</div>
 									)}
 								</div>
-								<div className="grid gap-2">
-									<Label htmlFor="password" className="text-black">
+								<div className='grid gap-2'>
+									<Label htmlFor='password' className='text-black'>
 										Kata Sandi
 									</Label>
-									<div className="relative">
+									<div className='relative'>
 										<Input
-											id="password"
+											id='password'
 											type={showPassword ? "text" : "password"}
-											placeholder="Masukkan kata sandi"
+											placeholder='Masukkan kata sandi'
 											value={formData.password}
 											onChange={handleChange}
 											required
-											className="border-green-600"
+											className='border-green-600'
 										/>
 										<div
-											className="absolute top-3 right-3 cursor-pointer"
+											className='absolute top-3 right-3 cursor-pointer'
 											onClick={() => setShowPassword(!showPassword)}
 										>
 											{showPassword ? <FaEyeSlash /> : <FaEye />}
 										</div>
 									</div>
 									{errors.password && (
-										<div className="text-red-500 text-sm mt-1">
+										<div className='text-red-500 text-sm mt-1'>
 											{errors.password}
 										</div>
 									)}
 								</div>
-								<div className="grid gap-2">
-									<Label htmlFor="address" className="text-black">
+								<div className='grid gap-2'>
+									<Label htmlFor='address' className='text-black'>
 										Alamat Lengkap
 									</Label>
-									<div className="relative">
+									<div className='relative'>
 										<textarea
-											id="address"
-											placeholder="Masukkan alamat lengkap"
+											id='address'
+											placeholder='Masukkan alamat lengkap'
 											value={formData.address}
 											onChange={handleChange}
 											required
-											className="border-green-600 w-full p-2"
+											className='border-green-600 w-full p-2'
 										/>
-										<FaHome className="absolute top-3 right-3 text-gray-400" />
+										<FaHome className='absolute top-3 right-3 text-gray-400' />
 									</div>
 									{errors.address && (
-										<div className="text-red-500 text-sm mt-1">
+										<div className='text-red-500 text-sm mt-1'>
 											{errors.address}
 										</div>
 									)}
 								</div>
-								<div className="flex justify-between mt-4">
+								<div className='flex justify-between mt-4'>
 									<Button
-										variant="default"
+										variant='default'
 										onClick={handlePrevious}
-										className="w-1/2 bg-gray-600 text-white"
+										className='w-1/2 bg-gray-600 text-white'
 									>
 										Kembali
 									</Button>
 									<Button
-										variant="default"
+										variant='default'
 										onClick={handleNext}
-										className="w-1/2 bg-green-600 text-white"
+										className='w-1/2 bg-green-600 text-white'
 									>
 										{formData.role === "buyer"
 											? "Daftar Sekarang"
@@ -474,15 +474,15 @@ export default function MultiStepSignUp() {
 							</div>
 						)}
 						{step === 3 && (
-							<div className="grid gap-4">
-								<div className="grid gap-2">
-									<Label htmlFor="storeName" className="text-black">
+							<div className='grid gap-4'>
+								<div className='grid gap-2'>
+									<Label htmlFor='storeName' className='text-black'>
 										Nama Toko
 									</Label>
 									<Input
-										id="storeName"
-										type="text"
-										placeholder="Masukkan nama bisnis anda"
+										id='storeName'
+										type='text'
+										placeholder='Masukkan nama bisnis anda'
 										value={formData.farm_name}
 										onChange={(event) => {
 											setFormData({
@@ -491,44 +491,44 @@ export default function MultiStepSignUp() {
 											});
 										}}
 										required
-										className="border-green-600"
+										className='border-green-600'
 									/>
 									{errors.storeName && (
-										<div className="text-red-500 text-sm mt-1">
+										<div className='text-red-500 text-sm mt-1'>
 											{errors.storeName}
 										</div>
 									)}
 								</div>
-								<div className="grid gap-2">
-									<Label htmlFor="bio" className="text-black">
+								<div className='grid gap-2'>
+									<Label htmlFor='bio' className='text-black'>
 										Deskripsi Toko
 									</Label>
 									<textarea
-										id="bio"
-										placeholder="Masukkan deskripsi toko"
+										id='bio'
+										placeholder='Masukkan deskripsi toko'
 										value={formData.bio}
 										onChange={handleChange}
 										required
-										className="border-green-600 w-full p-2"
+										className='border-green-600 w-full p-2'
 									/>
 									{errors.bio && (
-										<div className="text-red-500 text-sm mt-1">
+										<div className='text-red-500 text-sm mt-1'>
 											{errors.bio}
 										</div>
 									)}
 								</div>
-								<div className="flex justify-between mt-4">
+								<div className='flex justify-between mt-4'>
 									<Button
-										variant="default"
+										variant='default'
 										onClick={handlePrevious}
-										className="w-1/2 bg-gray-600 text-white"
+										className='w-1/2 bg-gray-600 text-white'
 									>
 										Kembali
 									</Button>
 									<Button
-										variant="default"
+										variant='default'
 										onClick={handleSubmit}
-										className="w-1/2 bg-green-600 text-white"
+										className='w-1/2 bg-green-600 text-white'
 									>
 										Daftar Sekarang
 									</Button>

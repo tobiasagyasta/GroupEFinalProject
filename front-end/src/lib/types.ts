@@ -11,7 +11,10 @@ export interface User {
 	email: string;
 	passwordHash: string;
 	address?: string;
-	phoneNumber?: string;
+	phone_number?: string;
 	role: UserRole;
-	profilePictureUrl?: string;
+	profile_picture_url?: string;
+	farm_location?: string;
+	farm_name?: string;
+	bio?: string;
 }
