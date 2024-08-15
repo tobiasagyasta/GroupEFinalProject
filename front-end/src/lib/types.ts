@@ -18,3 +18,16 @@ export interface User {
 	farm_name?: string;
 	bio?: string;
 }
+
+export interface Product {
+	id: number;
+	name: string;
+	category: string;
+	description: string;
+	price: number;
+	quantity: number;
+	unit: string;
+	status: string;
+	product_picture_url: string;
+	// Add other product fields as needed
+}

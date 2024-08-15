@@ -30,6 +30,7 @@ class User(Base, UserMixin):
     sellers = relationship('Seller', back_populates='user', uselist=False, cascade='all, delete-orphan')
     buyers = relationship('Buyer', back_populates='user', uselist=False, cascade='all, delete-orphan')
 
+
     def set_password(self, password):
         self.password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 

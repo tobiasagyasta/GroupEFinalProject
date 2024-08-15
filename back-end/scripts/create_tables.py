@@ -14,6 +14,7 @@ from models.base import Base
 from models.user import User, UserRole
 from models.seller import Seller
 from models.buyer import Buyer
+from models.product import Product
 from sqlalchemy.orm import sessionmaker
 from connectors.sql_connector import engine
 
@@ -31,7 +32,7 @@ try:
         phone_number='555-5678',
         role=UserRole.seller,
     )
-    seller_user.set_password("password")
+    seller_user.set_password("Password1")
     session.add(seller_user)
     session.commit()
 
@@ -53,7 +54,7 @@ try:
         phone_number='555-1234',
         role=UserRole.buyer,  # Ensure UserRole is defined
     )
-    buyer_user.set_password("password")
+    buyer_user.set_password("Password1")
     session.add(buyer_user)
     session.commit()
 

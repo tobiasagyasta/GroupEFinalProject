@@ -13,7 +13,6 @@ function AgricultureEcommerce() {
 		const fetchUser = async () => {
 			const currentUser = await fetchCurrentUser();
 			setUser(currentUser);
-			console.log(user?.profile_picture_url);
 		};
 		fetchUser();
 	}, []);
@@ -142,6 +141,7 @@ function AgricultureEcommerce() {
 								alt='All Category'
 								className='w-full rounded'
 							/>
+							<Link to='/productpagetest'></Link>
 							<h3 className='mt-4 text-lg font-semibold'>Semua Kategori</h3>
 						</div>
 						<div className='text-center relative hover:shadow-lg transition-shadow duration-300'>
@@ -150,7 +150,7 @@ function AgricultureEcommerce() {
 								alt='Vegetables'
 								className='w-full rounded'
 							/>
-							<h3 className='mt-4 text-lg font-semibold'>Sayuran</h3>
+							<h3 className='mt-4 text-lg font-semibold'>TEST</h3>
 						</div>
 						<div className='text-center relative hover:shadow-lg transition-shadow duration-300'>
 							<img

@@ -23,7 +23,8 @@ def upload_file():
         
         return jsonify({'message': 'File uploaded successfully', 'filename': filename}), 200
 
-@upload_bp.route('/uploads/<filename>')
+@upload_bp.route('/uploads/<path:filename>')
 def uploaded_file(filename):
     return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)
+
 
