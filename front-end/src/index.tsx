@@ -8,6 +8,7 @@ import SignIn from "./pages/SignIn";
 
 import AgricultureEcommerce from "./pages/mainPage";
 import Dashboard from "./pages/SellerPage";
+import BuyerPage from "./pages/BuyerPage";
 
 import SignUp from "./pages/SignUp";
 import CompanyProfile from "./pages/CompanyProfile";
@@ -30,6 +31,7 @@ root.render(
         <Route path="/productpage2" element={<FruitProductPage />} />
         <Route path="/productpage3" element={<BundlingPackagePage />} />
         <Route path="/sellerpage" element={<Dashboard />} />
+        <Route path="/buyerpage" element={<BuyerPage />} />
       </Routes>
     </Router>
   </React.StrictMode>

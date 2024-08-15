@@ -50,6 +50,17 @@ function AgricultureEcommerce() {
 				</div>
 
 				<div className="space-x-4">
+					<Link to="/buyerpage">
+						<a
+							href="#"
+							className="text-gray-700 border border-gray-300 rounded px-4 py-2 hover:text-blue-500 hover:shadow-md transition-shadow duration-300"
+						>
+							Buyer Page
+						</a>
+					</Link>
+				</div>
+
+				<div className="space-x-4">
 					<Link to="/signin">
 						<button className="bg-gray-200 px-4 py-2 rounded hover:shadow-md transition-shadow duration-300">
 							Masuk
