@@ -15,6 +15,8 @@ import CompanyProfile from "./pages/CompanyProfile";
 import VegetableProductPage from "./pages/ProductPageVeg";
 import FruitProductPage from "./pages/ProductPageFru";
 import BundlingPackagePage from "./pages/ProductPageBun";
+import ProductDetailPage from "./pages/ProductDetailPage";
+import ReviewDetailPage from "./pages/ReviewDetailPage";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -31,7 +33,8 @@ root.render(
         <Route path="/productpage2" element={<FruitProductPage />} />
         <Route path="/productpage3" element={<BundlingPackagePage />} />
         <Route path="/sellerpage" element={<Dashboard />} />
-        <Route path="/buyerpage" element={<BuyerPage />} />
+        <Route path="/product/:id" element={<ProductDetailPage />} />
+        <Route path="/review/:reviewId" element={<ReviewDetailPage />} />
       </Routes>
     </Router>
   </React.StrictMode>
