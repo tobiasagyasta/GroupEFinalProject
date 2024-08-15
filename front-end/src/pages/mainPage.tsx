@@ -81,6 +81,7 @@ function AgricultureEcommerce() {
         </div>
       </section>
 
+
       {/* Today's Offers */}
       <div className="container mx-auto p-8">
         <div className="flex justify-between items-center mb-4">
@@ -199,6 +200,32 @@ function AgricultureEcommerce() {
             <div className="text-gray-600">Pisang Sunpride</div>
           </div>
         </div>
+
+				<div className="space-x-4">
+					<Link to="/buyerpage">
+						<a
+							href="#"
+							className="text-gray-700 border border-gray-300 rounded px-4 py-2 hover:text-blue-500 hover:shadow-md transition-shadow duration-300"
+						>
+							Buyer Page
+						</a>
+					</Link>
+				</div>
+
+				<div className="space-x-4">
+					<Link to="/signin">
+						<button className="bg-gray-200 px-4 py-2 rounded hover:shadow-md transition-shadow duration-300">
+							Masuk
+						</button>
+					</Link>
+					<Link to="/signup">
+						<button className="bg-black text-white px-4 py-2 rounded hover:shadow-md transition-shadow duration-300">
+							Daftar
+						</button>
+					</Link>
+				</div>
+			</nav>
+
 
         {/* Farmer Profile */}
         <div className="bg-white p-8 rounded shadow mt-8">

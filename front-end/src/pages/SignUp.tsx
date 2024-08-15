@@ -87,7 +87,7 @@ export default function MultiStepSignUp() {
         valid = false;
       } else if (!validatePassword(sanitizedPassword)) {
         newErrors.password =
-          "Kata Sandi harus berisi huruf besar, huruf kecil, dan angka, serta antara 6-8 karakter.";
+          "Kata Sandi harus berisi huruf besar, huruf kecil, dan angka, serta minimal 6 karakter.";
         valid = false;
       }
 
