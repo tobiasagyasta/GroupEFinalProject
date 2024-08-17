@@ -15,6 +15,7 @@ from models.user import User, UserRole
 from models.seller import Seller
 from models.buyer import Buyer
 from models.product import Product
+from models.review import Review
 from sqlalchemy.orm import sessionmaker
 from connectors.sql_connector import engine
 

@@ -26,7 +26,7 @@ class User(Base, UserMixin):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
-    # Example of a relationship if there are related tables
+
     sellers = relationship('Seller', back_populates='user', uselist=False, cascade='all, delete-orphan')
     buyers = relationship('Buyer', back_populates='user', uselist=False, cascade='all, delete-orphan')
 

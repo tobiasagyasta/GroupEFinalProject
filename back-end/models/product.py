@@ -26,6 +26,7 @@ class Product(Base):
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
     seller = relationship('Seller', back_populates='products')
+    reviews = relationship('Review', back_populates='product',  primaryjoin='Product.id == Review.product_id')
     
     def to_dict(self):
         """Convert the Product object to a dictionary."""
