@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 function App() {
+
 	return (
 		<div className="App">
 			<Link to="/mainpage" className="mt-4 underline text-blue-600">
@@ -26,6 +27,9 @@ function App() {
 			</Link>
 			<Link to="/sellerpage" className="mt-4 underline text-blue-600">
 				Go to Seller Page
+			</Link>
+			<Link to="/buyerpage" className="mt-4 underline text-blue-600">
+				Go to Buyer Page
 			</Link>
 		</div>
 	);

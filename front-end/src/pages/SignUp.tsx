@@ -84,6 +84,7 @@ export default function MultiStepSignUp() {
 				valid = false;
 			}
 
+
 			if (!sanitizedPassword) {
 				newErrors.password = "Kata Sandi tidak boleh kosong.";
 				valid = false;
@@ -92,6 +93,7 @@ export default function MultiStepSignUp() {
 					"Kata Sandi harus berisi huruf besar, huruf kecil, dan angka, serta antara 6-8 karakter.";
 				valid = false;
 			}
+
 
 			if (!sanitizedPhone) {
 				newErrors.phone = "Nomor handphone tidak boleh kosong.";

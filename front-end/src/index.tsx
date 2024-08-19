@@ -7,21 +7,27 @@ import SignIn from "./pages/SignIn";
 
 import AgricultureEcommerce from "./pages/mainPage";
 import Dashboard from "./pages/SellerPage";
+import BuyerPage from "./pages/BuyerPage";
 
 import SignUp from "./pages/SignUp";
 import CompanyProfile from "./pages/CompanyProfile";
 import VegetableProductPage from "./pages/ProductPageVeg";
 import FruitProductPage from "./pages/ProductPageFru";
 import BundlingPackagePage from "./pages/ProductPageBun";
+
 import { Toaster } from "./components/ui/toaster";
 import Footer from "./components/cards/Footer";
 import ProductPageTest from "./pages/ProductPageTest";
 import ProductDetailPage from "./pages/ProductDetailPage";
 
+import ReviewDetailPage from "./pages/ReviewDetailPage";
+
+
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement
 );
 root.render(
+
 	<>
 		<React.StrictMode>
 			<Toaster />
@@ -36,6 +42,7 @@ root.render(
 					<Route path='/productpage3' element={<BundlingPackagePage />} />
 					<Route path='/productpagetest' element={<ProductPageTest />} />
 					<Route path='/product/:id' element={<ProductDetailPage />} />
+          <Route path="/review/:reviewId" element={<ReviewDetailPage />} />
 					<Route path='/sellerpage' element={<Dashboard />} />
 				</Routes>
 			</Router>

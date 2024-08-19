@@ -3,6 +3,7 @@ import { fetchCurrentUser, logout } from "@/lib/api";
 import { Link } from "react-router-dom";
 import { User } from "@/lib/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { apiBaseUrl } from "@/lib/api";
@@ -24,91 +25,7 @@ function AgricultureEcommerce() {
 
 	return (
 		<div className='min-h-screen'>
-			{/* Navbar */}
-			<nav className='bg-white shadow p-4 flex justify-between items-center sticky top-0 z-50'>
-				<div className='text-2xl font-bold'>
-					<img
-						src='../images/logoharvest.png'
-						alt='HarvestHub Logo'
-						className='h-10 w-auto'
-					/>
-				</div>
-
-				<div className='flex items-center space-x-4'>
-					<div className='relative w-[400px]'>
-						<input
-							type='text'
-							placeholder='Search'
-							className='border border-gray-400 px-4 py-2 pl-10 rounded-full focus:outline-none'
-						/>
-						<div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
-							<FontAwesomeIcon icon={faSearch} className='text-gray-500' />
-						</div>
-					</div>
-				</div>
-
-				<div className='space-x-4'>
-					<Link to='/companyprofile'>
-						<button className='text-gray-700 border border-gray-300 rounded px-4 py-2 hover:text-blue-500 hover:shadow-md transition-shadow duration-300'>
-							Tentang HarvestHub
-						</button>
-					</Link>
-				</div>
-				{user ? (
-					<>
-						<p className='font-semibold'>Selamat datang {user.name}!</p>
-						<Avatar>
-							<AvatarImage
-								src={`${apiBaseUrl}/uploads/${user.profile_picture_url}`}
-							/>
-							<AvatarFallback>{user.name[0].toUpperCase()}</AvatarFallback>
-						</Avatar>
-					</>
-				) : (
-					<></>
-				)}
-				<div className='space-x-4'>
-					{user ? (
-						<>
-							{user.role === "seller" && (
-								<Link to='/sellerpage'>
-									<button className='bg-blue-500 text-white px-4 py-2 rounded hover:shadow-md transition-shadow duration-300'>
-										Seller Page
-									</button>
-								</Link>
-							)}
-							{user.role === "buyer" && (
-								<Link to='#'>
-									<button className='bg-blue-500 text-white px-4 py-2 rounded hover:shadow-md transition-shadow duration-300'>
-										Buyer Page
-									</button>
-								</Link>
-							)}
-							<button
-								onClick={handleLogout}
-								className='bg-gray-200 px-4 py-2 rounded hover:shadow-md transition-shadow duration-300'
-							>
-								Keluar
-							</button>
-							{/* You might want to display user info or other options here */}
-						</>
-					) : (
-						<>
-							<Link to='/signin'>
-								<button className='bg-gray-200 px-4 py-2 rounded hover:shadow-md transition-shadow duration-300'>
-									Masuk
-								</button>
-							</Link>
-							<Link to='/signup'>
-								<button className='bg-black text-white px-4 py-2 rounded hover:shadow-md transition-shadow duration-300'>
-									Daftar
-								</button>
-							</Link>
-						</>
-					)}
-				</div>
-			</nav>
-
+       <Header />
 			{/* Hero Section */}
 			<header
 				className='w-full min-h-screen flex items-center justify-center bg-cover bg-center'
@@ -286,47 +203,48 @@ function AgricultureEcommerce() {
 						<div className='text-gray-600'>Pisang Sunpride</div>
 					</div>
 				</div>
+        
+        {/* Farmer Profile */}
+        <div className="bg-white p-8 rounded shadow mt-8">
+          <div className="flex flex-col md:flex-row items-center">
+            <img
+              src="../images/Budi Santoso.jpg"
+              alt="Budi Santoso"
+              className="w-48 h-48 object-cover rounded-full md:mr-8"
+            />
+            <div>
+              <h2 className="text-xl font-bold mb-2">Profil Petani</h2>
+              <div className="text-gray-700">
+                <p>
+                  <strong>Nama:</strong> Budi Santoso
+                </p>
+                <p>
+                  <strong>Usia:</strong> 45 Tahun
+                </p>
+                <p>
+                  <strong>Lokasi:</strong> Desa Sumber Agung, Kabupaten Jember
+                </p>
+                <p className="mt-4">
+                  Saya Budi Santoso, seorang petani yang telah menggeluti dunia
+                  pertanian sejak usia muda. Berasal dari keluarga petani, saya
+                  meneruskan tradisi ini dengan penuh dedikasi. Di lahan seluas
+                  2 hektar, saya mengelola berbagai jenis tanaman seperti padi,
+                  jagung, dan sayuran. Dengan pengalaman lebih dari 20 tahun,
+                  saya menguasai teknik bercocok tanam yang efisien dan ramah
+                  lingkungan. Saya juga aktif dalam penerapan teknologi
+                  pertanian terbaru untuk meningkatkan hasil panen dan kualitas
+                  produk.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-				{/* Farmer Profile */}
-				<div className='bg-white p-8 rounded shadow mt-8'>
-					<div className='flex flex-col md:flex-row items-center'>
-						<img
-							src='../images/Budi Santoso.jpg'
-							alt='Budi Santoso'
-							className='w-48 h-48 object-cover rounded-full md:mr-8'
-						/>
-						<div>
-							<h2 className='text-xl font-bold mb-2'>Profil Petani</h2>
-							<div className='text-gray-700'>
-								<p>
-									<strong>Nama:</strong> Budi Santoso
-								</p>
-								<p>
-									<strong>Usia:</strong> 45 Tahun
-								</p>
-								<p>
-									<strong>Lokasi:</strong> Desa Sumber Agung, Kabupaten Jember
-								</p>
-								<p className='mt-4'>
-									Saya Budi Santoso, seorang petani yang telah menggeluti dunia
-									pertanian sejak usia muda. Berasal dari keluarga petani, saya
-									meneruskan tradisi ini dengan penuh dedikasi. Di lahan seluas
-									2 hektar, saya mengelola berbagai jenis tanaman seperti padi,
-									jagung, dan sayuran. Dengan pengalaman lebih dari 20 tahun,
-									saya menguasai teknik bercocok tanam yang efisien dan ramah
-									lingkungan. Saya juga aktif dalam penerapan teknologi
-									pertanian terbaru untuk meningkatkan hasil panen dan kualitas
-									produk.
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+      <Footer />
+    </div>
+  );
 
-			{/* Footer */}
-		</div>
-	);
 }
 
 export default AgricultureEcommerce;

@@ -36,11 +36,12 @@ export default function SignIn() {
 	const { toast } = useToast();
 	const navigate = useNavigate();
 
+
 	return (
 		<div
 			className="w-full min-h-screen flex items-center justify-center bg-cover bg-center"
 			style={{
-				backgroundImage: `url('https://img.freepik.com/free-photo/farmers-hold-notebook-check-modern-tobacco-fields_1150-5861.jpg?t=st=1723028966~exp=1723032566~hmac=b03109063268d6a2859e8c63a69feb7287eb7de4258243697ff14612a1f609d9&w=1480')`,
+				backgroundImage: `url('https://images.unsplash.com/photo-1720420866056-07fe15991f16?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjQ5fHxhZ3JpY3VsdHVyZXxlbnwwfHwwfHx8MA%3D%3D`)`,
 			}}
 		>
 			<div
@@ -190,4 +191,5 @@ export default function SignIn() {
 			</div>
 		</div>
 	);
+
 }
