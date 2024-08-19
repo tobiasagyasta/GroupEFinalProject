@@ -12,7 +12,9 @@ interface BlogPost {
 
 const CompanyProfile: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [expandedArticleId, setExpandedArticleId] = useState<number | null>(null);
+  const [expandedArticleId, setExpandedArticleId] = useState<number | null>(
+    null
+  );
   const [activeTab, setActiveTab] = useState<string>("about");
 
   const blogPosts: BlogPost[] = [
@@ -26,7 +28,8 @@ const CompanyProfile: React.FC = () => {
     },
     {
       id: 2,
-      title: "Pertanian Berkelanjutan: Melindungi Planet Sambil Memenuhi Kebutuhan Pangan",
+      title:
+        "Pertanian Berkelanjutan: Melindungi Planet Sambil Memenuhi Kebutuhan Pangan",
       content: `Pertanian berkelanjutan adalah tentang menemukan keseimbangan antara produksi pangan dan perlindungan lingkungan. Dengan mengadopsi praktik seperti rotasi tanaman, penggunaan kompos, dan pengelolaan hama secara alami, petani dapat meningkatkan kesuburan tanah dan mengurangi dampak negatif terhadap ekosistem. Kami di HarvestHub menyediakan produk dan solusi yang mendukung praktik ini, memastikan bahwa petani dapat memenuhi kebutuhan pangan dunia tanpa merusak lingkungan.
       
       Kami juga mendorong penggunaan energi terbarukan dalam pertanian, seperti panel surya untuk mengurangi ketergantungan pada sumber energi fosil. Melalui berbagai inisiatif, kami bekerja untuk mengurangi jejak karbon dan mendukung praktik yang melindungi bumi untuk generasi mendatang. Program pelatihan kami memberikan petani pengetahuan dan keterampilan yang diperlukan untuk menerapkan teknik berkelanjutan yang bermanfaat bagi lingkungan dan hasil panen mereka.`,
@@ -65,29 +68,49 @@ const CompanyProfile: React.FC = () => {
   return (
     <div className="flex flex-col h-screen">
       <header className="w-full flex flex-col h-full">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col h-full">
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="flex flex-col h-full"
+        >
           <TabsList className="flex w-full bg-gray-200 border-b border-gray-300">
-            <TabsTrigger 
+            <TabsTrigger
               value="about"
-              className={`flex-1 py-3 text-center cursor-pointer transition-colors ${activeTab === 'about' ? 'bg-green-500 text-white' : 'text-gray-700 hover:bg-gray-300'}`}
+              className={`flex-1 py-3 text-center cursor-pointer transition-colors ${
+                activeTab === "about"
+                  ? "bg-green-500 text-white"
+                  : "text-gray-700 hover:bg-gray-300"
+              }`}
             >
               Tentang Kami
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="policy"
-              className={`flex-1 py-3 text-center cursor-pointer transition-colors ${activeTab === 'policy' ? 'bg-green-500 text-white' : 'text-gray-700 hover:bg-gray-300'}`}
+              className={`flex-1 py-3 text-center cursor-pointer transition-colors ${
+                activeTab === "policy"
+                  ? "bg-green-500 text-white"
+                  : "text-gray-700 hover:bg-gray-300"
+              }`}
             >
               Kebijakan Perusahaan
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="certifications"
-              className={`flex-1 py-3 text-center cursor-pointer transition-colors ${activeTab === 'certifications' ? 'bg-green-500 text-white' : 'text-gray-700 hover:bg-gray-300'}`}
+              className={`flex-1 py-3 text-center cursor-pointer transition-colors ${
+                activeTab === "certifications"
+                  ? "bg-green-500 text-white"
+                  : "text-gray-700 hover:bg-gray-300"
+              }`}
             >
               Sertifikasi & Penghargaan
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="blog"
-              className={`flex-1 py-3 text-center cursor-pointer transition-colors ${activeTab === 'blog' ? 'bg-green-500 text-white' : 'text-gray-700 hover:bg-gray-300'}`}
+              className={`flex-1 py-3 text-center cursor-pointer transition-colors ${
+                activeTab === "blog"
+                  ? "bg-green-500 text-white"
+                  : "text-gray-700 hover:bg-gray-300"
+              }`}
             >
               Blog atau Berita
             </TabsTrigger>
@@ -96,13 +119,14 @@ const CompanyProfile: React.FC = () => {
           <div className="flex-1 overflow-y-auto">
             <TabsContent value="about" className="h-full p-4">
               <section id="home" className="relative w-full h-full mb-6">
-                <div className="absolute inset-0 bg-[#8A9A5B] opacity-50 z-10"></div>
+                <div className="absolute inset-0 bg-[#8A9A5B] opacity-30 z-10"></div>
                 <div className="relative z-20 flex flex-col items-center justify-center h-full text-center text-white">
                   <h1 className="text-4xl md:text-5xl font-bold mb-4">
                     Produk terpercaya Langsung dari Petani Lokal
                   </h1>
                   <p className="text-lg md:text-xl mb-8">
-                    Pelajari lebih lanjut tentang visi, misi, dan layanan HarvestHub
+                    Pelajari lebih lanjut tentang visi, misi, dan layanan
+                    HarvestHub
                   </p>
                 </div>
                 <video
@@ -113,85 +137,100 @@ const CompanyProfile: React.FC = () => {
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </section>
-              
-              <section id="about-us" className="container mx-auto px-4 py-12 mb-6">
+
+              <section
+                id="about-us"
+                className="container mx-auto px-4 py-12 mb-6"
+              >
                 <Card>
                   <CardHeader>
                     <CardTitle>Tentang Kami</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-lg text-justify">
-                      HarvestHub adalah lebih dari sekadar platform e-commerce; kami
-                      adalah mitra strategis dalam perjalanan pertanian modern. Kami
-                      berkomitmen untuk menghubungkan petani lokal dengan pasar global
-                      melalui teknologi canggih dan solusi inovatif.
+                      HarvestHub adalah lebih dari sekadar platform e-commerce;
+                      kami adalah mitra strategis dalam perjalanan pertanian
+                      modern. Kami berkomitmen untuk menghubungkan petani lokal
+                      dengan pasar global melalui teknologi canggih dan solusi
+                      inovatif.
                       <br />
                       <br />
                       Dengan latar belakang dalam pertanian organik dan ramah
-                      lingkungan, kami memahami tantangan yang dihadapi petani dalam
-                      menjalankan praktik yang berkelanjutan. Oleh karena itu, kami
-                      menawarkan berbagai produk dan layanan yang dirancang untuk
-                      meningkatkan efisiensi dan hasil panen. Platform kami menyajikan
-                      teknologi terbaru seperti sensor pintar, analitik data, dan sistem
-                      manajemen pertanian terintegrasi, yang memungkinkan petani untuk
-                      membuat keputusan yang lebih baik dan berbasis data.
+                      lingkungan, kami memahami tantangan yang dihadapi petani
+                      dalam menjalankan praktik yang berkelanjutan. Oleh karena
+                      itu, kami menawarkan berbagai produk dan layanan yang
+                      dirancang untuk meningkatkan efisiensi dan hasil panen.
+                      Platform kami menyajikan teknologi terbaru seperti sensor
+                      pintar, analitik data, dan sistem manajemen pertanian
+                      terintegrasi, yang memungkinkan petani untuk membuat
+                      keputusan yang lebih baik dan berbasis data.
                       <br />
                       <br />
-                      Kami juga memiliki program pelatihan dan dukungan untuk petani,
-                      memberikan mereka keterampilan dan pengetahuan yang dibutuhkan
-                      untuk sukses dalam praktik pertanian modern. Visi kami adalah
-                      menciptakan ekosistem di mana semua orang memiliki akses ke
-                      makanan sehat dan berkelanjutan, sambil memberdayakan komunitas
-                      pertanian dengan alat dan sumber daya yang mereka butuhkan untuk
+                      Kami juga memiliki program pelatihan dan dukungan untuk
+                      petani, memberikan mereka keterampilan dan pengetahuan
+                      yang dibutuhkan untuk sukses dalam praktik pertanian
+                      modern. Visi kami adalah menciptakan ekosistem di mana
+                      semua orang memiliki akses ke makanan sehat dan
+                      berkelanjutan, sambil memberdayakan komunitas pertanian
+                      dengan alat dan sumber daya yang mereka butuhkan untuk
                       berkembang.
                       <br />
                       <br />
-                      Bergabunglah dengan kami di HarvestHub untuk menjadi bagian dari
-                      perubahan positif dalam industri pertanian. Bersama-sama, kita
-                      dapat mencapai masa depan yang lebih baik dan lebih berkelanjutan.
+                      Bergabunglah dengan kami di HarvestHub untuk menjadi
+                      bagian dari perubahan positif dalam industri pertanian.
+                      Bersama-sama, kita dapat mencapai masa depan yang lebih
+                      baik dan lebih berkelanjutan.
                     </p>
                   </CardContent>
                 </Card>
               </section>
             </TabsContent>
-            
+
             <TabsContent value="policy" className="h-full p-4">
-              <section id="company-policy" className="container mx-auto px-4 py-12 mb-6">
+              <section
+                id="company-policy"
+                className="container mx-auto px-4 py-12 mb-6"
+              >
                 <Card>
                   <CardHeader>
                     <CardTitle>Kebijakan Perusahaan</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-lg text-justify">
-                      Di HarvestHub, kami memegang teguh prinsip-prinsip keberlanjutan
-                      dan tanggung jawab sosial. Kami percaya bahwa pertanian
-                      berkelanjutan adalah kunci untuk masa depan yang lebih baik dan
-                      bahwa setiap keputusan bisnis harus mempertimbangkan dampaknya
-                      terhadap masyarakat dan lingkungan.
+                      Di HarvestHub, kami memegang teguh prinsip-prinsip
+                      keberlanjutan dan tanggung jawab sosial. Kami percaya
+                      bahwa pertanian berkelanjutan adalah kunci untuk masa
+                      depan yang lebih baik dan bahwa setiap keputusan bisnis
+                      harus mempertimbangkan dampaknya terhadap masyarakat dan
+                      lingkungan.
                       <br />
                       <br />
                       Kebijakan perusahaan kami mencakup:
                       <ul className="list-disc ml-6 mt-4">
-                        <li>Komitmen terhadap praktik pertanian berkelanjutan.</li>
                         <li>
-                          Penggunaan teknologi ramah lingkungan untuk mengurangi jejak
-                          karbon.
+                          Komitmen terhadap praktik pertanian berkelanjutan.
                         </li>
-                        <li>Transparansi dalam rantai pasokan dan pengadaan.</li>
+                        <li>
+                          Penggunaan teknologi ramah lingkungan untuk mengurangi
+                          jejak karbon.
+                        </li>
+                        <li>
+                          Transparansi dalam rantai pasokan dan pengadaan.
+                        </li>
                         <li>
                           Mendukung inisiatif sosial dan komunitas lokal untuk
                           kesejahteraan bersama.
                         </li>
                         <li>
-                          Mematuhi standar etika dan hukum yang berlaku di setiap
-                          aspek bisnis kami.
+                          Mematuhi standar etika dan hukum yang berlaku di
+                          setiap aspek bisnis kami.
                         </li>
                       </ul>
                       <br />
-                      Kami percaya bahwa keberhasilan kami bergantung pada keberhasilan
-                      komunitas yang kami layani. Oleh karena itu, kami selalu
-                      berusaha untuk menjalankan bisnis kami dengan integritas dan
-                      tanggung jawab yang tinggi.
+                      Kami percaya bahwa keberhasilan kami bergantung pada
+                      keberhasilan komunitas yang kami layani. Oleh karena itu,
+                      kami selalu berusaha untuk menjalankan bisnis kami dengan
+                      integritas dan tanggung jawab yang tinggi.
                     </p>
                   </CardContent>
                 </Card>
@@ -199,7 +238,10 @@ const CompanyProfile: React.FC = () => {
             </TabsContent>
 
             <TabsContent value="certifications" className="h-full p-4">
-              <section id="certifications" className="container mx-auto px-4 py-12 mb-6">
+              <section
+                id="certifications"
+                className="container mx-auto px-4 py-12 mb-6"
+              >
                 <Card>
                   <CardHeader>
                     <CardTitle>Sertifikasi & Penghargaan</CardTitle>
@@ -212,7 +254,9 @@ const CompanyProfile: React.FC = () => {
                           alt="Sertifikasi 1"
                           className="w-full h-auto rounded-lg shadow-lg"
                         />
-                        <p className="mt-2 text-lg font-semibold">Best E-commerce</p>
+                        <p className="mt-2 text-lg font-semibold">
+                          Best E-commerce
+                        </p>
                       </div>
                       <div className="flex flex-col items-center">
                         <img
@@ -220,7 +264,9 @@ const CompanyProfile: React.FC = () => {
                           alt="Sertifikasi 2"
                           className="w-full h-auto rounded-lg shadow-lg"
                         />
-                        <p className="mt-2 text-lg font-semibold">Sertifikasi untuk Inovasi Agriculture</p>
+                        <p className="mt-2 text-lg font-semibold">
+                          Sertifikasi untuk Inovasi Agriculture
+                        </p>
                       </div>
                       <div className="flex flex-col items-center">
                         <img
@@ -228,17 +274,20 @@ const CompanyProfile: React.FC = () => {
                           alt="Sertifikasi 3"
                           className="w-full h-auto rounded-lg shadow-lg"
                         />
-                        <p className="mt-2 text-lg font-semibold">Penghargaan dari Bumi Hijau</p>
+                        <p className="mt-2 text-lg font-semibold">
+                          Penghargaan dari Bumi Hijau
+                        </p>
                       </div>
                     </div>
                     <p className="text-lg text-justify mt-6">
-                      Kami bangga dengan pencapaian kami dalam industri ini, yang
-                      mencerminkan dedikasi kami terhadap kualitas dan keberlanjutan.
-                      Sertifikasi dan penghargaan yang kami terima adalah bukti
-                      komitmen kami untuk selalu memberikan yang terbaik bagi pelanggan
-                      kami. Kami terus berinovasi dan memperbaiki standar kami untuk
-                      memastikan bahwa kami tetap menjadi pemimpin dalam industri
-                      pertanian berkelanjutan.
+                      Kami bangga dengan pencapaian kami dalam industri ini,
+                      yang mencerminkan dedikasi kami terhadap kualitas dan
+                      keberlanjutan. Sertifikasi dan penghargaan yang kami
+                      terima adalah bukti komitmen kami untuk selalu memberikan
+                      yang terbaik bagi pelanggan kami. Kami terus berinovasi
+                      dan memperbaiki standar kami untuk memastikan bahwa kami
+                      tetap menjadi pemimpin dalam industri pertanian
+                      berkelanjutan.
                     </p>
                   </CardContent>
                 </Card>
@@ -268,7 +317,9 @@ const CompanyProfile: React.FC = () => {
                         variant="outline"
                         onClick={() => handleReadMore(post.id)}
                       >
-                        {expandedArticleId === post.id ? "Baca Lebih Sedikit" : "Baca Lebih Banyak"}
+                        {expandedArticleId === post.id
+                          ? "Baca Lebih Sedikit"
+                          : "Baca Lebih Banyak"}
                       </Button>
                     </CardContent>
                   </Card>

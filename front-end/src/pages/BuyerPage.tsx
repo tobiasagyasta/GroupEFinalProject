@@ -14,8 +14,29 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 
+import ShoppingCart from "../pages/ShoppingCart";
+
 export default function BuyerPage() {
   const [selectedMenu, setSelectedMenu] = useState<string>("Pengaturan");
+  const [isCartOpen, setCartOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("cart");
+
+  const [notifications, setNotifications] = useState({
+    pembayaran: false,
+    konfirmasi: false,
+    diproses: false,
+    dikirim: false,
+    selesai: false,
+  });
+
+  const toggleCart = () => setCartOpen(!isCartOpen);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNotifications({
+      ...notifications,
+      [event.target.name]: event.target.checked,
+    });
+  };
 
   const menuItems = [
     { label: "Pesananan Saya", icon: <FaBoxOpen /> },
@@ -25,7 +46,6 @@ export default function BuyerPage() {
     { label: "Pesan Bantuan", icon: <FaHeart /> },
     { label: "Pesanan Dikomplain", icon: <FaStar /> },
     { label: "Ulasan", icon: <FaStar /> },
-    { label: "Wishlist", icon: <FaHeart /> },
     { label: "Favorit Saya", icon: <FaHeart /> },
     { label: "Pengaturan", icon: <FaUserCog /> },
   ];
@@ -56,7 +76,10 @@ export default function BuyerPage() {
         </div>
 
         <div className="flex items-center space-x-4">
-          <FaShoppingCart className="w-6 h-6 text-gray-700 hover:text-green-500 cursor-pointer transition-colors duration-300" />
+          <FaShoppingCart
+            className="w-6 h-6 text-gray-700 hover:text-green-500 cursor-pointer transition-colors duration-300"
+            onClick={toggleCart}
+          />
           <FaBell className="w-6 h-6 text-gray-700 hover:text-green-500 cursor-pointer transition-colors duration-300" />
           <FaEnvelope className="w-6 h-6 text-gray-700 hover:text-green-500 cursor-pointer transition-colors duration-300" />
           <span className="text-gray-700 hover:text-green-500 cursor-pointer transition-colors duration-300">
@@ -64,6 +87,13 @@ export default function BuyerPage() {
           </span>
         </div>
       </nav>
+
+      {/* Cart Pop-up */}
+      <ShoppingCart
+        isOpen={isCartOpen}
+        toggleCart={toggleCart}
+        activeTab={activeTab}
+      />
 
       {/* Main content */}
       <div className="flex flex-1">
@@ -93,93 +123,115 @@ export default function BuyerPage() {
                 <TabsTrigger value="rekening">Rekening</TabsTrigger>
                 <TabsTrigger value="notifikasi">Notifikasi</TabsTrigger>
               </TabsList>
-              <TabsContent value="biodata" className="p-4 bg-white shadow-md rounded-lg">
+              <TabsContent
+                value="biodata"
+                className="p-4 bg-white shadow-md rounded-lg"
+              >
                 <h3 className="text-lg font-semibold">Biodata Diri</h3>
                 <p>Nama: Ira Nbbn</p>
                 <p>Email: ira@gmail.com</p>
                 <p>Telepon: +62 83974747447</p>
-                <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">Edit Profil</button>
+                <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+                  Edit Profil
+                </button>
               </TabsContent>
-              <TabsContent value="alamat" className="p-4 bg-white shadow-md rounded-lg">
+              <TabsContent
+                value="alamat"
+                className="p-4 bg-white shadow-md rounded-lg"
+              >
                 <h3 className="text-lg font-semibold">Daftar Alamat</h3>
                 <ul>
                   <li className="border-b py-2">
                     <p>Alamat 1: Jalan Raya No. 123, Jakarta</p>
-                    <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded">Edit</button>
+                    <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded">
+                      Edit
+                    </button>
                   </li>
                   <li className="border-b py-2">
                     <p>Alamat 2: Jalan Kemenangan No. 45, Bandung</p>
-                    <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded">Edit</button>
+                    <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded">
+                      Edit
+                    </button>
                   </li>
                 </ul>
-                <button className="mt-4 px-4 py-2 bg-green-500 text-white rounded">Tambah Alamat</button>
+                <button className="mt-4 px-4 py-2 bg-green-500 text-white rounded">
+                  Tambah Alamat
+                </button>
               </TabsContent>
-              <TabsContent value="rekening" className="p-4 bg-white shadow-md rounded-lg">
+              <TabsContent
+                value="rekening"
+                className="p-4 bg-white shadow-md rounded-lg"
+              >
                 <h3 className="text-lg font-semibold">Rekening</h3>
                 <ul>
                   <li className="border-b py-2">
                     <p>Rekening Bank: Bank Agriculture - 1234567890</p>
-                    <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded">Edit</button>
+                    <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded">
+                      Edit
+                    </button>
                   </li>
                 </ul>
-                <button className="mt-4 px-4 py-2 bg-green-500 text-white rounded">Tambah Rekening</button>
+                <button className="mt-4 px-4 py-2 bg-green-500 text-white rounded">
+                  Tambah Rekening
+                </button>
               </TabsContent>
-              <TabsContent value="notifikasi" className="p-4 bg-white shadow-md rounded-lg">
+              <TabsContent
+                value="notifikasi"
+                className="p-4 bg-white shadow-md rounded-lg"
+              >
                 <h3 className="text-lg font-semibold">Notifikasi</h3>
                 <ul>
-                  <li className="border-b py-2">
-                    <p>Menunggu Pembayaran</p>
+                  <li className="border-b py-2 flex items-center">
+                    <input
+                      type="checkbox"
+                      name="pembayaran"
+                      checked={notifications.pembayaran}
+                      onChange={handleCheckboxChange}
+                      className="mr-2"
+                    />
+                    <label>Menunggu Pembayaran</label>
                   </li>
-                  <li className="border-b py-2">
-                    <p>Menunggu Konfirmasi</p>
+                  <li className="border-b py-2 flex items-center">
+                    <input
+                      type="checkbox"
+                      name="konfirmasi"
+                      checked={notifications.konfirmasi}
+                      onChange={handleCheckboxChange}
+                      className="mr-2"
+                    />
+                    <label>Menunggu Konfirmasi</label>
                   </li>
-                  <li className="border-b py-2">
-                    <p>Pesanan Diproses</p>
+                  <li className="border-b py-2 flex items-center">
+                    <input
+                      type="checkbox"
+                      name="diproses"
+                      checked={notifications.diproses}
+                      onChange={handleCheckboxChange}
+                      className="mr-2"
+                    />
+                    <label>Pesanan Diproses</label>
                   </li>
-                  <li className="border-b py-2">
-                    <p>Pesanan Dikirim</p>
+                  <li className="border-b py-2 flex items-center">
+                    <input
+                      type="checkbox"
+                      name="dikirim"
+                      checked={notifications.dikirim}
+                      onChange={handleCheckboxChange}
+                      className="mr-2"
+                    />
+                    <label>Pesanan Dikirim</label>
                   </li>
-                  <li className="border-b py-2">
-                    <p>Pesanan Selesai</p>
+                  <li className="border-b py-2 flex items-center">
+                    <input
+                      type="checkbox"
+                      name="selesai"
+                      checked={notifications.selesai}
+                      onChange={handleCheckboxChange}
+                      className="mr-2"
+                    />
+                    <label>Pesanan Selesai</label>
                   </li>
                 </ul>
-                <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">Kelola Notifikasi</button>
-              </TabsContent>
-            </Tabs>
-          )}
-
-          {/* Wishlist */}
-          {selectedMenu === "Wishlist" && (
-            <Tabs>
-              <TabsList>
-                <TabsTrigger value="semua">Semua Wishlist</TabsTrigger>
-                <TabsTrigger value="terakhir">Produk Terakhir Dilihat</TabsTrigger>
-              </TabsList>
-              <TabsContent value="semua" className="p-4 bg-white shadow-md rounded-lg">
-                <h3 className="text-lg font-semibold">Semua Wishlist</h3>
-                <p>Daftar semua item wishlist kamu.</p>
-              </TabsContent>
-              <TabsContent value="terakhir" className="p-4 bg-white shadow-md rounded-lg">
-                <h3 className="text-lg font-semibold">Produk Terakhir Dilihat</h3>
-                <p>Produk yang terakhir dilihat.</p>
-              </TabsContent>
-            </Tabs>
-          )}
-
-          {/* Diskusi Produk */}
-          {selectedMenu === "Diskusi Produk" && (
-            <Tabs>
-              <TabsList>
-                <TabsTrigger value="belum">Belum Dibaca</TabsTrigger>
-                <TabsTrigger value="dibaca">Sudah Dibaca</TabsTrigger>
-              </TabsList>
-              <TabsContent value="belum" className="p-4 bg-white shadow-md rounded-lg">
-                <h3 className="text-lg font-semibold">Belum Dibaca</h3>
-                <p>Diskusi yang belum dibaca.</p>
-              </TabsContent>
-              <TabsContent value="dibaca" className="p-4 bg-white shadow-md rounded-lg">
-                <h3 className="text-lg font-semibold">Sudah Dibaca</h3>
-                <p>Diskusi yang sudah dibaca.</p>
               </TabsContent>
             </Tabs>
           )}
@@ -191,11 +243,17 @@ export default function BuyerPage() {
                 <TabsTrigger value="lihat">Lihat Komplain</TabsTrigger>
                 <TabsTrigger value="ajukan">Ajukan Komplain</TabsTrigger>
               </TabsList>
-              <TabsContent value="lihat" className="p-4 bg-white shadow-md rounded-lg">
+              <TabsContent
+                value="lihat"
+                className="p-4 bg-white shadow-md rounded-lg"
+              >
                 <h3 className="text-lg font-semibold">Lihat Komplain</h3>
                 <p>Lihat komplain yang sudah diajukan.</p>
               </TabsContent>
-              <TabsContent value="ajukan" className="p-4 bg-white shadow-md rounded-lg">
+              <TabsContent
+                value="ajukan"
+                className="p-4 bg-white shadow-md rounded-lg"
+              >
                 <h3 className="text-lg font-semibold">Ajukan Komplain</h3>
                 <p>Ajukan komplain baru.</p>
               </TabsContent>
@@ -209,11 +267,17 @@ export default function BuyerPage() {
                 <TabsTrigger value="inbox">Inbox</TabsTrigger>
                 <TabsTrigger value="komplain">Komplain</TabsTrigger>
               </TabsList>
-              <TabsContent value="inbox" className="p-4 bg-white shadow-md rounded-lg">
+              <TabsContent
+                value="inbox"
+                className="p-4 bg-white shadow-md rounded-lg"
+              >
                 <h3 className="text-lg font-semibold">Inbox</h3>
                 <p>Lihat Pesanmu disini</p>
               </TabsContent>
-              <TabsContent value="komplain" className="p-4 bg-white shadow-md rounded-lg">
+              <TabsContent
+                value="komplain"
+                className="p-4 bg-white shadow-md rounded-lg"
+              >
                 <h3 className="text-lg font-semibold">Lihat Komplain</h3>
                 <p>Lihat komplain yang sudah diajukan.</p>
               </TabsContent>
@@ -237,48 +301,194 @@ export default function BuyerPage() {
                 <TabsTrigger value="berhasil">Berhasil</TabsTrigger>
                 <TabsTrigger value="tidak-berhasil">Tidak Berhasil</TabsTrigger>
               </TabsList>
-              <TabsContent value="semua" className="p-4 bg-white shadow-md rounded-lg">
+              <TabsContent
+                value="semua"
+                className="p-4 bg-white shadow-md rounded-lg"
+              >
                 <h3 className="text-lg font-semibold">Semua Transaksi</h3>
                 <p>Daftar semua pesanan kamu.</p>
               </TabsContent>
-              <TabsContent value="berlangsung" className="p-4 bg-white shadow-md rounded-lg">
+              <TabsContent
+                value="berlangsung"
+                className="p-4 bg-white shadow-md rounded-lg"
+              >
                 <Tabs>
                   <TabsList>
-                    <TabsTrigger value="menunggu-konfirmasi">Menunggu Konfirmasi</TabsTrigger>
+                    <TabsTrigger value="menunggu-konfirmasi">
+                      Menunggu Konfirmasi
+                    </TabsTrigger>
                     <TabsTrigger value="diproses">Diproses</TabsTrigger>
                     <TabsTrigger value="dikirim">Dikirim</TabsTrigger>
-                    <TabsTrigger value="tiba-tujuan">Tiba di Tujuan</TabsTrigger>
+                    <TabsTrigger value="tiba-tujuan">
+                      Tiba di Tujuan
+                    </TabsTrigger>
                     <TabsTrigger value="dikomplain">Dikomplain</TabsTrigger>
                   </TabsList>
-                  <TabsContent value="menunggu-konfirmasi" className="p-4 bg-white shadow-md rounded-lg">
-                    <h3 className="text-lg font-semibold">Menunggu Konfirmasi</h3>
+                  <TabsContent
+                    value="menunggu-konfirmasi"
+                    className="p-4 bg-white shadow-md rounded-lg"
+                  >
+                    <h3 className="text-lg font-semibold">
+                      Menunggu Konfirmasi
+                    </h3>
                     <p>Transaksi yang menunggu konfirmasi.</p>
                   </TabsContent>
-                  <TabsContent value="diproses" className="p-4 bg-white shadow-md rounded-lg">
+                  <TabsContent
+                    value="diproses"
+                    className="p-4 bg-white shadow-md rounded-lg"
+                  >
                     <h3 className="text-lg font-semibold">Diproses</h3>
                     <p>Transaksi yang sedang diproses.</p>
                   </TabsContent>
-                  <TabsContent value="dikirim" className="p-4 bg-white shadow-md rounded-lg">
+                  <TabsContent
+                    value="dikirim"
+                    className="p-4 bg-white shadow-md rounded-lg"
+                  >
                     <h3 className="text-lg font-semibold">Dikirim</h3>
                     <p>Transaksi yang sudah dikirim.</p>
                   </TabsContent>
-                  <TabsContent value="tiba-tujuan" className="p-4 bg-white shadow-md rounded-lg">
+                  <TabsContent
+                    value="tiba-tujuan"
+                    className="p-4 bg-white shadow-md rounded-lg"
+                  >
                     <h3 className="text-lg font-semibold">Tiba di Tujuan</h3>
                     <p>Transaksi yang sudah tiba di tujuan.</p>
                   </TabsContent>
-                  <TabsContent value="dikomplain" className="p-4 bg-white shadow-md rounded-lg">
+                  <TabsContent
+                    value="dikomplain"
+                    className="p-4 bg-white shadow-md rounded-lg"
+                  >
                     <h3 className="text-lg font-semibold">Dikomplain</h3>
                     <p>Transaksi yang telah dikomplain.</p>
                   </TabsContent>
                 </Tabs>
               </TabsContent>
-              <TabsContent value="berhasil" className="p-4 bg-white shadow-md rounded-lg">
+              <TabsContent
+                value="berhasil"
+                className="p-4 bg-white shadow-md rounded-lg"
+              >
                 <h3 className="text-lg font-semibold">Transaksi Berhasil</h3>
                 <p>Transaksi yang berhasil.</p>
               </TabsContent>
-              <TabsContent value="tidak-berhasil" className="p-4 bg-white shadow-md rounded-lg">
-                <h3 className="text-lg font-semibold">Transaksi Tidak Berhasil</h3>
+              <TabsContent
+                value="tidak-berhasil"
+                className="p-4 bg-white shadow-md rounded-lg"
+              >
+                <h3 className="text-lg font-semibold">
+                  Transaksi Tidak Berhasil
+                </h3>
                 <p>Transaksi yang tidak berhasil.</p>
+              </TabsContent>
+            </Tabs>
+          )}
+
+          {/* Favorit Saya */}
+          {selectedMenu === "Favorit Saya" && (
+            <Tabs>
+              <TabsList>
+                <TabsTrigger value="semua-favorit">Semua Favorit</TabsTrigger>
+                <TabsTrigger value="rekomendasi">
+                  Rekomendasi Produk
+                </TabsTrigger>
+                <TabsTrigger value="terakhir-dilihat">
+                  Terakhir Dilihat
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent
+                value="semua-favorit"
+                className="p-4 bg-white shadow-md rounded-lg"
+              >
+                <h3 className="text-lg font-semibold">
+                  Semua Favorit{" "}
+                  <span className="text-sm text-gray-600">(3 Produk)</span>
+                </h3>
+
+                <div className="grid grid-cols-3 gap-4 mt-4">
+                  <ProductCard
+                    imageUrl="/images/almond.jpg"
+                    name="Almond"
+                    price="Rp 100.000"
+                    location="Jakarta"
+                  />
+                  <ProductCard
+                    imageUrl="/images/anggur.jpg"
+                    name="Anggur"
+                    price="Rp 200.000"
+                    location="Bandung"
+                  />
+                  <ProductCard
+                    imageUrl="/images/bayam.jpg"
+                    name="Bayam"
+                    price="Rp 300.000"
+                    location="Surabaya"
+                  />
+                </div>
+
+                <p className="mt-2 text-gray-700">
+                  Atur Favorit Saya pakai fitur Koleksi, yuk! Kelompokkan barang
+                  impianmu sesuai tema, jenis barang, atau apa pun sesukamu.
+                  Produk Favoritmu jadi rapi, barang lebih gampang dicari.
+                </p>
+                <button className="bg-green-500 text-white px-4 py-2 rounded">
+                  + Koleksi Baru
+                </button>
+              </TabsContent>
+              <TabsContent
+                value="rekomendasi"
+                className="p-4 bg-white shadow-md rounded-lg"
+              >
+                <h3 className="text-lg font-semibold">Rekomendasi Produk</h3>
+                <div className="grid grid-cols-3 gap-4 mt-4">
+                  <ProductCard
+                    imageUrl="/images/belimbing.jpg"
+                    name="Belimbing"
+                    price="Rp 150.000"
+                    location="Yogyakarta"
+                  />
+                  <ProductCard
+                    imageUrl="/images/blueberry.jpg"
+                    name="Blueberry"
+                    price="Rp 250.000"
+                    location="Malang"
+                  />
+                  <ProductCard
+                    imageUrl="/images/Beras Merah.jpg"
+                    name="Beras Merah"
+                    price="Rp 350.000"
+                    location="Semarang"
+                  />
+                </div>
+              </TabsContent>
+              <TabsContent
+                value="terakhir-dilihat"
+                className="p-4 bg-white shadow-md rounded-lg"
+              >
+                <h3 className="text-lg font-semibold flex justify-between items-center">
+                  Terakhir Dilihat
+                  <button className="bg-blue-500 text-white px-4 py-2 rounded">
+                    Lihat Semua
+                  </button>
+                </h3>
+                <div className="grid grid-cols-3 gap-4 mt-4">
+                  <ProductCard
+                    imageUrl="/images/Brokoli.jpg"
+                    name="Brokoli"
+                    price="Rp 120.000"
+                    location="Bali"
+                  />
+                  <ProductCard
+                    imageUrl="/images/Cabe Rawit.jpg"
+                    name="Cabe Rawit"
+                    price="Rp 220.000"
+                    location="Makassar"
+                  />
+                  <ProductCard
+                    imageUrl="/images/Bawang Putih.jpg"
+                    name="Bawang Putih"
+                    price="Rp 320.000"
+                    location="Medan"
+                  />
+                </div>
               </TabsContent>
             </Tabs>
           )}
@@ -288,25 +498,48 @@ export default function BuyerPage() {
   );
 }
 
-// Sidebar
-function SidebarItem({
-  icon,
-  label,
-  onClick,
-}: {
+interface SidebarItemProps {
   icon: React.ReactNode;
   label: string;
   onClick: () => void;
-}) {
+}
+
+const SidebarItem: React.FC<SidebarItemProps> = ({ icon, label, onClick }) => {
   return (
-    <li className="mb-4">
-      <button
-        onClick={onClick}
-        className="flex items-center text-gray-700 hover:text-green-500 hover:bg-gray-100 p-2 rounded-lg transition-all duration-300 w-full text-left"
-      >
-        {icon}
-        <span className="ml-2">{label}</span>
-      </button>
+    <li
+      className="flex items-center space-x-3 mb-4 cursor-pointer"
+      onClick={onClick}
+    >
+      <div className="text-xl">{icon}</div>
+      <span className="text-gray-700">{label}</span>
     </li>
   );
+};
+
+interface ProductCardProps {
+  imageUrl: string;
+  name: string;
+  price: string;
+  location: string;
 }
+
+const ProductCard: React.FC<ProductCardProps> = ({
+  imageUrl,
+  name,
+  price,
+  location,
+}) => {
+  return (
+    <div className="bg-white shadow-md rounded-lg overflow-hidden">
+      <img src={imageUrl} alt={name} className="w-full h-40 object-cover" />
+      <div className="p-4">
+        <h4 className="text-lg font-semibold">{name}</h4>
+        <p className="text-gray-600">{price}</p>
+        <p className="text-gray-500">{location}</p>
+        <button className="mt-2 w-full bg-green-800 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors">
+          + Keranjang
+        </button>
+      </div>
+    </div>
+  );
+};
