@@ -1,9 +1,19 @@
 import React from "react";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faFacebookF,
+	faTwitter,
+	faInstagram,
+} from "@fortawesome/free-brands-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+
 import { Link } from "react-router-dom";
 import Header from "@/lib/Header";
 import Footer from "@/lib/Footer";
 
 function BundlingPackagePage() {
+
   return (
     <div className="min-h-screen">
       <Header />

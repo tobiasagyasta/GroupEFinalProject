@@ -1,16 +1,26 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import { Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faFacebookF,
+	faTwitter,
+	faInstagram,
+} from "@fortawesome/free-brands-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 interface BlogPost {
-  id: number;
-  title: string;
-  content: string;
-  image: string;
+	id: number;
+	title: string;
+	content: string;
+	image: string;
 }
 
 const CompanyProfile: React.FC = () => {
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [expandedArticleId, setExpandedArticleId] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<string>("about");
@@ -42,25 +52,29 @@ const CompanyProfile: React.FC = () => {
     },
   ];
 
-  const postsPerPage = 2;
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = blogPosts.slice(indexOfFirstPost, indexOfLastPost);
+
+	const postsPerPage = 2;
+	const indexOfLastPost = currentPage * postsPerPage;
+	const indexOfFirstPost = indexOfLastPost - postsPerPage;
+	const currentPosts = blogPosts.slice(indexOfFirstPost, indexOfLastPost);
+
 
   const handleReadMore = (id: number) => {
     setExpandedArticleId((prevId) => (prevId === id ? null : id));
   };
 
-  const handlePageChange = (direction: "next" | "previous") => {
-    setCurrentPage((prevPage) => {
-      if (direction === "next" && indexOfLastPost < blogPosts.length) {
-        return prevPage + 1;
-      } else if (direction === "previous" && prevPage > 1) {
-        return prevPage - 1;
-      }
-      return prevPage;
-    });
-  };
+
+	const handlePageChange = (direction: "next" | "previous") => {
+		setCurrentPage((prevPage) => {
+			if (direction === "next" && indexOfLastPost < blogPosts.length) {
+				return prevPage + 1;
+			} else if (direction === "previous" && prevPage > 1) {
+				return prevPage - 1;
+			}
+			return prevPage;
+		});
+	};
+
 
   return (
     <div className="flex flex-col h-screen">

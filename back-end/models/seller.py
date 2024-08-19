@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, event
 from sqlalchemy.orm import relationship
 from models.base import Base
+import enum
 
 class Seller(Base):
     __tablename__ = 'seller'
@@ -13,6 +14,7 @@ class Seller(Base):
 
     # Define the relationship back to the User model
     user = relationship('User', back_populates='sellers')
+    products = relationship('Product', back_populates='seller', lazy='dynamic')
 
     def __repr__(self):
         return f"<Seller(id={self.id}, farm_name={self.farm_name}, farm_location={self.farm_location}, bio={self.bio})>"
