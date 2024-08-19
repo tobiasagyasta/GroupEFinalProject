@@ -1,97 +1,71 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { reviewsData, Review } from "../lib/ReviewsData";
-import Header from "@/lib/Header";
-import Footer from "@/lib/Footer";
+import { FaStar } from "react-icons/fa";
+import { Review, reviewsData } from "@/components/HarvestHub/ReviewsData";
 
-const ReviewDetailPage = () => {
-  const { reviewId } = useParams<{ reviewId: string }>();
+const ReviewDetailPage: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  if (!reviewId) {
-    return <div>Invalid review ID.</div>;
+  if (!id) {
+    return <div>Invalid parameters</div>;
   }
 
-  const reviews = reviewsData[reviewId];
+  const productReviews = reviewsData[id] || [];
 
-  if (!reviews || reviews.length === 0) {
-    return <div>Review not found.</div>;
+  if (productReviews.length === 0) {
+    return <div>No reviews available</div>;
   }
 
-  const review = reviews.find((r: Review) => r.id === reviewId);
-
-  if (!review) {
-    return <div>Review not found.</div>;
-  }
+  const handleBackClick = () => {
+    navigate(-1);
+  };
 
   return (
-    <>
-      <Header />
-      <div className="container mx-auto px-4 py-8">
-        {/* Back Button */}
-        <button
-          onClick={() => navigate(-1)}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md mb-8"
+    <div className="container mx-auto p-4">
+      <button
+        onClick={handleBackClick}
+        className="text-blue-500 hover:underline mb-4"
+      >
+        &lt; Back
+      </button>
+      {productReviews.slice(0, 2).map((review) => (
+        <div
+          key={review.id}
+          className="bg-white p-4 rounded-lg shadow-md mb-10 flex"
         >
-          Back
-        </button>
-
-        {/* Review Detail */}
-        <div className="border p-4 rounded-md mb-8">
-          <div className="flex gap-4">
-            <div className="flex-shrink-0">
-              {review.image && (
-                <img
-                  src={review.image}
-                  alt={`Review by ${review.reviewerName}`}
-                  className="w-48 h-48 object-cover rounded-md"
-                />
-              )}
+          {review.image && (
+            <img
+              src={review.image}
+              alt={`Review by ${review.reviewerName}`}
+              className="w-40 h-40 object-cover rounded-lg shadow-md mr-4"
+            />
+          )}
+          <div className="flex flex-col justify-between">
+            <div>
+              <p className="font-bold mb-2">{review.reviewerName}</p>
+              <p className="flex items-center mb-2">
+                Rating: {review.rating}{" "}
+                <FaStar className="inline-block text-yellow-500 ml-1" />
+              </p>
+              <p className="mb-2">{review.comment}</p>
             </div>
-            <div className="flex-1">
-              <div className="font-semibold text-xl mb-2">
-                {review.reviewerName}
+            {review.additionalImages && review.additionalImages.length > 0 && (
+              <div className="mt-4 grid grid-cols-3 gap-2">
+                {review.additionalImages.map((img, index) => (
+                  <img
+                    key={index}
+                    src={img}
+                    alt={`Additional review image ${index + 1}`}
+                    className="w-16 h-16 object-cover rounded-lg shadow-md"
+                  />
+                ))}
               </div>
-              <div className="text-yellow-500 mb-2">
-                {"★".repeat(review.rating) + "☆".repeat(5 - review.rating)}
-              </div>
-              <p>{review.comment}</p>
-            </div>
+            )}
           </div>
         </div>
-
-        {/* Other Reviews */}
-        <div className="space-y-4">
-          {reviews
-            .filter((r) => r.id !== reviewId)
-            .map((r: Review) => (
-              <div key={r.id} className="border p-4 rounded-md">
-                <div className="flex gap-4">
-                  <div className="flex-shrink-0">
-                    {r.image && (
-                      <img
-                        src={r.image}
-                        alt={`Review by ${r.reviewerName}`}
-                        className="w-48 h-48 object-cover rounded-md"
-                      />
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-semibold text-lg mb-2">
-                      {r.reviewerName}
-                    </div>
-                    <div className="text-yellow-500 mb-2">
-                      {"★".repeat(r.rating) + "☆".repeat(5 - r.rating)}
-                    </div>
-                    <p>{r.comment}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-        </div>
-      </div>
-      <Footer />
-    </>
+      ))}
+    </div>
   );
 };
 

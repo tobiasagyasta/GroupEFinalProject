@@ -1,13 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Header from "@/lib/Header";
-import Footer from "@/lib/Footer";
 
 function FruitProductPage() {
   return (
     <div className="min-h-screen">
-      <Header />
-
       {/* Product Grid */}
       <div className="container mx-auto p-8">
         <div className="flex justify-between items-center mb-4">
@@ -20,7 +16,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/26`}>
               <img
-                src="../images/Apel Malang.jpeg"
+                src="../images/apel-malang.jpeg"
                 alt="Apel Malang"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -31,7 +27,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/27`}>
               <img
-                src="../images/Anggur.jpg"
+                src="../images/anggur.jpg"
                 alt="Anggur"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -42,7 +38,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/28`}>
               <img
-                src="../images/Nanas Pemalang.jpg"
+                src="../images/nanas-pemalang.jpg"
                 alt="Nanas Pemalang"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -53,8 +49,8 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/29`}>
               <img
-                src="../images/Pepaya California.jpg"
-                alt="GraPepaya Californiape"
+                src="../images/pepaya-california.jpg"
+                alt="Pepaya California"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 20.000</div>
@@ -64,7 +60,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/30`}>
               <img
-                src="../images/Pisang Sunpride.jpg"
+                src="../images/pisang-sunpride.jpg"
                 alt="Pisang Sunpride"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -75,7 +71,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/31`}>
               <img
-                src="../images/Belimbing.jpg"
+                src="../images/belimbing.jpg"
                 alt="Belimbing"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -86,7 +82,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/32`}>
               <img
-                src="../images/Blueberry.jpg"
+                src="../images/blueberry.jpg"
                 alt="Blueberry"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -97,7 +93,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/33`}>
               <img
-                src="../images/Buah Naga.jpg"
+                src="../images/buah-naga.jpg"
                 alt="Buah Naga"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -108,7 +104,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/34`}>
               <img
-                src="../images/Cherry.jpg"
+                src="../images/cherry.jpg"
                 alt="Ceri"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -119,7 +115,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/35`}>
               <img
-                src="../images/Durian.jpg"
+                src="../images/durian.jpg"
                 alt="Durian"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -130,7 +126,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/36`}>
               <img
-                src="../images/Jambu.jpg"
+                src="../images/jambu.jpg"
                 alt="Jambu"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -141,7 +137,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/37`}>
               <img
-                src="../images/Jeruk.jpg"
+                src="../images/jeruk.jpg"
                 alt="Jeruk"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -152,7 +148,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/38`}>
               <img
-                src="../images/Alpukat Mentega.jpg"
+                src="../images/alpukat-mentega.jpg"
                 alt="Alpukat Mentega"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -163,7 +159,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/39`}>
               <img
-                src="../images/Kelapa.jpg"
+                src="../images/kelapa.jpg"
                 alt="Kelapa"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -174,7 +170,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/40`}>
               <img
-                src="../images/Lemon.jpg"
+                src="../images/lemon.jpg"
                 alt="Lemon"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -185,7 +181,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/41`}>
               <img
-                src="../images/Mangga.jpg"
+                src="../images/mangga.jpg"
                 alt="Mangga"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -196,7 +192,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/42`}>
               <img
-                src="../images/Manggis.jpg"
+                src="../images/manggis.jpg"
                 alt="Manggis"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -207,7 +203,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/43`}>
               <img
-                src="../images/Melon.jpg"
+                src="../images/melon.jpg"
                 alt="Melon"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -218,7 +214,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/44`}>
               <img
-                src="../images/Nangka.jpg"
+                src="../images/nangka.jpg"
                 alt="Nangka"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -229,7 +225,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/45`}>
               <img
-                src="../images/Pir.jpg"
+                src="../images/pir.jpg"
                 alt="Pir"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -240,7 +236,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/46`}>
               <img
-                src="../images/Semangka.jpg"
+                src="../images/semangka.jpg"
                 alt="Semangka"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -251,7 +247,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/47`}>
               <img
-                src="../images/Strawberry.jpg"
+                src="../images/strawberry.jpg"
                 alt="Strawberry"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -262,7 +258,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/48`}>
               <img
-                src="../images/Lychee.jpg"
+                src="../images/lychee.jpg"
                 alt="Leci"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -273,7 +269,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/49`}>
               <img
-                src="../images/Kiwi.jpg"
+                src="../images/kiwi.jpg"
                 alt="Kiwi"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -284,7 +280,7 @@ function FruitProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/50`}>
               <img
-                src="../images/Jambu Air.jpg"
+                src="../images/jambu-air.jpg"
                 alt="Jambu Air"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -294,8 +290,6 @@ function FruitProductPage() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

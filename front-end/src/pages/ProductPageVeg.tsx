@@ -1,13 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Header from "@/lib/Header";
-import Footer from "@/lib/Footer";
 
 function VegetableProductPage() {
   return (
     <div className="min-h-screen">
-      <Header />
-
       {/* Product Grid */}
       <div className="container mx-auto p-8">
         <div className="flex justify-between items-center mb-4">
@@ -20,8 +16,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/1`}>
               <img
-                src="../images/Beras Merah.jpg"
-                alt="Apple"
+                src="../images/beras-merah.jpg"
+                alt="Beras merah"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 10.000</div>
@@ -31,7 +27,7 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/2`}>
               <img
-                src="../images/Kacang Mede.jpg"
+                src="../images/kacang-mede.jpg"
                 alt="Banana"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -42,7 +38,7 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/3`}>
               <img
-                src="../images/Kol.jpg"
+                src="../images/kol.jpg"
                 alt="Orange"
                 className="w-full h-32 object-cover mb-4"
               />
@@ -53,8 +49,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/4`}>
               <img
-                src="../images/Terong.jpg"
-                alt="Grape"
+                src="../images/terong.jpg"
+                alt="Terong"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 20.000</div>
@@ -64,8 +60,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/5`}>
               <img
-                src="../images/Tomat.jpg"
-                alt="Mango"
+                src="../images/tomat.jpg"
+                alt="Tomat"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 18.000</div>
@@ -75,8 +71,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/6`}>
               <img
-                src="../images/Tomat Ceri.jpg"
-                alt="Watermelon"
+                src="../images/tomat-ceri.jpg"
+                alt="Tomat Ceri"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 25.000</div>
@@ -86,8 +82,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/7`}>
               <img
-                src="../images/Cabe Merah Keriting.jpg"
-                alt="Strawberry"
+                src="../images/cabe-merah-keriting.jpg"
+                alt="Cabe Merah Keriting"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 30.000</div>
@@ -97,8 +93,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/8`}>
               <img
-                src="../images/Cabe Rawit.jpg"
-                alt="Kiwi"
+                src="../images/cabe-rawit.jpg"
+                alt="Cabe Rawit"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 28.000</div>
@@ -108,8 +104,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/9`}>
               <img
-                src="../images/Paprika.jpg"
-                alt="Pineapple"
+                src="../images/paprika.jpg"
+                alt="paprika"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 22.000</div>
@@ -119,8 +115,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/10`}>
               <img
-                src="../images/Lada Hitam.jpg"
-                alt="Pear"
+                src="../images/lada-hitam.jpg"
+                alt="Lada Hitam"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 14.000</div>
@@ -130,8 +126,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/11`}>
               <img
-                src="../images/Seledri.jpg"
-                alt="Cherry"
+                src="../images/seledri.jpg"
+                alt="Seledri"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 35.000</div>
@@ -141,8 +137,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/12`}>
               <img
-                src="../images/Wortel.jpg"
-                alt="Blueberry"
+                src="../images/wortel.jpg"
+                alt="Wortel"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 40.000</div>
@@ -152,8 +148,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/13`}>
               <img
-                src="../images/Jahe.jpg"
-                alt="Avocado"
+                src="../images/jahe.jpg"
+                alt="Jahe"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 25.000</div>
@@ -163,8 +159,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/14`}>
               <img
-                src="../images/Bawang Bombai.jpg"
-                alt="Papaya"
+                src="../images/bawang-bombai.jpg"
+                alt="Bawang Bombai"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 13.000</div>
@@ -174,8 +170,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/15`}>
               <img
-                src="../images/Bawang Putih.jpg"
-                alt="Melon"
+                src="../images/bawang-putih.jpg"
+                alt="Bawang Putih"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 18.000</div>
@@ -185,8 +181,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/16`}>
               <img
-                src="../images/Bawang Merah.jpg"
-                alt="Pomegranate"
+                src="../images/bawang-merah.jpg"
+                alt="Bawang Merah"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 32.000</div>
@@ -196,8 +192,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/17`}>
               <img
-                src="../images/Almond.jpg"
-                alt="Grapefruit"
+                src="../images/almond.jpg"
+                alt="Almond"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 22.000</div>
@@ -207,8 +203,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/18`}>
               <img
-                src="../images/Bayam.jpg"
-                alt="Dragonfruit"
+                src="../images/bayam.jpg"
+                alt="Bayam"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 28.000</div>
@@ -218,8 +214,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/19`}>
               <img
-                src="../images/Timun.jpg"
-                alt="Persimmon"
+                src="../images/timun.jpg"
+                alt="Timun"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 26.000</div>
@@ -229,8 +225,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/20`}>
               <img
-                src="../images/Jagung.jpg"
-                alt="Fig"
+                src="../images/jagung.jpg"
+                alt="Jagung"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 45.000</div>
@@ -240,8 +236,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/21`}>
               <img
-                src="../images/Kentang.jpg"
-                alt="Lychee"
+                src="../images/kentang.jpg"
+                alt="Kentang"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 30.000</div>
@@ -251,8 +247,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/22`}>
               <img
-                src="../images/Brokoli.jpg"
-                alt="Mangosteen"
+                src="../images/brokoli.jpg"
+                alt="Brokoli"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 35.000</div>
@@ -262,8 +258,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/23`}>
               <img
-                src="../images/Kol Merah.jpg"
-                alt="Coconut"
+                src="../images/kol-merah.jpg"
+                alt="Kol Merah"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 15.000</div>
@@ -273,8 +269,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/24`}>
               <img
-                src="../images/Daun Bawang.jpg"
-                alt="Mangosteen"
+                src="../images/daun-bawang.jpg"
+                alt="Daun Bawang"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 35.000</div>
@@ -284,8 +280,8 @@ function VegetableProductPage() {
           <div className="bg-white p-4 rounded shadow">
             <Link to={`/product/25`}>
               <img
-                src="../images/Labu.jpg"
-                alt="Coconut"
+                src="../images/labu.jpg"
+                alt="Labu"
                 className="w-full h-32 object-cover mb-4"
               />
               <div className="text-lg font-semibold">Rp 15.000</div>
@@ -294,8 +290,6 @@ function VegetableProductPage() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }
