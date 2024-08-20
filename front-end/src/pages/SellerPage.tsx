@@ -49,40 +49,6 @@ export default function Dashboard() {
 
 	return (
 		<div className='min-h-screen flex flex-col'>
-			{/* Navbar */}
-			<nav className='bg-white shadow p-4 flex justify-between items-center sticky top-0 z-50'>
-				<div className='text-2xl font-bold'>
-					<img
-						src='../images/logoharvest.png'
-						alt='HarvestHub Logo'
-						className='h-10 w-auto'
-					/>
-				</div>
-
-				<div className='flex items-center space-x-4'>
-					<div className='relative w-[400px]'>
-						<input
-							type='text'
-							placeholder='Search'
-							className='border border-gray-400 px-4 py-2 pl-10 rounded-full focus:outline-none'
-						/>
-						<div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
-							<FaSearch className='text-gray-500' />
-						</div>
-					</div>
-				</div>
-
-				<div className='flex items-center space-x-4'>
-					<FaBell className='w-6 h-6 text-gray-700 hover:text-blue-500 cursor-pointer transition-colors duration-300' />
-					<div className='flex items-center space-x-2'>
-						<FaUser className='w-6 h-6 text-gray-700 hover:text-blue-500 cursor-pointer transition-colors duration-300' />
-						<span className='text-gray-700 hover:text-blue-500 cursor-pointer transition-colors duration-300'>
-							Nama Penjual
-						</span>
-					</div>
-				</div>
-			</nav>
-
 			{/* Main content */}
 			<div className='flex flex-1'>
 				{/* Sidebar */}

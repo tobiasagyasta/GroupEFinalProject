@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 export const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
 export const fetchCurrentUser = async () => {
@@ -20,7 +21,7 @@ export const fetchCurrentUser = async () => {
 
 export const logout = async () => {
 	try {
-		const response = await fetch(`${apiBaseUrl}/logout`, {
+		const response = await fetch(`${apiBaseUrl}/logout/`, {
 			method: "GET",
 			credentials: "include",
 		});

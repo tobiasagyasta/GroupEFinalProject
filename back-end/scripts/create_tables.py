@@ -1,4 +1,4 @@
-# setup_database.py
+import json
 import sys
 import os
 from datetime import datetime
@@ -24,8 +24,13 @@ Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
+# Load product data from JSON file
+def load_products_from_json(file_path):
+    with open(file_path, 'r') as file:
+        return json.load(file)
+
 try:
-    # Example data for Seller
+    # Example data for Seller and Buyer
     seller_user = User(
         name='Bobby Johnson',
         email='bob.johnson@gmail.com',
@@ -38,8 +43,7 @@ try:
     session.commit()
 
     seller = Seller(
-        
-        user_id=seller_user.id,  # This should match the User id
+        user_id=seller_user.id,
         farm_name="Green Acres",
         farm_location="123 Country Road",
         bio="We specialize in organic vegetables."
@@ -47,25 +51,43 @@ try:
     session.add(seller)
     session.commit()
 
-    # Example data for Buyer
     buyer_user = User(
         name='Alice Smith',
         email='alice.smith@gmail.com',
         address='789 Elm St',
         phone_number='555-1234',
-        role=UserRole.buyer,  # Ensure UserRole is defined
+        role=UserRole.buyer,
     )
     buyer_user.set_password("Password1")
     session.add(buyer_user)
     session.commit()
 
     buyer = Buyer(
-        user_id=buyer_user.id  # This should match the User id
+        user_id=buyer_user.id
     )
     session.add(buyer)
     session.commit()
 
-    print("Tables created successfully and example data added.")
+    # Load and insert products
+    products = load_products_from_json('product_dataset.json')
+    for product in products:
+        new_product = Product(
+    
+            seller_id=product["seller_id"],
+            name=product["name"],
+            category=product["category"],
+            description=product["description"],
+            price=product["price"],
+            quantity=product["quantity"],
+            unit=product["unit"],
+            status=product["status"],
+            product_picture_url=product["product_picture_url"]
+        )
+        session.add(new_product)
+    
+    session.commit()
+
+    print("Tables created successfully and data imported.")
 
 except Exception as e:
     session.rollback()
