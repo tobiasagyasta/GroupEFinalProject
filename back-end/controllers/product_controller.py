@@ -67,13 +67,33 @@ def get_product(product_id):
         else:
             return jsonify({'message': 'Product not found'}), 404
 
-@product_bp.route('/', methods=['POST'])
+@product_bp.route('/post', methods=['POST'])
 def create_product():
     """Create a new product."""
-    data = request.get_json()
+    # Get form data
+    
+    seller_id = request.json.get('seller_id')
+    name = request.json.get('name')
+    price = request.json.get('price')
+    description = request.json.get('description')
+    unit = request.json.get('unit')
+    quantity = request.json.get('quantity')
+    product_picture_url = request.json.get('product_picture_url')
+    category = request.json.get('category')
+
+    # Create new product instance
     Session = sessionmaker(bind=engine)
     with Session() as session:
-        new_product = Product(**data)
+        new_product = Product(
+            seller_id = seller_id,
+            name=name,
+            price=price,
+            description=description,
+            unit=unit,
+            quantity=quantity,
+            product_picture_url=product_picture_url,
+            category = category,
+        )
         session.add(new_product)
         session.commit()
         return jsonify(new_product.to_dict()), 201
@@ -153,3 +173,11 @@ def get_products_by_user(user_id):
         }
         
         return jsonify(response), 200
+
+@product_bp.route('/', methods=['OPTIONS'])
+def options():
+    response = jsonify({'message': 'Options request'})
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+    response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+    return response

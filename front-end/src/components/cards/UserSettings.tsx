@@ -178,7 +178,7 @@ const UserSettings = () => {
 	};
 	return (
 		<main
-			className="flex-1 p-8"
+			className='flex-1 p-8'
 			style={{
 				backgroundImage: "url(../images/Background.jpg)",
 				backgroundSize: "cover",
@@ -186,31 +186,31 @@ const UserSettings = () => {
 				backgroundRepeat: "no-repeat",
 			}}
 		>
-			<div className="flex flex-col bg-white bg-opacity-85 p-6 rounded-lg shadow-lg w-full mx-auto">
-				<h2 className="text-2xl font-bold mb-6">User Settings</h2>
+			<div className='flex flex-col bg-white bg-opacity-85 p-6 rounded-lg shadow-lg w-full mx-auto'>
+				<h2 className='text-2xl font-bold mb-6'>User Settings</h2>
 
 				{/* User Information Form */}
 				<Form {...form}>
 					<form
-						className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"
+						className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-4'
 						onSubmit={() => {
 							form.handleSubmit(handleSubmit);
 						}}
 					>
-						<Card className="col-span-2">
+						<Card className='col-span-2'>
 							<CardHeader>
 								<CardTitle>User Information</CardTitle>
 								<CardDescription>Update your personal details</CardDescription>
 							</CardHeader>
-							<CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+							<CardContent className='grid grid-cols-1 md:grid-cols-2 gap-4'>
 								<FormField
 									control={form.control}
-									name="name"
+									name='name'
 									render={({ field }) => (
 										<FormItem>
 											<FormLabel>Name</FormLabel>
 											<FormControl>
-												<Input placeholder="Enter your name" {...field} />
+												<Input placeholder='Enter your name' {...field} />
 											</FormControl>
 											<FormDescription>
 												This is your public display name.
@@ -221,14 +221,14 @@ const UserSettings = () => {
 								/>
 								<FormField
 									control={form.control}
-									name="email"
+									name='email'
 									render={({ field }) => (
 										<FormItem>
 											<FormLabel>Email</FormLabel>
 											<FormControl>
 												<Input
-													type="email"
-													placeholder="Enter your email"
+													type='email'
+													placeholder='Enter your email'
 													{...field}
 												/>
 											</FormControl>
@@ -241,14 +241,14 @@ const UserSettings = () => {
 								/>
 								<FormField
 									control={form.control}
-									name="password"
+									name='password'
 									render={({ field }) => (
 										<FormItem>
 											<FormLabel>Password</FormLabel>
 											<FormControl>
 												<Input
-													type="password"
-													placeholder="Enter your password"
+													type='password'
+													placeholder='Enter your password'
 													{...field}
 												/>
 											</FormControl>
@@ -261,12 +261,12 @@ const UserSettings = () => {
 								/>
 								<FormField
 									control={form.control}
-									name="address"
+									name='address'
 									render={({ field }) => (
 										<FormItem>
 											<FormLabel>Address</FormLabel>
 											<FormControl>
-												<Input placeholder="Enter your address" {...field} />
+												<Input placeholder='Enter your address' {...field} />
 											</FormControl>
 											<FormDescription>
 												This is your current living address.
@@ -277,13 +277,13 @@ const UserSettings = () => {
 								/>
 								<FormField
 									control={form.control}
-									name="phone_number"
+									name='phone_number'
 									render={({ field }) => (
 										<FormItem>
 											<FormLabel>Phone Number</FormLabel>
 											<FormControl>
 												<Input
-													placeholder="Enter your phone number"
+													placeholder='Enter your phone number'
 													{...field}
 												/>
 											</FormControl>
@@ -295,15 +295,15 @@ const UserSettings = () => {
 									)}
 								/>
 							</CardContent>
-							<CardFooter className="col-span-2 flex justify-center">
-								<Button type="submit">Save Settings</Button>
+							<CardFooter className='col-span-2 flex justify-center'>
+								<Button type='submit'>Save Settings</Button>
 							</CardFooter>
 						</Card>
 					</form>
 				</Form>
 				{/* Image Upload Section (outside of the form) */}
-				<div className="flex justify-around text-center my-6">
-					<Card className="w-1/3">
+				<div className='flex justify-around text-center my-6'>
+					<Card className='w-1/3'>
 						<CardHeader>
 							<CardTitle>Avatar Upload</CardTitle>
 							<CardDescription>Update your profile picture</CardDescription>
@@ -311,7 +311,7 @@ const UserSettings = () => {
 						<CardContent>
 							<div
 								{...getRootProps()}
-								className="border border-dashed border-black p-4 text-center cursor-pointer"
+								className='border border-dashed border-black p-4 text-center cursor-pointer'
 							>
 								<input {...getInputProps()} />
 								<p>Drag and drop or click to upload your profile picture.</p>
@@ -320,7 +320,7 @@ const UserSettings = () => {
 					</Card>
 
 					{/* Avatar Preview Section */}
-					<Card className="w-1/3">
+					<Card className='w-1/3'>
 						<CardHeader>
 							<CardTitle>Avatar Preview</CardTitle>
 						</CardHeader>
@@ -330,14 +330,14 @@ const UserSettings = () => {
 									<Avatar>
 										<AvatarImage
 											src={previewUrl}
-											alt="Profile Preview"
-											className="w-[100px] h-[100px] mx-auto rounded-lg"
+											alt='Profile Preview'
+											className='w-[100px] h-[100px] mx-auto rounded-lg'
 										/>
 										<AvatarFallback>USER</AvatarFallback>
 									</Avatar>
 								</CardContent>
 								<Button
-									className="mb-3"
+									className='mb-3'
 									onClick={() => {
 										setPreviewUrl(null);
 										setImageFile(null);
@@ -352,7 +352,7 @@ const UserSettings = () => {
 
 				{/* Separate Submit Button for Image Upload */}
 				<Button
-					className="mb-6 w-1/6 mx-auto text-center"
+					className='mb-6 w-1/6 mx-auto text-center'
 					onClick={handleImageUpload}
 					disabled={!imageFile}
 				>

@@ -216,3 +216,19 @@ def get_seller_by_id(id):
         return jsonify({"error": str(e)}), 500
     finally:
         session.close()
+
+@user_bp.route('/get-seller-id/<int:user_id>', methods=['GET'])
+def get_seller_id(user_id):
+    # Query the User model
+    Session = sessionmaker(bind=engine)
+    try:
+        with Session() as session:
+                seller = session.query(Seller).filter(Seller.user_id == user_id).first()
+                if seller:
+                    return jsonify({'seller_id': seller.id})
+                else:
+                    return jsonify({'error': 'Seller not found'}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        session.close()
