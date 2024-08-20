@@ -3,6 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { FaCartPlus, FaHeart, FaStar } from "react-icons/fa";
 import { Product } from "@/lib/types";
 import { apiBaseUrl } from "@/lib/api";
+import {
+	Pagination,
+	PaginationContent,
+	PaginationEllipsis,
+	PaginationItem,
+	PaginationLink,
+	PaginationNext,
+	PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const ProductDetailPage = () => {
 	const [products, setProducts] = useState<Product[]>([]);
@@ -15,7 +24,7 @@ const ProductDetailPage = () => {
 
 	useEffect(() => {
 		fetchProducts();
-		fetchProductReviews();
+		// fetchProductReviews();
 	}, [currentPage]);
 
 	const fetchProducts = async () => {
@@ -41,20 +50,20 @@ const ProductDetailPage = () => {
 		}
 	};
 
-	const fetchProductReviews = async () => {
-		// Assuming there's an endpoint for fetching reviews for a specific product
-		try {
-			const response = await fetch(`/reviews`);
-			if (response.ok) {
-				const data = await response.json();
-				setProductReviews(data);
-			} else {
-				console.error("Failed to fetch product reviews");
-			}
-		} catch (error) {
-			console.error("Error fetching product reviews:", error);
-		}
-	};
+	// const fetchProductReviews = async () => {
+	// 	// Assuming there's an endpoint for fetching reviews for a specific product
+	// 	try {
+	// 		const response = await fetch(`/reviews`);
+	// 		if (response.ok) {
+	// 			const data = await response.json();
+	// 			setProductReviews(data);
+	// 		} else {
+	// 			console.error("Failed to fetch product reviews");
+	// 		}
+	// 	} catch (error) {
+	// 		console.error("Error fetching product reviews:", error);
+	// 	}
+	// };
 
 	const handleQuantityChange = (productId: number, change: number) => {
 		setProducts((prevProducts) =>
@@ -87,72 +96,69 @@ const ProductDetailPage = () => {
 
 	return (
 		<div>
-			<div className='container mx-auto px-4 py-8'>
+			<div className="container mx-auto px-4 py-8">
 				<button
-					className='mb-4 px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600'
+					className="mb-4 px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
 					onClick={() => navigate(-1)}
 				>
 					Back
 				</button>
-				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
 					{products.map((product) => (
-						<div key={product.id} className='bg-white p-4 rounded-lg shadow-md'>
+						<div key={product.id} className="bg-white p-4 rounded-lg shadow-md">
 							<img
 								src={`${apiBaseUrl}/uploads/products/${product?.product_picture_url}`}
 								alt={product.name}
-								className='w-full h-48 object-cover rounded-lg mb-4'
+								className="w-full h-48 object-cover rounded-lg mb-4"
 							/>
-							<h2 className='text-xl font-bold mb-2'>{product.name}</h2>
-							<p className='text-lg font-semibold mb-2'>
+							<h2 className="text-xl font-bold mb-2">{product.name}</h2>
+							<p className="text-lg font-semibold mb-2">
 								{rupiahFormatter.format(product.price)} / {product.unit}
 							</p>
-							<p className='mb-2'>Rating: 4.5</p>
-							<div className='flex items-center space-x-4 mt-4'>
-								<button
-									onClick={() => handleQuantityChange(product.id, -1)}
-									className='px-4 py-2 bg-gray-300 text-black rounded-lg shadow-md hover:bg-gray-400'
-								>
-									-
-								</button>
-								<input
-									type='number'
-									value={product.quantity}
-									readOnly
-									className='w-16 text-center border border-gray-300 rounded-lg'
-								/>
-								<button
-									onClick={() => handleQuantityChange(product.id, 1)}
-									className='px-4 py-2 bg-gray-300 text-black rounded-lg shadow-md hover:bg-gray-400'
-								>
-									+
-								</button>
-							</div>
-							<p className='text-xl font-semibold mb-4 mt-4'>
-								Harga Total:{" "}
-								{rupiahFormatter.format(product.price * product.quantity)}
-							</p>
+							<p className="mb-2">Rating: 4.5</p>
 							<button
-								onClick={handleOpenCheckoutDialog}
-								className='w-full px-4 py-2 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 flex items-center justify-center'
-							>
-								Beli Langsung
-							</button>
-							<button
-								className='w-full px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 flex items-center justify-center mt-2'
+								className="w-1/3 mx-auto px-4 py-2 bg-gray-500 text-white rounded-lg shadow-md hover:bg-gray-600 flex items-center justify-center mt-2"
 								onClick={() => {}}
 							>
-								<FaCartPlus className='text-white mr-2' />
-								Keranjang
-							</button>
-							<button
-								className='w-full px-4 py-2 bg-gray-500 text-white rounded-lg shadow-md hover:bg-gray-600 flex items-center justify-center mt-2'
-								onClick={() => {}}
-							>
-								<FaHeart className='text-white mr-2' />
+								<FaHeart className="text-white mr-2" />
 								Favorit
 							</button>
 						</div>
 					))}
+				</div>
+				<div className="flex justify-center mt-8 text-2xl">
+					<Pagination>
+						<PaginationContent>
+							<PaginationItem>
+								<PaginationPrevious
+									href="#"
+									onClick={() =>
+										setCurrentPage((prev) => Math.max(prev - 1, 1))
+									}
+								/>
+							</PaginationItem>
+
+							{Array.from({ length: totalPages }, (_, index) => (
+								<PaginationItem key={index}>
+									<PaginationLink
+										href="#"
+										onClick={() => setCurrentPage(index + 1)}
+									>
+										{index + 1}
+									</PaginationLink>
+								</PaginationItem>
+							))}
+
+							<PaginationItem>
+								<PaginationNext
+									href="#"
+									onClick={() =>
+										setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+									}
+								/>
+							</PaginationItem>
+						</PaginationContent>
+					</Pagination>
 				</div>
 				{/* <div className='mt-8'>
 					<h3 className='text-2xl font-semibold mb-4'>Review Pembeli</h3>

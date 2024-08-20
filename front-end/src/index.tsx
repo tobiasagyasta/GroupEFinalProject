@@ -18,7 +18,7 @@ import BundlingPackagePage from "./pages/ProductPageBun";
 import { Toaster } from "./components/ui/toaster";
 import Footer from "./components/cards/Footer";
 import ProductPageTest from "./pages/ProductPageTest";
-import ProductDetailPage from "./pages/ProductDetailPage";
+import ProductDetailPage from "./pages/ProductPage";
 
 import ReviewDetailPage from "./pages/ReviewDetailPage";
 import Layout from "./components/HarvestHub/Layout";
@@ -30,18 +30,18 @@ root.render(
 	<React.StrictMode>
 		<Router>
 			<Routes>
-				<Route path='/' element={<Layout />}>
+				<Route path="/" element={<Layout />}>
 					<Route index element={<AgricultureEcommerce />} />
-					<Route path='/signin' element={<SignIn />} />
-					<Route path='/signup' element={<SignUp />} />
-					<Route path='/companyprofile' element={<CompanyProfile />} />
-					<Route path='/productpage1' element={<VegetableProductPage />} />
-					<Route path='/productpage2' element={<FruitProductPage />} />
-					<Route path='/productpage3' element={<BundlingPackagePage />} />
-					<Route path='/sellerpage' element={<Dashboard />} />
-					<Route path='/buyerpage' element={<BuyerPage />} />
-					<Route path='/product/' element={<ProductDetailPage />} />
-					<Route path='/review/:id' element={<ReviewDetailPage />} />
+					<Route path="/signin" element={<SignIn />} />
+					<Route path="/signup" element={<SignUp />} />
+					<Route path="/companyprofile" element={<CompanyProfile />} />
+					<Route path="/productpage1" element={<VegetableProductPage />} />
+					<Route path="/productpage2" element={<FruitProductPage />} />
+					<Route path="/productpage3" element={<BundlingPackagePage />} />
+					<Route path="/sellerpage" element={<Dashboard />} />
+					<Route path="/buyerpage" element={<BuyerPage />} />
+					<Route path="/product/" element={<ProductDetailPage />} />
+					<Route path="/review/:id" element={<ReviewDetailPage />} />
 				</Route>
 			</Routes>
 		</Router>
