@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from sqlalchemy.orm import sessionmaker
 from models.product import Product
 from connectors.sql_connector import engine
+from models.seller import Seller
 
 
 product_bp = Blueprint('product_bp', __name__, url_prefix='/product')
@@ -104,3 +105,51 @@ def delete_product(product_id):
             return jsonify({'message': 'Product deleted'}), 204
         else:
             return jsonify({'message': 'Product not found'}), 404
+        
+@product_bp.route('/by_user/<int:user_id>', methods=['GET'])
+def get_products_by_user(user_id):
+    """Retrieve all products by user ID by first getting the seller ID."""
+    Session = sessionmaker(bind=engine)
+    with Session() as session:
+        # Retrieve the seller ID for the given user ID
+        seller = session.query(Seller).filter(Seller.user_id == user_id).first()
+        if not seller:
+            return jsonify({'message': 'Seller not found for the provided user ID'}), 404
+        
+        seller_id = seller.id
+        
+        # Get pagination parameters from query string, default to page 1 and 10 items per page
+        page = request.args.get('page', default=1, type=int)
+        per_page = request.args.get('per_page', default=10, type=int)
+        
+        # Get sort order from query string, default to descending ('desc')
+        sort_order = request.args.get('sort_order', default='desc', type=str).lower()
+        
+        # Calculate offset
+        offset = (page - 1) * per_page
+        
+        # Build query to filter products by seller ID
+        query = session.query(Product).filter(Product.seller_id == seller_id)
+        
+        # Add sorting by price
+        if sort_order == 'desc':
+            query = query.order_by(Product.price.desc())
+        else:
+            query = query.order_by(Product.price.asc())
+        
+        # Execute query with pagination
+        products = query.offset(offset).limit(per_page).all()
+        
+        # Get total count of products for pagination metadata
+        total_products = session.query(Product).filter(Product.seller_id == seller_id).count()
+        
+        # Prepare response data
+        response = {
+            'total': total_products,
+            'page': page,
+            'per_page': per_page,
+            'sort_order': sort_order,
+            'products': [product.to_dict() for product in products]
+        }
+        
+        return jsonify(response), 200

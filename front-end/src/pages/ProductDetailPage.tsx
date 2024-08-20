@@ -7,6 +7,7 @@ function ProductDetailPage() {
 	const { id } = useParams(); // Get the product ID from the URL
 	const [product, setProduct] = useState<Product | null>(null);
 	const [seller, setSeller] = useState<any>(null); // Define a state for seller information
+	const [selectedImage, setSelectedImage] = useState<string>("");
 
 	useEffect(() => {
 		async function fetchProduct() {
@@ -22,7 +23,11 @@ function ProductDetailPage() {
 					throw new Error("Network response was not ok");
 				}
 				const data = await response.json();
+				console.log(data);
 				setProduct(data);
+				setSelectedImage(
+					`${apiBaseUrl}/uploads/products/${data.product_picture_url}`
+				);
 
 				// Fetch seller information
 				const sellerResponse = await fetch(
@@ -53,19 +58,54 @@ function ProductDetailPage() {
 		<div className="min-h-screen p-8">
 			<div className="container mx-auto">
 				<div className="flex flex-col md:flex-row">
-					<img
-						src={`${apiBaseUrl}/uploads/products/${product.product_picture_url}`}
-						alt={product.name}
-						className="w-full md:w-1/2 h-64 object-cover mb-4 md:mb-0"
-					/>
+					<div className="flex flex-col lg:flex-row">
+						<div className="flex-2 lg:mr-8">
+							<img
+								src={selectedImage}
+								alt={product.name}
+								className="w-full max-w-7xl mx-auto mb-4 rounded-lg shadow-md"
+							/>
+							<div className="flex space-x-2 mt-4">
+								<img
+									src={`${apiBaseUrl}/uploads/products/${product.product_picture_url}`}
+									alt={`${product.name}`}
+									onClick={() =>
+										setSelectedImage(
+											`${apiBaseUrl}/uploads/products/${product.product_picture_url}`
+										)
+									}
+									className="w-16 h-16 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-75"
+								/>
+								<img
+									src={`${apiBaseUrl}/uploads/products/${product.product_picture_url}`}
+									alt={`${product.name}`}
+									onClick={() =>
+										setSelectedImage(
+											`${apiBaseUrl}/uploads/products/${product.product_picture_url}`
+										)
+									}
+									className="w-16 h-16 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-75"
+								/>
+								<img
+									src={`${apiBaseUrl}/uploads/products/${product.product_picture_url}`}
+									alt={`${product.name}`}
+									onClick={() =>
+										setSelectedImage(
+											`${apiBaseUrl}/uploads/products/${product.product_picture_url}`
+										)
+									}
+									className="w-16 h-16 object-cover rounded-lg shadow-md cursor-pointer hover:opacity-75"
+								/>
+							</div>
+						</div>
+					</div>
 					<div className="md:ml-8 flex flex-col">
 						<h1 className="text-3xl font-bold mb-4">{product.name}</h1>
 						<p className="text-lg mb-4">
-							Price: Rp {product.price.toLocaleString()}
+							Price: Rp {product.price.toLocaleString()} / {product.unit}
 						</p>
 						<p className="text-gray-700 mb-4">{product.description}</p>
 						<p className="text-gray-500">Category: {product.category}</p>
-						<p className="text-gray-500">Stock: {product.quantity}</p>
 					</div>
 				</div>
 				{seller && (

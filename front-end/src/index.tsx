@@ -35,8 +35,14 @@ root.render(
 					<Route path="/signin" element={<SignIn />} />
 					<Route path="/signup" element={<SignUp />} />
 					<Route path="/companyprofile" element={<CompanyProfile />} />
-					<Route path="/productpage1" element={<VegetableProductPage />} />
-					<Route path="/productpage2" element={<FruitProductPage />} />
+					<Route
+						path="/product/sayuran"
+						element={<ProductPage category="Sayuran" />}
+					/>
+					<Route
+						path="/product/buah"
+						element={<ProductPage category="Buah" />}
+					/>
 					<Route path="/productpage3" element={<BundlingPackagePage />} />
 					<Route path="/sellerpage" element={<Dashboard />} />
 					<Route path="/buyerpage" element={<BuyerPage />} />

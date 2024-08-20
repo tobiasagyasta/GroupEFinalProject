@@ -18,8 +18,6 @@ def upload_file():
         file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
         
-        # If you want to return the URL of the uploaded image
-        image_url = f"/users/{filename}"
         
         return jsonify({'message': 'File uploaded successfully', 'filename': filename}), 200
 
