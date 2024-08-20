@@ -183,3 +183,36 @@ def update_user():
         return jsonify({"error": str(e)}), 500
     finally:
         session.close()
+        
+@user_bp.route("/sellers/<int:id>/", methods=['GET'])
+def get_seller_by_id(id):
+    Session = sessionmaker(bind=engine)
+    try:
+        with Session() as session:
+            # Query the Seller by ID and load related User details
+            seller = session.query(Seller).options(joinedload(Seller.user)).filter(Seller.id == id).one_or_none()
+            
+            if seller is None:
+                return jsonify({"error": "Seller not found"}), 404
+
+            # Prepare the response
+            response = {
+                "id": seller.id,
+                "farm_name": seller.farm_name,
+                "farm_location": seller.farm_location,
+                "bio": seller.bio,
+                "user": {
+                    "id": seller.user.id,
+                    "name": seller.user.name,
+                    "email": seller.user.email,
+                    "phone_number": seller.user.phone_number,
+                    "profile_picture_url": seller.user.profile_picture_url
+                }
+            }
+            
+            return jsonify(response), 200
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        session.close()

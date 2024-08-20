@@ -17,8 +17,8 @@ import BundlingPackagePage from "./pages/ProductPageBun";
 
 import { Toaster } from "./components/ui/toaster";
 import Footer from "./components/cards/Footer";
-import ProductPageTest from "./pages/ProductPageTest";
-import ProductDetailPage from "./pages/ProductPage";
+import ProductPage from "./pages/ProductPage";
+import ProductDetailPage from "./pages/ProductDetailPage";
 
 import ReviewDetailPage from "./pages/ReviewDetailPage";
 import Layout from "./components/HarvestHub/Layout";
@@ -40,7 +40,8 @@ root.render(
 					<Route path="/productpage3" element={<BundlingPackagePage />} />
 					<Route path="/sellerpage" element={<Dashboard />} />
 					<Route path="/buyerpage" element={<BuyerPage />} />
-					<Route path="/product/" element={<ProductDetailPage />} />
+					<Route path="/product/" element={<ProductPage />} />
+					<Route path="/product/:id" element={<ProductDetailPage />} />
 					<Route path="/review/:id" element={<ReviewDetailPage />} />
 				</Route>
 			</Routes>
