@@ -43,7 +43,7 @@ root.render(
 						path='/product/buah'
 						element={<ProductPage category='Buah' />}
 					/>
-					<Route
+					{/* <Route
 						path='/productpage3'
 						element={
 							<ShoppingCart
@@ -52,7 +52,7 @@ root.render(
 								activeTab='cart'
 							/>
 						}
-					/>
+					/> */}
 					<Route path='/sellerpage' element={<Dashboard />} />
 					<Route path='/buyerpage' element={<BuyerPage />} />
 					<Route path='/product/' element={<ProductPage />} />

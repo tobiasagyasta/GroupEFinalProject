@@ -77,12 +77,12 @@ export default function BuyerPage() {
 
 	return (
 		<div className='min-h-screen flex flex-col'>
-			{/* Cart Pop-up */}
+			{/* Cart Pop-up
 			<ShoppingCart
 				isOpen={isCartOpen}
 				toggleCart={toggleCart}
 				activeTab={activeTab}
-			/>
+			/> */}
 
 			{/* Main content */}
 			<div className='flex flex-1'>

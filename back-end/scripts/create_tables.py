@@ -18,6 +18,7 @@ from models.product import Product
 from models.review import Review
 from models.cart import Cart
 from models.cart_item import CartItem
+from models.favorite import Favorite
 from sqlalchemy.orm import sessionmaker
 from connectors.sql_connector import engine
 

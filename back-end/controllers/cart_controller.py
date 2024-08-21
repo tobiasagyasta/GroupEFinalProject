@@ -31,7 +31,7 @@ def create_cart():
 
 @cart_bp.route('/<int:cart_id>/add_item', methods=['POST'])
 def add_item_to_cart(cart_id):
-    """Add an item to a cart."""
+    """Add an item to a cart or update the quantity if it already exists."""
     product_id = request.json.get('product_id')
     quantity = request.json.get('quantity', 1)
 
@@ -47,16 +47,26 @@ def add_item_to_cart(cart_id):
         product = session.query(Product).get(product_id)
         if not product:
             return jsonify({'message': 'Product not found'}), 404
-        
-        cart_item = CartItem(
-            cart_id=cart_id,
-            product_id=product_id,
-            quantity=quantity
-        )
-        session.add(cart_item)
-        session.commit()
-        
-        return jsonify({'message': 'Item added to cart', 'cart_item_id': cart_item.id}), 201
+
+        # Check if the item already exists in the cart
+        existing_cart_item = session.query(CartItem).filter_by(cart_id=cart_id, product_id=product_id).first()
+
+        if existing_cart_item:
+            # Update the quantity if the item exists
+            existing_cart_item.quantity += quantity
+            session.commit()
+            return jsonify({'message': 'Item quantity updated', 'product_id': existing_cart_item.id}), 200
+        else:
+            # Create a new cart item if it doesn't exist
+            cart_item = CartItem(
+                cart_id=cart_id,
+                product_id=product_id,
+                quantity=quantity
+            )
+            session.add(cart_item)
+            session.commit()
+            return jsonify({'message': 'Item added to cart', 'product_id': cart_item.id}), 201
+
 
 @cart_bp.route('/<int:cart_id>', methods=['GET'])
 def get_cart(cart_id):
@@ -71,7 +81,7 @@ def get_cart(cart_id):
         
         items = [
             {
-                'cart_item_id': item.id,
+                'product_id': item.id,
                 'product_id': item.product_id,
                 'quantity': item.quantity
             }
@@ -86,13 +96,14 @@ def get_cart(cart_id):
             'items': items
         }), 200
 
-@cart_bp.route('/<int:cart_id>/remove_item/<int:cart_item_id>', methods=['DELETE'])
-def remove_item_from_cart(cart_id, cart_item_id):
+@cart_bp.route('/<int:cart_id>/remove_item/<int:product_id>', methods=['DELETE'])
+def remove_item_from_cart(cart_id, product_id):
     """Remove an item from the cart."""
     Session = sessionmaker(bind=engine)
     with Session() as session:
-        cart_item = session.query(CartItem).get(cart_item_id)
-        if not cart_item or cart_item.cart_id != cart_id:
+        # Query to find the CartItem with the given cart_id and product_id
+        cart_item = session.query(CartItem).filter_by(cart_id=cart_id, product_id=product_id).first()
+        if not cart_item:
             return jsonify({'message': 'Cart item not found or does not belong to this cart'}), 404
         
         session.delete(cart_item)

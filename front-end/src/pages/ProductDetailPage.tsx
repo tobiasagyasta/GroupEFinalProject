@@ -91,49 +91,6 @@ function ProductDetailPage() {
 		fetchProduct();
 	}, [id]);
 
-	useEffect(() => {
-		const fetchOrCreateCart = async () => {
-			if (buyerId) {
-				try {
-					// Check if the user already has a cart
-					let cartResponse = await fetch(
-						`${apiBaseUrl}/cart/buyer/${buyerId}`,
-						{
-							method: "GET",
-							headers: {
-								"Content-Type": "application/json",
-							},
-							credentials: "include",
-						}
-					);
-					let cartData = await cartResponse.json();
-					// If no cart exists, create one
-					if (!cartData || !cartData.id) {
-						const createCartResponse = await fetch(
-							`${apiBaseUrl}/cart/create`,
-							{
-								method: "POST",
-								headers: {
-									"Content-Type": "application/json",
-								},
-								credentials: "include",
-							}
-						);
-						if (!createCartResponse.ok) {
-							throw new Error("Failed to create cart");
-						}
-						cartData = await createCartResponse.json();
-					}
-					setCartId(cartData.id);
-				} catch (error) {
-					console.error("Error fetching or creating cart:", error);
-				}
-			}
-		};
-
-		fetchOrCreateCart();
-	}, [buyerId]);
-
 	const handleQuantityChange = (delta: number) => {
 		setQuantity((prevQuantity) => Math.max(1, prevQuantity + delta));
 	};
@@ -144,33 +101,65 @@ function ProductDetailPage() {
 			return;
 		}
 
-		if (!cartId) {
-			console.error("Cart ID is not available.");
-			return;
-		}
-
-		try {
-			// Add item to the cart
-			const addItemResponse = await fetch(
-				`${apiBaseUrl}/cart/${cartId}/items`,
-				{
-					method: "POST",
+		if (buyerId) {
+			try {
+				// Check if the user already has a cart
+				let cartResponse = await fetch(`${apiBaseUrl}/cart/buyer/${buyerId}`, {
+					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({
-						product_id: id,
-						quantity,
-					}),
 					credentials: "include",
+				});
+				let cartData = await cartResponse.json();
+				console.log("Existing cart data:", cartData);
+
+				// If no cart exists, create one
+				if (!cartData || !cartData.cart_id) {
+					const createCartResponse = await fetch(`${apiBaseUrl}/cart/create`, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						credentials: "include",
+						body: JSON.stringify({
+							buyer_id: buyerId,
+						}),
+					});
+					if (!createCartResponse.ok) {
+						throw new Error("Failed to create cart");
+					}
+					cartData = await createCartResponse.json();
+					console.log("Created new cart data:", cartData);
+					setCartId(cartData.cart_id);
 				}
-			);
-			if (!addItemResponse.ok) {
-				throw new Error("Failed to add item to cart");
+
+				// Ensure cartData is defined and has an ID before adding the item
+				if (cartData && cartData.cart_id) {
+					const addItemResponse = await fetch(
+						`${apiBaseUrl}/cart/${cartData.cart_id}/add_item`,
+						{
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify({
+								product_id: id,
+								quantity,
+							}),
+							credentials: "include",
+						}
+					);
+					if (!addItemResponse.ok) {
+						throw new Error("Failed to add item to cart");
+					}
+					console.log("Item added to cart");
+				} else {
+					console.error("cartData is invalid or missing ID");
+				}
+			} catch (error) {
+				console.error("Error fetching or creating cart:", error);
 			}
-			console.log("Item added to cart");
-		} catch (error) {
-			console.error("Error managing cart:", error);
 		}
 	};
 

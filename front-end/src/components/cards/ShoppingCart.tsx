@@ -1,110 +1,68 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaShoppingCart, FaTrashAlt, FaHeart, FaRegEdit } from "react-icons/fa";
+import { FaShoppingCart, FaTrashAlt } from "react-icons/fa";
+import { apiBaseUrl } from "@/lib/api";
 
-interface Item {
-	id: number;
-	name: string;
-	image: string;
-	price: number;
-	originalPrice: number;
-	discount: number;
+interface CartItem {
+	cart_item_id: number;
+	product_id: number;
 	quantity: number;
-	store: string;
-	isSelected: boolean;
+}
+
+interface CartData {
+	cart_id: number;
+	buyer_id: number;
+	created_at: string;
+	updated_at: string;
+	items: CartItem[];
+}
+
+interface Product {
+	id: number;
+	seller_id: number;
+	name: string;
+	category: string;
+	description: string;
+	price: number;
+	quantity: number;
+	unit: string;
+	status: string;
+	product_picture_url: string;
+	created_at: string;
+	time_updated: string | null;
 }
 
 interface ShoppingCartProps {
 	isOpen: boolean;
 	toggleCart: () => void;
 	activeTab: string;
+	cartData: CartData | null;
 }
 
 const ShoppingCart: React.FC<ShoppingCartProps> = ({
 	isOpen,
 	toggleCart,
 	activeTab,
+	cartData,
 }) => {
-	const [items, setItems] = useState<Item[]>([
-		{
-			id: 1,
-			name: "Wortel",
-			image: "/images/wortel.jpg",
-			price: 61500,
-			originalPrice: 79000,
-			discount: 23,
-			quantity: 1,
-			store: "Maumere Store",
-			isSelected: false,
-		},
-		{
-			id: 2,
-			name: "Bayam Segar",
-			image: "/images/bayam.jpg",
-			price: 62500,
-			originalPrice: 89900,
-			discount: 17,
-			quantity: 1,
-			store: "Laku-laku Store",
-			isSelected: false,
-		},
-		{
-			id: 3,
-			name: "Tomat",
-			image: "/images/tomat.jpg",
-			price: 65890,
-			originalPrice: 140000,
-			discount: 53,
-			quantity: 1,
-			store: "Segar Store",
-			isSelected: false,
-		},
-		{
-			id: 4,
-			name: "Anggur",
-			image: "/images/anggur.jpg",
-			price: 75890,
-			originalPrice: 180000,
-			discount: 53,
-			quantity: 1,
-			store: "Medan Store",
-			isSelected: false,
-		},
-	]);
-
-	const [selectAll, setSelectAll] = useState(false);
+	const [items, setItems] = useState<Product[]>([]);
 	const cartRef = useRef<HTMLDivElement>(null);
 
-	const handleQuantityChange = (id: number, delta: number) => {
-		setItems((prevItems) =>
-			prevItems.map((item) =>
-				item.id === id
-					? { ...item, quantity: Math.max(1, item.quantity + delta) }
-					: item
-			)
-		);
-	};
+	useEffect(() => {
+		if (cartData) {
+			const fetchProductData = async () => {
+				const productRequests = cartData.items.map((item) =>
+					fetch(`${apiBaseUrl}/product/${item.product_id}`)
+						.then((response) => response.json())
+						.then((data) => ({ ...data, quantity: item.quantity }))
+				);
 
-	const calculateTotalPrice = () => {
-		return items
-			.filter((item) => item.isSelected)
-			.reduce((total, item) => total + item.price * item.quantity, 0);
-	};
+				const products = await Promise.all(productRequests);
+				setItems(products);
+			};
 
-	const handleSelectAllChange = () => {
-		const newSelectAll = !selectAll;
-		setSelectAll(newSelectAll);
-		setItems((prevItems) =>
-			prevItems.map((item) => ({ ...item, isSelected: newSelectAll }))
-		);
-	};
-
-	const handleItemSelectChange = (id: number) => {
-		setItems((prevItems) =>
-			prevItems.map((item) =>
-				item.id === id ? { ...item, isSelected: !item.isSelected } : item
-			)
-		);
-	};
+			fetchProductData();
+		}
+	}, [cartData]);
 
 	useEffect(() => {
 		if (activeTab !== "cart" && isOpen) {
@@ -125,6 +83,52 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
 		};
 	}, [toggleCart]);
 
+	const handleQuantityChange = (productId: number, change: number) => {
+		setItems((prevItems) =>
+			prevItems.map((item) =>
+				item.id === productId
+					? { ...item, quantity: Math.max(1, item.quantity + change) } // Ensure quantity is at least 1
+					: item
+			)
+		);
+	};
+
+	const handleRemoveItem = async (productId: number) => {
+		if (cartData) {
+			try {
+				await fetch(
+					`${apiBaseUrl}/cart/${cartData.cart_id}/remove_item/${productId}`,
+					{
+						method: "DELETE",
+					}
+				);
+
+				setItems((prevItems) =>
+					prevItems.filter((item) => item.id !== productId)
+				);
+			} catch (error) {
+				console.error("Error removing item from cart:", error);
+			}
+		}
+	};
+
+	const handleRemoveAllItems = async () => {
+		if (cartData) {
+			try {
+				await fetch(`${apiBaseUrl}/cart/${cartData.cart_id}`, {
+					method: "DELETE",
+				});
+
+				// Clear items from state
+				setItems([]);
+				// Optionally, you can call toggleCart() or other actions after clearing the cart
+				toggleCart();
+			} catch (error) {
+				console.error("Error removing all items from cart:", error);
+			}
+		}
+	};
+
 	if (!isOpen) return null;
 
 	return (
@@ -139,14 +143,14 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
 				</button>
 			</div>
 			<div className='p-4'>
+				{/* Button to Remove All Items */}
 				<div className='flex items-center space-x-2 mb-4'>
-					<input
-						type='checkbox'
-						className='form-checkbox h-4 w-4 text-green-600'
-						checked={selectAll}
-						onChange={handleSelectAllChange}
-					/>
-					<label className='text-sm'>Pilih Semua</label>
+					<button
+						onClick={handleRemoveAllItems}
+						className='p-2 bg-red-600 text-white rounded-md hover:bg-red-700'
+					>
+						Clear Cart
+					</button>
 				</div>
 				<ul className='space-y-4'>
 					{items.map((item) => (
@@ -154,21 +158,20 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
 							key={item.id}
 							className='flex items-start space-x-4 border-b pb-4'
 						>
-							<input
-								type='checkbox'
-								className='form-checkbox h-4 w-4 text-green-600'
-								checked={item.isSelected}
-								onChange={() => handleItemSelectChange(item.id)}
-							/>
 							<div className='flex items-center space-x-4 w-full'>
 								<img
-									src={item.image}
+									src={`/images/${item.product_picture_url}`}
 									alt={item.name}
 									className='w-16 h-16 object-cover rounded-md'
 								/>
 								<div className='flex-grow'>
 									<h3 className='text-sm font-medium'>{item.name}</h3>
-									<p className='text-xs text-gray-500'>Toko: {item.store}</p>
+									<p className='text-xs text-gray-500'>
+										Category: {item.category}
+									</p>
+									<p className='text-xs text-gray-500'>
+										Store: {item.seller_id}
+									</p>
 									<div className='flex items-center space-x-2 mt-2'>
 										<button
 											onClick={() => handleQuantityChange(item.id, -1)}
@@ -189,20 +192,14 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
 									<p className='text-sm font-semibold text-red-600'>
 										Rp {item.price.toLocaleString()}
 									</p>
-									<p className='text-xs line-through text-gray-400'>
-										Rp {item.originalPrice.toLocaleString()}
-									</p>
 								</div>
 							</div>
 							<div className='flex flex-col items-center space-y-2'>
-								<button className='text-gray-500 hover:text-red-600'>
+								<button
+									onClick={() => handleRemoveItem(item.id)}
+									className='text-gray-500 hover:text-red-600'
+								>
 									<FaTrashAlt />
-								</button>
-								<button className='text-gray-500 hover:text-green-600'>
-									<FaHeart />
-								</button>
-								<button className='text-gray-500 hover:text-green-600'>
-									<FaRegEdit />
 								</button>
 							</div>
 						</li>
@@ -210,14 +207,17 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
 				</ul>
 				<div className='mt-4'>
 					<p className='text-right text-lg font-semibold'>
-						Total: Rp {calculateTotalPrice().toLocaleString()}
+						Total: Rp{" "}
+						{items
+							.reduce((total, item) => total + item.price * item.quantity, 0)
+							.toLocaleString()}
 					</p>
 				</div>
 				<button className='mt-4 w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-800'>
-					Beli
+					Checkout
 				</button>
 				<p className='mt-2 text-center text-green-600 cursor-pointer hover:underline'>
-					Lihat Produk yang Lain
+					View More Products
 				</p>
 			</div>
 		</div>

@@ -1,6 +1,7 @@
 from models.base import Base
 from models.buyer import Buyer
 from models.seller import Seller
+from models.favorite import Favorite
 from sqlalchemy import Column, Integer, VARCHAR, Enum, DateTime
 from sqlalchemy.orm import  relationship
 from sqlalchemy.sql import func
@@ -29,6 +30,7 @@ class User(Base, UserMixin):
 
     sellers = relationship('Seller', back_populates='user', uselist=False, cascade='all, delete-orphan')
     buyers = relationship('Buyer', back_populates='user', uselist=False, cascade='all, delete-orphan')
+    favorites = relationship("Favorite", back_populates="user", uselist=False, cascade='all, delete-orphan')
 
 
     def set_password(self, password):
