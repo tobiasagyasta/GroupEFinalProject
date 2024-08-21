@@ -181,3 +181,40 @@ def options():
     response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
     return response
+
+@product_bp.route('/<int:product_id>/seller', methods=['GET'])
+def get_seller_info_by_product(product_id):
+    """Get seller info by product ID."""
+    Session = sessionmaker(bind=engine)
+    with Session() as session:
+        # Query the product by ID
+        product = session.query(Product).get(product_id)
+        
+        if not product:
+            return jsonify({'message': 'Product not found'}), 404
+        
+        # Get the associated seller
+        seller = product.seller
+        
+        if not seller:
+            return jsonify({'message': 'Seller not found for this product'}), 404
+        
+        # Get the associated user
+        user = seller.user
+        
+        if not user:
+            return jsonify({'message': 'User not found for this seller'}), 404
+        
+        # Prepare the response data
+        seller_info = {
+            'seller_id': seller.id,
+            'farm_name': seller.farm_name,
+            'farm_location': seller.farm_location,
+            'bio': seller.bio,
+            'user_name': user.name,
+            'user_email': user.email,
+            'user_phone': user.phone_number,
+            'profile_picture_url': user.profile_picture_url
+        }
+        
+        return jsonify(seller_info), 200

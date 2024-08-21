@@ -9,10 +9,20 @@ review_bp = Blueprint('review_bp', __name__, url_prefix='/review')
 def create_review():
     data = request.get_json()
     Session = sessionmaker(bind=engine)
+    
     with Session() as session:
         # Ensure required fields are present
         if not all(key in data for key in ('product_id', 'buyer_id', 'rating', 'comment')):
             return jsonify({'message': 'Missing required fields'}), 400
+
+        # Check if a review by the same buyer for the same product already exists
+        existing_review = session.query(Review).filter_by(
+            product_id=data['product_id'],
+            buyer_id=data['buyer_id']
+        ).first()
+        
+        if existing_review:
+            return jsonify({'message': 'You have already reviewed this product'}), 400
 
         new_review = Review(
             product_id=data['product_id'],

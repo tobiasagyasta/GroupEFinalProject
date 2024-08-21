@@ -11,8 +11,7 @@ import BuyerPage from "./pages/BuyerPage";
 
 import SignUp from "./pages/SignUp";
 import CompanyProfile from "./pages/CompanyProfile";
-import VegetableProductPage from "./pages/ProductPageVeg";
-import FruitProductPage from "./pages/ProductPageFru";
+
 import BundlingPackagePage from "./pages/ProductPageBun";
 
 import { Toaster } from "./components/ui/toaster";
@@ -30,25 +29,25 @@ root.render(
 	<React.StrictMode>
 		<Router>
 			<Routes>
-				<Route path="/" element={<Layout />}>
+				<Route path='/' element={<Layout />}>
 					<Route index element={<AgricultureEcommerce />} />
-					<Route path="/signin" element={<SignIn />} />
-					<Route path="/signup" element={<SignUp />} />
-					<Route path="/companyprofile" element={<CompanyProfile />} />
+					<Route path='/signin' element={<SignIn />} />
+					<Route path='/signup' element={<SignUp />} />
+					<Route path='/companyprofile' element={<CompanyProfile />} />
 					<Route
-						path="/product/sayuran"
-						element={<ProductPage category="Sayuran" />}
+						path='/product/sayuran'
+						element={<ProductPage category='Sayuran' />}
 					/>
 					<Route
-						path="/product/buah"
-						element={<ProductPage category="Buah" />}
+						path='/product/buah'
+						element={<ProductPage category='Buah' />}
 					/>
-					<Route path="/productpage3" element={<BundlingPackagePage />} />
-					<Route path="/sellerpage" element={<Dashboard />} />
-					<Route path="/buyerpage" element={<BuyerPage />} />
-					<Route path="/product/" element={<ProductPage />} />
-					<Route path="/product/:id" element={<ProductDetailPage />} />
-					<Route path="/review/:id" element={<ReviewDetailPage />} />
+					<Route path='/productpage3' element={<BundlingPackagePage />} />
+					<Route path='/sellerpage' element={<Dashboard />} />
+					<Route path='/buyerpage' element={<BuyerPage />} />
+					<Route path='/product/' element={<ProductPage />} />
+					<Route path='/product/:id' element={<ProductDetailPage />} />
+					<Route path='/review/:id' element={<ReviewDetailPage />} />
 				</Route>
 			</Routes>
 		</Router>
