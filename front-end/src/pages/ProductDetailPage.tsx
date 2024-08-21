@@ -13,11 +13,28 @@ function ProductDetailPage() {
 	const [selectedImage, setSelectedImage] = useState<string>("");
 	const [user, setUser] = useState<User | null>(null);
 	const [reviews, setReviews] = useState<any[]>([]); // State for reviews
+	const [quantity, setQuantity] = useState<number>(1); // State for product quantity
+	const [buyerId, setBuyerId] = useState<number | null>(null);
+	const [cartId, setCartId] = useState<number | null>(null); // State for cart ID
 
 	useEffect(() => {
 		const fetchUser = async () => {
 			const currentUser = await fetchCurrentUser();
 			setUser(currentUser);
+			// Fetch buyer id
+			if (currentUser && currentUser.role === "buyer") {
+				// Fetch the buyer ID
+				const response = await fetch(
+					`${apiBaseUrl}/users/get-buyer-id/${currentUser.id}`
+				);
+				const data = await response.json();
+
+				if (response.ok) {
+					setBuyerId(data.buyer_id);
+				} else {
+					console.error("Failed to fetch buyer ID:", data.error);
+				}
+			}
 		};
 		fetchUser();
 	}, []);
@@ -74,6 +91,94 @@ function ProductDetailPage() {
 		fetchProduct();
 	}, [id]);
 
+	useEffect(() => {
+		const fetchOrCreateCart = async () => {
+			if (buyerId) {
+				try {
+					// Check if the user already has a cart
+					let cartResponse = await fetch(
+						`${apiBaseUrl}/cart/buyer/${buyerId}`,
+						{
+							method: "GET",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							credentials: "include",
+						}
+					);
+					let cartData = await cartResponse.json();
+					// If no cart exists, create one
+					if (!cartData || !cartData.id) {
+						const createCartResponse = await fetch(
+							`${apiBaseUrl}/cart/create`,
+							{
+								method: "POST",
+								headers: {
+									"Content-Type": "application/json",
+								},
+								credentials: "include",
+							}
+						);
+						if (!createCartResponse.ok) {
+							throw new Error("Failed to create cart");
+						}
+						cartData = await createCartResponse.json();
+					}
+					setCartId(cartData.id);
+				} catch (error) {
+					console.error("Error fetching or creating cart:", error);
+				}
+			}
+		};
+
+		fetchOrCreateCart();
+	}, [buyerId]);
+
+	const handleQuantityChange = (delta: number) => {
+		setQuantity((prevQuantity) => Math.max(1, prevQuantity + delta));
+	};
+
+	const handleAddToCart = async () => {
+		if (!user) {
+			console.error("User is not logged in.");
+			return;
+		}
+
+		if (!cartId) {
+			console.error("Cart ID is not available.");
+			return;
+		}
+
+		try {
+			// Add item to the cart
+			const addItemResponse = await fetch(
+				`${apiBaseUrl}/cart/${cartId}/items`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						product_id: id,
+						quantity,
+					}),
+					credentials: "include",
+				}
+			);
+			if (!addItemResponse.ok) {
+				throw new Error("Failed to add item to cart");
+			}
+			console.log("Item added to cart");
+		} catch (error) {
+			console.error("Error managing cart:", error);
+		}
+	};
+
+	const handleBuyNow = () => {
+		// Logic to handle buying the product instantly
+		console.log("Buy now", { productId: id, quantity });
+	};
+
 	if (!product) return <div>Loading...</div>;
 
 	return (
@@ -114,6 +219,39 @@ function ProductDetailPage() {
 								</p>
 								<p className='text-gray-700 mb-4'>{product.description}</p>
 								<p className='text-gray-500'>Category: {product.category}</p>
+								<h1 className='text-lg font-bold'>Order sekarang!</h1>
+								<div className='flex items-center text-center space-x-4 mt-4'>
+									<button
+										onClick={() => handleQuantityChange(-1)}
+										className='px-2 py-1 bg-green-200 rounded-md'
+									>
+										-
+									</button>
+									<span>{quantity}</span>
+									<button
+										onClick={() => handleQuantityChange(1)}
+										className='px-2 py-1 bg-green-200 rounded-md'
+									>
+										+
+									</button>
+								</div>
+								<p className='text-lg font-bold mt-4'>
+									Total: Rp {(product.price * quantity).toLocaleString()}
+								</p>
+								<div className='flex justify-start space-x-4 mt-4'>
+									<button
+										onClick={handleAddToCart}
+										className='bg-green-700 p-2 text-white rounded-lg hover:bg-green-800'
+									>
+										Add to Cart
+									</button>
+									<button
+										onClick={handleBuyNow}
+										className='bg-blue-700 p-2 text-white rounded-lg hover:bg-blue-800'
+									>
+										Buy Now
+									</button>
+								</div>
 							</div>
 							<div className='md:w-1/3'>
 								{/* Render reviews */}

@@ -1,4 +1,3 @@
-// components/Header.tsx
 import { useState, useEffect } from "react";
 import { User } from "@/lib/types";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,10 +5,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { fetchCurrentUser, apiBaseUrl, logout } from "@/lib/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import ShoppingCartIcon from "../cards/ShoppingCartIcon";
 
 const Header = () => {
+	const [cartOpen, setCartOpen] = useState(false);
 	const [user, setUser] = useState<User | null>(null);
 	const navigate = useNavigate();
+
+	const toggleCart = () => {
+		setCartOpen(!cartOpen);
+	};
 
 	useEffect(() => {
 		const fetchUser = async () => {
@@ -71,11 +76,14 @@ const Header = () => {
 								</button>
 							</Link>
 						) : (
-							<Link to='/buyerpage'>
-								<button className='bg-blue-500 text-white px-4 py-2 rounded hover:shadow-md transition-shadow duration-300'>
-									Buyer Page
-								</button>
-							</Link>
+							<>
+								<ShoppingCartIcon isOpen={cartOpen} toggleCart={toggleCart} />
+								<Link to='/buyerpage'>
+									<button className='bg-blue-500 text-white px-4 py-2 rounded hover:shadow-md transition-shadow duration-300'>
+										Buyer Page
+									</button>
+								</Link>
+							</>
 						)}
 
 						<button

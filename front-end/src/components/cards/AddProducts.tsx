@@ -48,19 +48,6 @@ const AddProduct = () => {
 		const fetchUser = async () => {
 			const currentUser = await fetchCurrentUser();
 			setUser(currentUser);
-			if (user) {
-				// Fetch the seller ID
-				const response = await fetch(
-					`${apiBaseUrl}/users/get-seller-id/${user.id}`
-				);
-				const data = await response.json();
-
-				if (response.ok) {
-					setSellerId(data.seller_id);
-				} else {
-					console.error("Failed to fetch seller ID:", data.error);
-				}
-			}
 		};
 		fetchUser();
 	}, []);
@@ -89,6 +76,20 @@ const AddProduct = () => {
 	const handleSubmit = async (values: z.infer<typeof formSchema>) => {
 		console.log("Form Values:", values); // Debugging
 
+		if (user) {
+			// Fetch the seller ID
+			const response = await fetch(
+				`${apiBaseUrl}/users/get-seller-id/${user.id}`
+			);
+			const data = await response.json();
+
+			if (response.ok) {
+				setSellerId(data.seller_id);
+			} else {
+				console.error("Failed to fetch seller ID:", data.error);
+			}
+		}
+
 		const productData = {
 			seller_id: sellerId,
 			name: values.name,
@@ -99,40 +100,41 @@ const AddProduct = () => {
 			category: values.category,
 			product_picture_url: imageName || "",
 		};
-
-		try {
-			const response = await fetch(`${apiBaseUrl}/product/post`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(productData),
-				credentials: "include",
-			});
-
-			if (response.ok) {
-				const data = await response.json();
-				toast({
-					title: "Product Created Successfully",
-					description: `Your product "${data.name}" has been added.`,
-					className: "bg-green-500",
+		if (sellerId !== null) {
+			try {
+				const response = await fetch(`${apiBaseUrl}/product/post`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(productData),
+					credentials: "include",
 				});
-			} else {
-				const error = await response.text();
-				console.error("Failed to create product:", error);
+
+				if (response.ok) {
+					const data = await response.json();
+					toast({
+						title: "Product Created Successfully",
+						description: `Your product "${data.name}" has been added.`,
+						className: "bg-green-500",
+					});
+				} else {
+					const error = await response.text();
+					console.error("Failed to create product:", error);
+					toast({
+						title: "Error",
+						description: "Failed to create product.",
+						className: "bg-red-500",
+					});
+				}
+			} catch (error) {
+				console.error("Error creating product:", error);
 				toast({
 					title: "Error",
-					description: "Failed to create product.",
+					description: "There was an error creating the product.",
 					className: "bg-red-500",
 				});
 			}
-		} catch (error) {
-			console.error("Error creating product:", error);
-			toast({
-				title: "Error",
-				description: "There was an error creating the product.",
-				className: "bg-red-500",
-			});
 		}
 	};
 

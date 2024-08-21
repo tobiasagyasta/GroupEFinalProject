@@ -21,6 +21,7 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 
 import ReviewDetailPage from "./pages/ReviewDetailPage";
 import Layout from "./components/HarvestHub/Layout";
+import ShoppingCart from "./components/cards/ShoppingCart";
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement
@@ -42,7 +43,16 @@ root.render(
 						path='/product/buah'
 						element={<ProductPage category='Buah' />}
 					/>
-					<Route path='/productpage3' element={<BundlingPackagePage />} />
+					<Route
+						path='/productpage3'
+						element={
+							<ShoppingCart
+								isOpen={true}
+								toggleCart={() => {}}
+								activeTab='cart'
+							/>
+						}
+					/>
 					<Route path='/sellerpage' element={<Dashboard />} />
 					<Route path='/buyerpage' element={<BuyerPage />} />
 					<Route path='/product/' element={<ProductPage />} />
