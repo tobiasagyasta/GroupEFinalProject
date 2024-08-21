@@ -5,8 +5,10 @@ import { User } from "@/lib/types";
 import { apiBaseUrl } from "@/lib/api";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 const ReviewsCard = ({ product_id }: { product_id: string }) => {
+	const { toast } = useToast();
 	const [user, setUser] = useState<User | null>(null);
 	const [buyerId, setBuyerId] = useState<number | null>(null);
 	const [rating, setRating] = useState<number>(0); // State to manage rating
@@ -54,16 +56,26 @@ const ReviewsCard = ({ product_id }: { product_id: string }) => {
 				},
 				body: JSON.stringify(reviewData),
 			});
-
 			if (!response.ok) {
-				throw new Error("Failed to submit review");
+				const errorData = await response.json();
+				throw new Error(errorData.message);
 			}
+			toast({
+				title: "Review sudah terkirim!",
+				description: `Terima kasih atas opini anda.`,
+				className: "bg-green-500",
+			});
 
 			const data = await response.json();
 			console.log("Review submitted successfully:", data);
 			// Optionally, clear the form or show a success message here
-		} catch (error) {
+		} catch (error: any) {
 			console.error("Error submitting review:", error);
+			toast({
+				title: "Review gagal",
+				description: error.message,
+				variant: "destructive",
+			});
 		}
 	};
 

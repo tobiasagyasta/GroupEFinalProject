@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { fetchCurrentUser, apiBaseUrl } from "@/lib/api";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
 	FaSearch,
@@ -13,13 +14,37 @@ import {
 	FaBell,
 	FaEnvelope,
 } from "react-icons/fa";
-
+import { User } from "@/lib/types";
+import ReviewsByBuyer from "@/components/cards/ReviewsByBuyer";
 import ShoppingCart from "../pages/ShoppingCart";
 
 export default function BuyerPage() {
+	const [buyerId, setBuyerId] = useState<string | null>(null);
+	const [user, setUser] = useState<User | null>(null);
 	const [selectedMenu, setSelectedMenu] = useState<string>("Pengaturan");
 	const [isCartOpen, setCartOpen] = useState(false);
 	const [activeTab, setActiveTab] = useState("cart");
+
+	useEffect(() => {
+		const fetchUser = async () => {
+			const currentUser = await fetchCurrentUser();
+			setUser(currentUser);
+			if (currentUser) {
+				// Fetch the buyer ID
+				const response = await fetch(
+					`${apiBaseUrl}/users/get-buyer-id/${currentUser.id}`
+				);
+				const data = await response.json();
+
+				if (response.ok) {
+					setBuyerId(data.buyer_id);
+				} else {
+					console.error("Failed to fetch buyer ID:", data.error);
+				}
+			}
+		};
+		fetchUser();
+	}, []);
 
 	const [notifications, setNotifications] = useState({
 		pembayaran: false,
@@ -254,6 +279,10 @@ export default function BuyerPage() {
 							<h3 className='text-lg font-semibold'>Menunggu Pembayaran</h3>
 							<p>Kamu punya pembayaran yang masih menunggu.</p>
 						</div>
+					)}
+
+					{selectedMenu === "Ulasan" && buyerId && (
+						<ReviewsByBuyer buyer_id={buyerId}></ReviewsByBuyer>
 					)}
 
 					{/* Pesananan Saya */}
