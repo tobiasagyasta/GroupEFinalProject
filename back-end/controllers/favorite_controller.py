@@ -14,9 +14,10 @@ favorites_bp = Blueprint('favorites', __name__, url_prefix='/favorites')
 def add_favorite():
     data = request.get_json()
     product_id = data.get('product_id')
+    user_id = data.get('user_id')
 
-    if not product_id:
-        return jsonify({"error": "Product ID is required"}), 400
+    if not product_id or not user_id:
+        return jsonify({"error": "Product ID and User ID are required"}), 400
 
     Session = sessionmaker(bind=engine)
     try:
@@ -27,12 +28,12 @@ def add_favorite():
                 return jsonify({"error": "Product not found"}), 404
 
             # Check if the favorite already exists
-            existing_favorite = session.query(Favorite).filter_by(user_id=current_user.id, product_id=product_id).first()
+            existing_favorite = session.query(Favorite).filter_by(user_id=user_id, product_id=product_id).first()
             if existing_favorite:
                 return jsonify({"message": "Product is already in favorites"}), 409
 
             # Add the favorite
-            favorite = Favorite(user_id=current_user.id, product_id=product_id)
+            favorite = Favorite(user_id=user_id, product_id=product_id)
             session.add(favorite)
             session.commit()
             return jsonify({"message": "Product added to favorites"}), 201

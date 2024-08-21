@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaCartPlus, FaHeart, FaStar } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import { Product } from "@/lib/types";
-import { apiBaseUrl } from "@/lib/api";
+import { apiBaseUrl, fetchCurrentUser } from "@/lib/api";
+import { User } from "@/lib/types";
 import {
 	Pagination,
 	PaginationContent,
-	PaginationEllipsis,
 	PaginationItem,
 	PaginationLink,
 	PaginationNext,
@@ -15,18 +15,60 @@ import {
 import { Link } from "react-router-dom";
 
 const ProductPage = ({ category = "" }) => {
+	const [user, setUser] = useState<User>();
 	const [products, setProducts] = useState<Product[]>([]);
+	const [favoritedProducts, setFavoritedProducts] = useState<number[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(0);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		fetchProducts();
-	}, [currentPage, category]); // Include category in the dependency array
+		const fetchUser = async () => {
+			const currentUser = await fetchCurrentUser();
+			setUser(currentUser);
+		};
+		fetchUser();
+	}, []);
 
+	useEffect(() => {
+		if (user?.role === "buyer") {
+			fetchFavorites();
+		}
+	}, [user]);
+
+	useEffect(() => {
+		fetchProducts();
+	}, [currentPage, category]);
+
+	const fetchFavorites = async () => {
+		try {
+			const response = await fetch(`${apiBaseUrl}/favorites/${user?.id}`, {
+				method: "GET",
+				credentials: "include",
+			});
+
+			if (response.ok) {
+				const data = await response.json();
+
+				// Safeguard to ensure data is an array
+				if (Array.isArray(data)) {
+					setFavoritedProducts(
+						data.map((fav: { product_id: number }) => fav.product_id)
+					);
+				} else {
+					setFavoritedProducts([]); // Fallback to empty array if data is not an array
+				}
+			} else {
+				console.error("Failed to fetch favorites");
+				setFavoritedProducts([]); // Fallback in case of failure
+			}
+		} catch (error) {
+			console.error("Error fetching favorites:", error);
+			setFavoritedProducts([]); // Fallback in case of error
+		}
+	};
 	const fetchProducts = async () => {
 		try {
-			// Construct query with category if provided
 			const categoryQuery = category ? `&category=${category}` : "";
 			const response = await fetch(
 				`${apiBaseUrl}/product/?page=${currentPage}${categoryQuery}`,
@@ -49,25 +91,56 @@ const ProductPage = ({ category = "" }) => {
 		}
 	};
 
+	const handleFavorite = async (product_id: number) => {
+		if (!user) {
+			console.error("User must be logged in to add favorites");
+			return;
+		}
+
+		try {
+			const response = await fetch(`${apiBaseUrl}/favorites/`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					product_id,
+					user_id: user.id,
+				}),
+				credentials: "include",
+			});
+
+			if (response.ok) {
+				setFavoritedProducts([...favoritedProducts, product_id]);
+			} else if (response.status === 409) {
+				console.log("Product is already in favorites");
+			} else {
+				console.error("Failed to add product to favorites");
+			}
+		} catch (error) {
+			console.error("Error adding product to favorites:", error);
+		}
+	};
+
 	return (
 		<div>
-			<div className="container mx-auto px-4 py-8">
+			<div className='container mx-auto px-4 py-8'>
 				<button
-					className="mb-4 px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
+					className='mb-4 px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600'
 					onClick={() => navigate(-1)}
 				>
 					Back
 				</button>
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
+				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center'>
 					{products.map((product) => (
-						<div key={product.id} className="bg-white p-4 rounded-lg shadow-md">
+						<div key={product.id} className='bg-white p-4 rounded-lg shadow-md'>
 							<img
 								src={`${apiBaseUrl}/uploads/products/${product?.product_picture_url}`}
 								alt={product.name}
-								className="w-full h-48 object-cover rounded-lg mb-4"
+								className='w-full h-48 object-cover rounded-lg mb-4'
 							/>
-							<h2 className="text-xl font-bold mb-2">{product.name}</h2>
-							<p className="text-lg font-semibold mb-2">
+							<h2 className='text-xl font-bold mb-2'>{product.name}</h2>
+							<p className='text-lg font-semibold mb-2'>
 								{new Intl.NumberFormat("id-ID", {
 									style: "currency",
 									currency: "IDR",
@@ -76,24 +149,34 @@ const ProductPage = ({ category = "" }) => {
 								/ {product.unit}
 							</p>
 							<Link to={`/product/${product.id}`}>
-								<button className="w-1/3 mx-auto px-4 py-2 bg-gray-500 text-white rounded-lg shadow-md hover:bg-gray-600 flex items-center justify-center mt-2">
+								<button className='w-1/3 mx-auto px-4 py-2 bg-gray-500 text-white rounded-lg shadow-md hover:bg-gray-600 flex items-center justify-center mt-2'>
 									Lihat produk
 								</button>
 							</Link>
-
-							<button className="w-1/3 mx-auto px-4 py-2 bg-gray-500 text-white rounded-lg shadow-md hover:bg-gray-600 flex items-center justify-center mt-2">
-								<FaHeart className="text-white mr-2" />
-								Favorit
-							</button>
+							{user?.role === "buyer" && (
+								<button
+									onClick={() => handleFavorite(product.id)}
+									className='w-1/3 mx-auto px-4 py-2 bg-gray-500 text-white rounded-lg shadow-md hover:bg-gray-600 flex items-center justify-center mt-2'
+								>
+									<FaHeart
+										className={`${
+											favoritedProducts.includes(product.id)
+												? "text-red-500"
+												: "text-white"
+										} mr-2`}
+									/>
+									Favorit
+								</button>
+							)}
 						</div>
 					))}
 				</div>
-				<div className="flex justify-center mt-8 text-2xl">
+				<div className='flex justify-center mt-8 text-2xl'>
 					<Pagination>
 						<PaginationContent>
 							<PaginationItem>
 								<PaginationPrevious
-									href="#"
+									href='#'
 									onClick={() =>
 										setCurrentPage((prev) => Math.max(prev - 1, 1))
 									}
@@ -103,7 +186,7 @@ const ProductPage = ({ category = "" }) => {
 							{Array.from({ length: totalPages }, (_, index) => (
 								<PaginationItem key={index}>
 									<PaginationLink
-										href="#"
+										href='#'
 										onClick={() => setCurrentPage(index + 1)}
 									>
 										{index + 1}
@@ -113,7 +196,7 @@ const ProductPage = ({ category = "" }) => {
 
 							<PaginationItem>
 								<PaginationNext
-									href="#"
+									href='#'
 									onClick={() =>
 										setCurrentPage((prev) => Math.min(prev + 1, totalPages))
 									}
