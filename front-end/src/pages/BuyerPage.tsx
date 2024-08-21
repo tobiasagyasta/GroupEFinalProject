@@ -16,7 +16,7 @@ import {
 } from "react-icons/fa";
 import { User } from "@/lib/types";
 import ReviewsByBuyer from "@/components/cards/ReviewsByBuyer";
-import ShoppingCart from "../pages/ShoppingCart";
+import ShoppingCart from "../components/cards/ShoppingCart";
 
 export default function BuyerPage() {
 	const [buyerId, setBuyerId] = useState<string | null>(null);
