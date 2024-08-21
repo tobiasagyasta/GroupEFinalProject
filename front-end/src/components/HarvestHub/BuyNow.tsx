@@ -1,14 +1,10 @@
 import React, { useState } from "react";
-import { FaTimes } from "react-icons/fa";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogClose,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import CheckoutPage from "./CheckOutPage";
+import { useNavigate } from "react-router-dom";
 
 interface Product {
   id: string;
@@ -21,6 +17,7 @@ interface Product {
 interface CheckoutDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  onCheckout: () => void;
   product: Product | null;
   quantity: number;
   onQuantityChange: (newQuantity: number) => void;
@@ -29,6 +26,7 @@ interface CheckoutDialogProps {
 const CheckoutDialog: React.FC<CheckoutDialogProps> = ({
   isOpen,
   onClose,
+  onCheckout,
   product,
   quantity,
   onQuantityChange,
@@ -38,6 +36,8 @@ const CheckoutDialog: React.FC<CheckoutDialogProps> = ({
   const [voucher, setVoucher] = useState("");
   const [orderStatus, setOrderStatus] = useState("Menunggu Pembayaran");
   const [orderDate, setOrderDate] = useState<Date | null>(null);
+  const [showCheckoutPage, setShowCheckoutPage] = useState(false);
+  const navigate = useNavigate();
 
   const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setAddress(e.target.value);
@@ -64,10 +64,15 @@ const CheckoutDialog: React.FC<CheckoutDialogProps> = ({
     minimumFractionDigits: 0,
   });
 
-  const handleCheckout = () => {
-    alert("Checkout berhasil!");
-    setOrderStatus("Dalam Perjalanan");
-    setTimeout(() => setOrderStatus("Terkirim"), 5000);
+  const handleBuyNow = () => {
+    setShowCheckoutPage(true);
+  };
+
+  const handleCheckoutClick = () => {
+    onCheckout();
+    navigate(`/checkout/${product.id}`, {
+      state: { address, product, quantity },
+    });
   };
 
   return (
@@ -75,13 +80,8 @@ const CheckoutDialog: React.FC<CheckoutDialogProps> = ({
       <DialogContent className="w-full max-w-4xl p-6 bg-gray-50">
         <div className="relative bg-white rounded-lg shadow-xl p-6">
           <DialogTitle className="text-2xl font-bold mb-4">
-            Checkout
+            Beli Langsung
           </DialogTitle>
-          <DialogClose asChild>
-            <button className="absolute top-4 right-4 text-gray-600 hover:text-gray-800">
-              <FaTimes size={24} />
-            </button>
-          </DialogClose>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Detail Produk */}
@@ -156,9 +156,8 @@ const CheckoutDialog: React.FC<CheckoutDialogProps> = ({
                   className="mb-4 border border-gray-300 rounded-lg"
                 >
                   <option value="creditCard">Kartu Kredit</option>
-                  <option value="gopay">GoPay</option>
-                  <option value="shopeepay">ShopeePay</option>
-                  <option value="dana">Dana</option>
+                  <option value="gopay">Kartu Debit</option>
+                  <option value="shopeepay"></option>
                   <option value="bankTransfer">Transfer Bank</option>
                 </select>
               </div>
@@ -194,12 +193,15 @@ const CheckoutDialog: React.FC<CheckoutDialogProps> = ({
               )}
 
               {/* Tombol Checkout */}
-              <Button
-                className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600"
-                onClick={handleCheckout}
+              <button
+                onClick={handleCheckoutClick}
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4"
               >
                 Checkout
-              </Button>
+              </button>
+              <button onClick={onClose} className="mt-2 text-blue-500">
+                Close
+              </button>
             </div>
           </div>
         </div>

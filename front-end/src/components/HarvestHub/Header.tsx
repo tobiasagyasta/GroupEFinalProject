@@ -8,11 +8,13 @@ const Header = () => {
   return (
     <nav className="bg-white shadow p-4 flex justify-between items-center sticky top-0 z-50">
       <div className="text-2xl font-bold">
-        <img
-          src="../images/logo.png"
-          alt="HarvestHub Logo"
-          className="h-10 w-auto"
-        />
+        <Link to="/">
+          <img
+            src="../images/logo.png"
+            alt="HarvestHub Logo"
+            className="h-10 w-auto cursor-pointer"
+          />
+        </Link>
       </div>
 
       <div className="flex items-center space-x-4">

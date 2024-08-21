@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { FaCartPlus, FaHeart, FaDollarSign, FaStar } from "react-icons/fa";
+import { FaCartPlus, FaHeart, FaStar } from "react-icons/fa";
 import { reviewsData } from "@/components/HarvestHub/ReviewsData";
-import CheckoutDialog from "@/components/HarvestHub/CheckOut";
+import CheckoutDialog from "@/components/HarvestHub/BuyNow";
 
-interface Product {
+export interface Product {
   id: string;
   name: string;
   image: string;
@@ -16,7 +16,9 @@ interface Product {
   quantity: number;
 }
 
-const fetchProductById = async (id: string): Promise<Product | undefined> => {
+export const fetchProductById = async (
+  id: string
+): Promise<Product | undefined> => {
   const products: Record<string, Product> = {
     "1": {
       id: "1",
@@ -1043,7 +1045,12 @@ const ProductDetailPage = () => {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [isCheckoutDialogOpen, setCheckoutDialogOpen] = useState(false);
+  const [checkoutStatus, setCheckoutStatus] = useState("");
   const navigate = useNavigate();
+
+  const handleCheckout = () => {
+    setCheckoutStatus("Checkout berhasil!");
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -1250,6 +1257,7 @@ const ProductDetailPage = () => {
         <CheckoutDialog
           isOpen={isCheckoutDialogOpen}
           onClose={handleCloseCheckoutDialog}
+          onCheckout={handleCheckout}
           product={product}
           quantity={quantity}
           onQuantityChange={handleQuantityChange}

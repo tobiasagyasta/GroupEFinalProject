@@ -7,11 +7,8 @@ const Layout: React.FC = () => {
   const location = useLocation();
 
   const hideHeader = ["/signin", "/signup"];
-  const hideHeaderFooter = ["/companyprofile"];
 
   const shouldHideHeader = hideHeader.includes(location.pathname);
-  const shouldHideFooter =
-    hideHeaderFooter.includes(location.pathname) && !shouldHideHeader;
 
   return (
     <>
@@ -19,7 +16,7 @@ const Layout: React.FC = () => {
       <main>
         <Outlet />
       </main>
-      {!shouldHideFooter && <Footer />}
+      <Footer />
     </>
   );
 };

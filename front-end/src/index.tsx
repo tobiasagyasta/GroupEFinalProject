@@ -22,10 +22,10 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 
 import ReviewDetailPage from "./pages/ReviewDetailPage";
 import Layout from "./components/HarvestHub/Layout";
-
+import CheckoutPage from "./components/HarvestHub/CheckOutPage";
 
 const root = ReactDOM.createRoot(
-	document.getElementById("root") as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
@@ -43,6 +43,7 @@ root.render(
           <Route path="/buyerpage" element={<BuyerPage />} />
           <Route path="/product/:id" element={<ProductDetailPage />} />
           <Route path="/review/:id" element={<ReviewDetailPage />} />
+          <Route path="/checkout/:productId" element={<CheckoutPage />} />
         </Route>
       </Routes>
     </Router>
