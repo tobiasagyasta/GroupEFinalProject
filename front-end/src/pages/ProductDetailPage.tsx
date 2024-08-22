@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import ReviewsList from "@/components/cards/ReviewsList";
-import { useParams } from "react-router-dom";
 import { Product } from "@/lib/types";
 import { apiBaseUrl, fetchCurrentUser } from "@/lib/api";
 import { User } from "@/lib/types";
@@ -63,9 +62,6 @@ function ProductDetailPage() {
 					`${apiBaseUrl}/uploads/products/${data.product_picture_url}`
 				);
 
-
-
-
 				// Fetch seller information
 				const sellerResponse = await fetch(
 					`${apiBaseUrl}/product/${id}/seller`,
@@ -97,7 +93,6 @@ function ProductDetailPage() {
 
 		fetchProduct();
 	}, [id]);
-
 
 	const handleQuantityChange = (delta: number) => {
 		setQuantity((prevQuantity) => Math.max(1, prevQuantity + delta));
@@ -307,21 +302,20 @@ function ProductDetailPage() {
 							</div>
 						</div>
 						{user?.role === "buyer" && id && <ReviewsCard product_id={id} />}
-                    {/* Checkout Dialog */}
-        <CheckoutDialog
+						{/* Checkout Dialog */}
+						{/*<CheckoutDialog
           isOpen={isCheckoutDialogOpen}
           onClose={handleCloseCheckoutDialog}
           onCheckout={handleCheckout}
           product={product}
           quantity={quantity}
           onQuantityChange={handleQuantityChange}
-        />
+        /> */}
 					</div>
 				</div>
 			</div>
 		</div>
 	);
 }
-
 
 export default ProductDetailPage;
