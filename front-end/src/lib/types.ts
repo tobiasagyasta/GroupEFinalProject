@@ -28,6 +28,5 @@ export interface Product {
 	quantity: number;
 	unit: string;
 	status: string;
-	product_picture_url: string;
-	// Add other product fields as needed
+	product_picture_url?: string;
 }

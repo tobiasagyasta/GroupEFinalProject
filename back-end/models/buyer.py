@@ -11,6 +11,7 @@ class Buyer(Base):
     # Define the relationship to the User model
     user = relationship('User', back_populates='buyers')
     reviews = relationship('Review', back_populates='buyer', cascade='all, delete-orphan')
+    cart = relationship('Cart', uselist=False, back_populates='buyer')
 
     def __repr__(self):
         return f"<Buyer(id={self.id}, user_id={self.user_id})>"

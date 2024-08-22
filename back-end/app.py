@@ -9,7 +9,9 @@ from controllers.user_controller import user_bp
 from controllers.image_upload_controller import upload_bp
 from controllers.product_controller import product_bp
 from controllers.review_controller import review_bp
+from controllers.cart_controller import cart_bp
 from controllers.events import *
+from controllers.favorite_controller import favorites_bp
 from flask_cors import CORS
 
 app = Flask(__name__, static_folder='public')
@@ -27,6 +29,8 @@ app.register_blueprint(user_bp)
 app.register_blueprint(upload_bp)
 app.register_blueprint(product_bp)
 app.register_blueprint(review_bp)
+app.register_blueprint(cart_bp)
+app.register_blueprint(favorites_bp)
 
 login_manager = LoginManager()
 login_manager.init_app(app)

@@ -21,7 +21,7 @@ def login():
         else:
             return jsonify({'message': 'Invalid credentials! Please try again.'}), 401
 
-@auth_bp.route('/logout', methods=['GET'])
+@auth_bp.route('/logout/', methods=['GET'])
 @login_required
 def logout():
     if not current_user.is_authenticated:
