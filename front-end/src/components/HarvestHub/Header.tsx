@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ShoppingCartIcon from "../cards/ShoppingCartIcon";
 
 const Header = () => {
+
 	const [cartOpen, setCartOpen] = useState(false);
 	const [user, setUser] = useState<User | null>(null);
 	const navigate = useNavigate();
@@ -116,6 +117,7 @@ const Header = () => {
 			)}
 		</nav>
 	);
+
 };
 
 export default Header;

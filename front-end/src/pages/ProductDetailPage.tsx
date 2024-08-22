@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
+
 import ReviewsList from "@/components/cards/ReviewsList";
 import { useParams } from "react-router-dom";
 import { Product } from "@/lib/types";
 import { apiBaseUrl, fetchCurrentUser } from "@/lib/api";
 import { User } from "@/lib/types";
 import ReviewsCard from "@/components/cards/ReviewsCard";
+import { useParams, useNavigate } from "react-router-dom";
+import { FaCartPlus, FaHeart, FaStar } from "react-icons/fa";
+
+import CheckoutDialog from "@/components/HarvestHub/BuyNow";
 
 function ProductDetailPage() {
 	const { id } = useParams(); // Get the product ID from the URL
@@ -58,6 +63,9 @@ function ProductDetailPage() {
 					`${apiBaseUrl}/uploads/products/${data.product_picture_url}`
 				);
 
+
+
+
 				// Fetch seller information
 				const sellerResponse = await fetch(
 					`${apiBaseUrl}/product/${id}/seller`,
@@ -73,7 +81,6 @@ function ProductDetailPage() {
 				}
 				const sellerData = await sellerResponse.json();
 				setSeller(sellerData);
-
 				// Fetch reviews
 				const reviewsResponse = await fetch(
 					`${apiBaseUrl}/review/product/${id}`
@@ -90,6 +97,7 @@ function ProductDetailPage() {
 
 		fetchProduct();
 	}, [id]);
+
 
 	const handleQuantityChange = (delta: number) => {
 		setQuantity((prevQuantity) => Math.max(1, prevQuantity + delta));
@@ -254,7 +262,6 @@ function ProductDetailPage() {
 						</div>
 					</div>
 				</div>
-
 				{/* Seller Information */}
 				<div className='mt-8 p-4 border-t border-gray-200 text-left'>
 					<div className='mt-4 flex flex-row justify-center gap-x-12 items-center'>
@@ -300,11 +307,21 @@ function ProductDetailPage() {
 							</div>
 						</div>
 						{user?.role === "buyer" && id && <ReviewsCard product_id={id} />}
+                    {/* Checkout Dialog */}
+        <CheckoutDialog
+          isOpen={isCheckoutDialogOpen}
+          onClose={handleCloseCheckoutDialog}
+          onCheckout={handleCheckout}
+          product={product}
+          quantity={quantity}
+          onQuantityChange={handleQuantityChange}
+        />
 					</div>
 				</div>
 			</div>
 		</div>
 	);
 }
+
 
 export default ProductDetailPage;

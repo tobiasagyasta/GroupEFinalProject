@@ -21,12 +21,17 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 
 import ReviewDetailPage from "./pages/ReviewDetailPage";
 import Layout from "./components/HarvestHub/Layout";
+
 import ShoppingCart from "./components/cards/ShoppingCart";
 
+import CheckoutPage from "./components/HarvestHub/CheckOutPage";
+
+
 const root = ReactDOM.createRoot(
-	document.getElementById("root") as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
+
 	<React.StrictMode>
 		<Router>
 			<Routes>
@@ -58,9 +63,11 @@ root.render(
 					<Route path='/product/' element={<ProductPage />} />
 					<Route path='/product/:id' element={<ProductDetailPage />} />
 					<Route path='/review/:id' element={<ReviewDetailPage />} />
+           <Route path="/checkout/:productId" element={<CheckoutPage />} />
 				</Route>
 			</Routes>
 		</Router>
 		<Toaster></Toaster>
 	</React.StrictMode>
+
 );

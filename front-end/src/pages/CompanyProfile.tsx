@@ -6,21 +6,20 @@ import { Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-	faFacebookF,
-	faTwitter,
-	faInstagram,
+  faFacebookF,
+  faTwitter,
+  faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 interface BlogPost {
-	id: number;
-	title: string;
-	content: string;
-	image: string;
+  id: number;
+  title: string;
+  content: string;
+  image: string;
 }
 
 const CompanyProfile: React.FC = () => {
-
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [expandedArticleId, setExpandedArticleId] = useState<number | null>(
     null
@@ -34,7 +33,7 @@ const CompanyProfile: React.FC = () => {
       content: `Teknologi pertanian telah mengalami kemajuan pesat dalam beberapa tahun terakhir. Dari drone yang memantau kesehatan tanaman hingga sistem irigasi otomatis yang menghemat air, teknologi modern menawarkan solusi inovatif untuk tantangan yang dihadapi oleh petani saat ini. Di HarvestHub, kami mengintegrasikan teknologi ini ke dalam platform kami untuk memberikan petani alat yang mereka butuhkan untuk meningkatkan hasil panen dan mengelola operasi mereka dengan lebih efisien. 
       
       Salah satu contoh teknologi yang kami implementasikan adalah sensor tanah pintar yang memantau kelembapan tanah secara real-time. Data yang dikumpulkan membantu petani membuat keputusan lebih baik tentang irigasi dan pemupukan. Kami juga bekerja sama dengan perusahaan teknologi untuk menyediakan drone yang dapat memetakan lahan dan mengidentifikasi area yang membutuhkan perhatian khusus. Dengan solusi ini, kami bertujuan untuk membantu petani meningkatkan produktivitas dan mengurangi pemborosan.`,
-      image: "/images/Blog1.avif",
+      image: "/images/blog1.avif",
     },
     {
       id: 2,
@@ -43,7 +42,7 @@ const CompanyProfile: React.FC = () => {
       content: `Pertanian berkelanjutan adalah tentang menemukan keseimbangan antara produksi pangan dan perlindungan lingkungan. Dengan mengadopsi praktik seperti rotasi tanaman, penggunaan kompos, dan pengelolaan hama secara alami, petani dapat meningkatkan kesuburan tanah dan mengurangi dampak negatif terhadap ekosistem. Kami di HarvestHub menyediakan produk dan solusi yang mendukung praktik ini, memastikan bahwa petani dapat memenuhi kebutuhan pangan dunia tanpa merusak lingkungan.
       
       Kami juga mendorong penggunaan energi terbarukan dalam pertanian, seperti panel surya untuk mengurangi ketergantungan pada sumber energi fosil. Melalui berbagai inisiatif, kami bekerja untuk mengurangi jejak karbon dan mendukung praktik yang melindungi bumi untuk generasi mendatang. Program pelatihan kami memberikan petani pengetahuan dan keterampilan yang diperlukan untuk menerapkan teknik berkelanjutan yang bermanfaat bagi lingkungan dan hasil panen mereka.`,
-      image: "/images/Blog2.avif",
+      image: "/images/blog2.avif",
     },
     {
       id: 3,
@@ -55,29 +54,25 @@ const CompanyProfile: React.FC = () => {
     },
   ];
 
-
-	const postsPerPage = 2;
-	const indexOfLastPost = currentPage * postsPerPage;
-	const indexOfFirstPost = indexOfLastPost - postsPerPage;
-	const currentPosts = blogPosts.slice(indexOfFirstPost, indexOfLastPost);
-
+  const postsPerPage = 2;
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = blogPosts.slice(indexOfFirstPost, indexOfLastPost);
 
   const handleReadMore = (id: number) => {
     setExpandedArticleId((prevId) => (prevId === id ? null : id));
   };
 
-
-	const handlePageChange = (direction: "next" | "previous") => {
-		setCurrentPage((prevPage) => {
-			if (direction === "next" && indexOfLastPost < blogPosts.length) {
-				return prevPage + 1;
-			} else if (direction === "previous" && prevPage > 1) {
-				return prevPage - 1;
-			}
-			return prevPage;
-		});
-	};
-
+  const handlePageChange = (direction: "next" | "previous") => {
+    setCurrentPage((prevPage) => {
+      if (direction === "next" && indexOfLastPost < blogPosts.length) {
+        return prevPage + 1;
+      } else if (direction === "previous" && prevPage > 1) {
+        return prevPage - 1;
+      }
+      return prevPage;
+    });
+  };
 
   return (
     <div className="flex flex-col h-screen">
@@ -144,7 +139,7 @@ const CompanyProfile: React.FC = () => {
                   </p>
                 </div>
                 <video
-                  src="/images/The Farmer.mp4"
+                  src="/images/the-farmer.mp4"
                   autoPlay
                   muted
                   loop
