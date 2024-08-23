@@ -5,23 +5,16 @@ import Footer from "./Footer";
 
 const Layout: React.FC = () => {
   const location = useLocation();
-
-  const hideHeader = ["/signin", "/signup"];
-  const hideHeaderFooter = ["/companyprofile"];
-
+  const hideHeader = ["/signin", "/signup", "/sellerpage", "/buyerpage",];
   const shouldHideHeader = hideHeader.includes(location.pathname);
-  const shouldHideFooter =
-    hideHeaderFooter.includes(location.pathname) && !shouldHideHeader;
-
   return (
     <>
       {!shouldHideHeader && <Header />}
       <main>
         <Outlet />
       </main>
-      {!shouldHideFooter && <Footer />}
+      <Footer />
     </>
   );
 };
-
 export default Layout;

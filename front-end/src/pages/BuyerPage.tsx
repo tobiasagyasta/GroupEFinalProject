@@ -12,6 +12,7 @@ import {
   FaShoppingCart,
   FaBell,
   FaEnvelope,
+  FaCartPlus
 } from "react-icons/fa";
 
 import ShoppingCart from "../pages/ShoppingCart";
@@ -56,7 +57,7 @@ export default function BuyerPage() {
       <nav className="bg-white shadow p-4 flex justify-between items-center sticky top-0 z-50">
         <div className="text-2xl font-bold">
           <img
-            src="/images/logo.png"
+            src="/images/logoharvest.png"
             alt="HarvestHub Logo"
             className="h-10 w-auto"
           />
@@ -536,9 +537,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <h4 className="text-lg font-semibold">{name}</h4>
         <p className="text-gray-600">{price}</p>
         <p className="text-gray-500">{location}</p>
-        <button className="mt-2 w-full bg-green-800 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors">
-          + Keranjang
-        </button>
+              <button
+                className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 flex items-center justify-center"
+                onClick={() => {}}
+              >
+                <FaCartPlus className="text-white mr-2" />
+                Keranjang
+              </button>
       </div>
     </div>
   );

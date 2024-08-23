@@ -1,31 +1,22 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-import { Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-	faFacebookF,
-	faTwitter,
-	faInstagram,
-} from "@fortawesome/free-brands-svg-icons";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-
+import { X } from "react-feather";
 interface BlogPost {
-	id: number;
-	title: string;
-	content: string;
-	image: string;
+  id: number;
+  title: string;
+  content: string;
+  image: string;
 }
 
 const CompanyProfile: React.FC = () => {
-
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [expandedArticleId, setExpandedArticleId] = useState<number | null>(
     null
   );
   const [activeTab, setActiveTab] = useState<string>("about");
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
   const blogPosts: BlogPost[] = [
     {
@@ -55,155 +46,216 @@ const CompanyProfile: React.FC = () => {
     },
   ];
 
-
-	const postsPerPage = 2;
-	const indexOfLastPost = currentPage * postsPerPage;
-	const indexOfFirstPost = indexOfLastPost - postsPerPage;
-	const currentPosts = blogPosts.slice(indexOfFirstPost, indexOfLastPost);
-
+  const postsPerPage = 2;
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = blogPosts.slice(indexOfFirstPost, indexOfLastPost);
 
   const handleReadMore = (id: number) => {
     setExpandedArticleId((prevId) => (prevId === id ? null : id));
   };
 
-
-	const handlePageChange = (direction: "next" | "previous") => {
-		setCurrentPage((prevPage) => {
-			if (direction === "next" && indexOfLastPost < blogPosts.length) {
-				return prevPage + 1;
-			} else if (direction === "previous" && prevPage > 1) {
-				return prevPage - 1;
-			}
-			return prevPage;
-		});
-	};
-
+  const handlePageChange = (direction: "next" | "previous") => {
+    setCurrentPage((prevPage) => {
+      if (direction === "next" && indexOfLastPost < blogPosts.length) {
+        return prevPage + 1;
+      } else if (direction === "previous" && prevPage > 1) {
+        return prevPage - 1;
+      }
+      return prevPage;
+    });
+  };
 
   return (
     <div className="flex flex-col h-screen">
       <header className="w-full flex flex-col h-full">
-        <Tabs
-          value={activeTab}
-          onValueChange={setActiveTab}
-          className="flex flex-col h-full"
-        >
-          <TabsList className="flex w-full bg-gray-200 border-b border-gray-300">
-            <TabsTrigger
-              value="about"
-              className={`flex-1 py-3 text-center cursor-pointer transition-colors ${
-                activeTab === "about"
-                  ? "bg-green-500 text-white"
-                  : "text-gray-700 hover:bg-gray-300"
-              }`}
-            >
-              Tentang Kami
-            </TabsTrigger>
-            <TabsTrigger
-              value="policy"
-              className={`flex-1 py-3 text-center cursor-pointer transition-colors ${
-                activeTab === "policy"
-                  ? "bg-green-500 text-white"
-                  : "text-gray-700 hover:bg-gray-300"
-              }`}
-            >
-              Kebijakan Perusahaan
-            </TabsTrigger>
-            <TabsTrigger
-              value="certifications"
-              className={`flex-1 py-3 text-center cursor-pointer transition-colors ${
-                activeTab === "certifications"
-                  ? "bg-green-500 text-white"
-                  : "text-gray-700 hover:bg-gray-300"
-              }`}
-            >
-              Sertifikasi & Penghargaan
-            </TabsTrigger>
-            <TabsTrigger
-              value="blog"
-              className={`flex-1 py-3 text-center cursor-pointer transition-colors ${
-                activeTab === "blog"
-                  ? "bg-green-500 text-white"
-                  : "text-gray-700 hover:bg-gray-300"
-              }`}
-            >
-              Blog atau Berita
-            </TabsTrigger>
-          </TabsList>
+        <div className="relative">
+          <button
+            className="block md:hidden p-2 text-white bg-green-500 rounded"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            Menu
+          </button>
 
-          <div className="flex-1 overflow-y-auto">
-            <TabsContent value="about" className="h-full p-4">
-              <section id="home" className="relative w-full h-full mb-6">
-                <div className="absolute inset-0 bg-[#8A9A5B] opacity-30 z-10"></div>
-                <div className="relative z-20 flex flex-col items-center justify-center h-full text-center text-white">
-                  <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                    Produk terpercaya Langsung dari Petani Lokal
-                  </h1>
-                  <p className="text-lg md:text-xl mb-8">
-                    Pelajari lebih lanjut tentang visi, misi, dan layanan
-                    HarvestHub
-                  </p>
-                </div>
-                <video
-                  src="/images/The Farmer.mp4"
-                  autoPlay
-                  muted
-                  loop
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-              </section>
+          {/* Toggle Menu for small screens */}
+          <div
+            className={`fixed inset-0 z-50 bg-black bg-opacity-70 transition-transform ${
+              menuOpen ? "translate-x-0" : "-translate-x-full"
+            } md:hidden`}
+          >
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-4">
+                <img src="image/.png" alt="Logo" className="h-8" />
+                <button
+                  onClick={() => setMenuOpen(false)}
+                  className="text-white"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+              <ul className="space-y-6">
+                <li>
+                  <button
+                    onClick={() => {
+                      setActiveTab("about");
+                      setMenuOpen(false);
+                    }}
+                    className="text-white text-xl"
+                  >
+                    Tentang Kami
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      setActiveTab("policy");
+                      setMenuOpen(false);
+                    }}
+                    className="text-white text-xl"
+                  >
+                    Kebijakan Perusahaan
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      setActiveTab("certifications");
+                      setMenuOpen(false);
+                    }}
+                    className="text-white text-xl"
+                  >
+                    Sertifikasi & Penghargaan
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      setActiveTab("blog");
+                      setMenuOpen(false);
+                    }}
+                    className="text-white text-xl"
+                  >
+                    Blog atau Berita
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="flex flex-col"
+          >
+            {/* TabsList is hidden on small screens */}
+            <div className="hidden md:block">
+              <TabsList className="flex w-full bg-gray-200 border-b border-gray-300">
+                <TabsTrigger
+                  value="about"
+                  className={`flex-1 py-3 text-center cursor-pointer transition-colors ${
+                    activeTab === "about"
+                      ? "bg-green-500 text-white"
+                      : "text-gray-700 hover:bg-gray-300"
+                  }`}
+                >
+                  Tentang Kami
+                </TabsTrigger>
+                <TabsTrigger
+                  value="policy"
+                  className={`flex-1 py-3 text-center cursor-pointer transition-colors ${
+                    activeTab === "policy"
+                      ? "bg-green-500 text-white"
+                      : "text-gray-700 hover:bg-gray-300"
+                  }`}
+                >
+                  Kebijakan Perusahaan
+                </TabsTrigger>
+                <TabsTrigger
+                  value="certifications"
+                  className={`flex-1 py-3 text-center cursor-pointer transition-colors ${
+                    activeTab === "certifications"
+                      ? "bg-green-500 text-white"
+                      : "text-gray-700 hover:bg-gray-300"
+                  }`}
+                >
+                  Sertifikasi & Penghargaan
+                </TabsTrigger>
+                <TabsTrigger
+                  value="blog"
+                  className={`flex-1 py-3 text-center cursor-pointer transition-colors ${
+                    activeTab === "blog"
+                      ? "bg-green-500 text-white"
+                      : "text-gray-700 hover:bg-gray-300"
+                  }`}
+                >
+                  Blog atau Berita
+                </TabsTrigger>
+              </TabsList>
+            </div>
 
-              <section
-                id="about-us"
-                className="container mx-auto px-4 py-12 mb-6"
-              >
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Tentang Kami</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-lg text-justify">
-                      HarvestHub adalah lebih dari sekadar platform e-commerce;
-                      kami adalah mitra strategis dalam perjalanan pertanian
-                      modern. Kami berkomitmen untuk menghubungkan petani lokal
-                      dengan pasar global melalui teknologi canggih dan solusi
-                      inovatif.
-                      <br />
-                      <br />
-                      Dengan latar belakang dalam pertanian organik dan ramah
-                      lingkungan, kami memahami tantangan yang dihadapi petani
-                      dalam menjalankan praktik yang berkelanjutan. Oleh karena
-                      itu, kami menawarkan berbagai produk dan layanan yang
-                      dirancang untuk meningkatkan efisiensi dan hasil panen.
-                      Platform kami menyajikan teknologi terbaru seperti sensor
-                      pintar, analitik data, dan sistem manajemen pertanian
-                      terintegrasi, yang memungkinkan petani untuk membuat
-                      keputusan yang lebih baik dan berbasis data.
-                      <br />
-                      <br />
-                      Kami juga memiliki program pelatihan dan dukungan untuk
-                      petani, memberikan mereka keterampilan dan pengetahuan
-                      yang dibutuhkan untuk sukses dalam praktik pertanian
-                      modern. Visi kami adalah menciptakan ekosistem di mana
-                      semua orang memiliki akses ke makanan sehat dan
-                      berkelanjutan, sambil memberdayakan komunitas pertanian
-                      dengan alat dan sumber daya yang mereka butuhkan untuk
-                      berkembang.
-                      <br />
-                      <br />
-                      Bergabunglah dengan kami di HarvestHub untuk menjadi
-                      bagian dari perubahan positif dalam industri pertanian.
-                      Bersama-sama, kita dapat mencapai masa depan yang lebih
-                      baik dan lebih berkelanjutan.
-                    </p>
-                  </CardContent>
-                </Card>
-              </section>
-            </TabsContent>
-
-            <TabsContent value="policy" className="h-full p-4">
-              <section
-                id="company-policy"
-                className="container mx-auto px-4 py-12 mb-6"
+            <div className="flex-1 p-4 overflow-hidden">
+              <TabsContent value="about" className="flex-1 p-4 overflow-hidden">
+                <section
+                  id="about-us"
+                  className="container mx-auto px-4 py-12 mb-6"
+                >
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Tentang Kami</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-lg text-justify">
+                        HarvestHub adalah lebih dari sekadar platform
+                        e-commerce; kami adalah mitra strategis dalam perjalanan
+                        pertanian modern. Kami berkomitmen untuk menghubungkan
+                        petani lokal dengan pasar global melalui teknologi
+                        canggih dan solusi inovatif.
+                        <br />
+                        <br />
+                        Dengan latar belakang dalam pertanian organik dan ramah
+                        lingkungan, kami memahami tantangan yang dihadapi petani
+                        dalam menjalankan praktik yang berkelanjutan. Oleh
+                        karena itu, kami menawarkan berbagai produk dan layanan
+                        yang dirancang untuk meningkatkan efisiensi dan hasil
+                        panen. Platform kami menyajikan teknologi terbaru
+                        seperti sensor pintar, analitik data, dan sistem
+                        manajemen pertanian terintegrasi, yang memungkinkan
+                        petani untuk membuat keputusan yang lebih baik dan
+                        berbasis data.
+                        <br />
+                        <br />
+                        Kami juga memiliki program pelatihan dan dukungan untuk
+                        petani, memberikan mereka keterampilan dan pengetahuan
+                        yang dibutuhkan untuk sukses dalam praktik pertanian
+                        modern. Kami menawarkan berbagai kursus dan seminar yang
+                        dirancang untuk mengedukasi petani tentang teknik
+                        terbaru dan praktik terbaik dalam pertanian.
+                        <br />
+                        <br />
+                        Di HarvestHub, kami percaya bahwa kolaborasi adalah
+                        kunci untuk mencapai hasil yang optimal. Oleh karena
+                        itu, kami bekerja sama dengan berbagai organisasi dan
+                        lembaga untuk menyediakan dukungan tambahan dan sumber
+                        daya bagi petani kami. Kami juga berkomitmen untuk
+                        mempromosikan keberagaman dalam industri pertanian
+                        dengan memberikan peluang kepada petani dari berbagai
+                        latar belakang.
+                        <br />
+                        <br />
+                        Visi kami adalah menciptakan ekosistem di mana semua
+                        orang memiliki akses ke makanan sehat dan berkelanjutan,
+                        sambil memberdayakan komunitas pertanian dengan alat dan
+                        sumber daya yang mereka butuhkan untuk berkembang. Kami
+                        berkomitmen untuk terus berinovasi dan beradaptasi
+                        dengan kebutuhan pasar yang terus berkembang.
+                        <br />
+                      </p>
+                    </CardContent>
+                  </Card>
+                </section>
+              </TabsContent>
+              <TabsContent
+                value="policy"
+                className="flex-1 p-4 overflow-hidden"
               >
                 <Card>
                   <CardHeader>
@@ -248,13 +300,10 @@ const CompanyProfile: React.FC = () => {
                     </p>
                   </CardContent>
                 </Card>
-              </section>
-            </TabsContent>
-
-            <TabsContent value="certifications" className="h-full p-4">
-              <section
-                id="certifications"
-                className="container mx-auto px-4 py-12 mb-6"
+              </TabsContent>
+              <TabsContent
+                value="certifications"
+                className="flex-1 p-4 overflow-hidden"
               >
                 <Card>
                   <CardHeader>
@@ -305,57 +354,70 @@ const CompanyProfile: React.FC = () => {
                     </p>
                   </CardContent>
                 </Card>
-              </section>
-            </TabsContent>
-
-            <TabsContent value="blog" className="h-full p-4">
-              <section id="blog" className="container mx-auto px-4 py-12 mb-6">
-                <h2 className="text-2xl font-bold mb-6">Blog atau Berita</h2>
-                {currentPosts.map((post) => (
-                  <Card key={post.id} className="mb-6">
-                    <CardHeader>
-                      <CardTitle>{post.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <img
-                        src={post.image}
-                        alt={post.title}
-                        className="w-full h-auto mb-4 rounded-lg shadow-lg"
-                      />
-                      <p className="text-lg text-justify mb-4">
-                        {expandedArticleId === post.id
-                          ? post.content
-                          : `${post.content.slice(0, 300)}...`}
-                      </p>
-                      <Button
-                        variant="outline"
-                        onClick={() => handleReadMore(post.id)}
-                      >
-                        {expandedArticleId === post.id
-                          ? "Baca Lebih Sedikit"
-                          : "Baca Lebih Banyak"}
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
-                <div className="flex justify-end mt-6 space-x-2">
-                  <Button
-                    onClick={() => handlePageChange("previous")}
-                    disabled={currentPage === 1}
-                  >
-                    Sebelumnya
-                  </Button>
-                  <Button
-                    onClick={() => handlePageChange("next")}
-                    disabled={indexOfLastPost >= blogPosts.length}
-                  >
-                    Berikutnya
-                  </Button>
-                </div>
-              </section>
-            </TabsContent>
-          </div>
-        </Tabs>
+              </TabsContent>
+              <TabsContent value="blog" className="flex-1 p-4 overflow-hidden">
+                <section
+                  id="blog"
+                  className="container mx-auto px-4 py-12 mb-6"
+                >
+                  <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">
+                    Blog atau Berita
+                  </h2>
+                  {currentPosts.map((post) => (
+                    <Card key={post.id} className="mb-4 sm:mb-6">
+                      <CardHeader>
+                        <CardTitle className="text-lg sm:text-xl">
+                          {post.title}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="flex flex-col sm:flex-row items-start">
+                          <img
+                            src={post.image}
+                            alt={post.title}
+                            className="w-full sm:w-1/4 md:w-1/5 lg:w-1/6 h-auto mb-3 sm:mb-0 rounded-lg shadow-lg"
+                          />
+                          <div className="sm:ml-4 flex-1">
+                            <p className="text-sm sm:text-base text-justify mb-3 sm:mb-4">
+                              {expandedArticleId === post.id
+                                ? post.content
+                                : `${post.content.slice(0, 200)}...`}
+                            </p>
+                            <Button
+                              variant="outline"
+                              className="text-xs sm:text-sm"
+                              onClick={() => handleReadMore(post.id)}
+                            >
+                              {expandedArticleId === post.id
+                                ? "Baca Lebih Sedikit"
+                                : "Baca Lebih Banyak"}
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                  <div className="flex justify-end mt-4 sm:mt-6 space-x-2">
+                    <Button
+                      className="text-xs sm:text-sm"
+                      onClick={() => handlePageChange("previous")}
+                      disabled={currentPage === 1}
+                    >
+                      Sebelumnya
+                    </Button>
+                    <Button
+                      className="text-xs sm:text-sm"
+                      onClick={() => handlePageChange("next")}
+                      disabled={indexOfLastPost >= blogPosts.length}
+                    >
+                      Berikutnya
+                    </Button>
+                  </div>
+                </section>
+              </TabsContent>
+            </div>
+          </Tabs>
+        </div>
       </header>
     </div>
   );
