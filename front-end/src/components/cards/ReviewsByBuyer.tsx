@@ -41,7 +41,7 @@ const ReviewsByBuyer = ({ buyer_id }: { buyer_id: string }) => {
 	}, [buyerId]);
 
 	if (loading) return <div>Loading...</div>;
-	if (error) return <div>{error}</div>;
+	// if (error) return <div>{error}</div>;
 
 	return (
 		<div className='space-y-2'>
@@ -63,7 +63,6 @@ const ReviewsByBuyer = ({ buyer_id }: { buyer_id: string }) => {
 							<Link to={`/product/${review.product_id}`}>
 								<Button>View Product</Button>
 							</Link>
-							{/* You can add more footer content if needed */}
 						</CardFooter>
 					</Card>
 				))

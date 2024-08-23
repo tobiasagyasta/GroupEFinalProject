@@ -33,6 +33,7 @@ class SellerSchema(UserSchema):
     farm_name = fields.Str(required=True)
     farm_location = fields.Str()
     bio = fields.Str()
+    account_number = fields.Str()
 
     @validates('role')
     def validate_role(self, value):

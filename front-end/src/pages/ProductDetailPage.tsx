@@ -7,10 +7,12 @@ import { User } from "@/lib/types";
 import ReviewsCard from "@/components/cards/ReviewsCard";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaCartPlus, FaHeart, FaStar } from "react-icons/fa";
+import { useToast } from "@/components/ui/use-toast";
 
 import CheckoutDialog from "@/components/HarvestHub/BuyNow";
 
 function ProductDetailPage() {
+	const { toast } = useToast();
 	const { id } = useParams(); // Get the product ID from the URL
 	const [product, setProduct] = useState<Product | null>(null);
 	const [seller, setSeller] = useState<any>(null); // Define a state for seller information
@@ -153,6 +155,13 @@ function ProductDetailPage() {
 							credentials: "include",
 						}
 					);
+					if (addItemResponse.ok) {
+						toast({
+							title: "Sukses!",
+							description: `Produk berhasil masuk keranjang belanja!`,
+							className: "bg-green-500",
+						});
+					}
 					if (!addItemResponse.ok) {
 						throw new Error("Failed to add item to cart");
 					}

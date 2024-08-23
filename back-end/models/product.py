@@ -29,6 +29,7 @@ class Product(Base):
     reviews = relationship('Review', back_populates='product',  primaryjoin='Product.id == Review.product_id')
     cart_items = relationship('CartItem', back_populates='product')
     favorites = relationship("Favorite", back_populates="product", uselist=False, cascade='all, delete-orphan')
+    order_items = relationship('OrderItem', back_populates= 'product')
     
     def to_dict(self):
         """Convert the Product object to a dictionary."""

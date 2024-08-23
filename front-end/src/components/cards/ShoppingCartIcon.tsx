@@ -27,7 +27,7 @@ const ShoppingCartIcon: React.FC<ShoppingCartIconProps> = ({
 	toggleCart,
 }) => {
 	const [isCartOpen, setIsCartOpen] = useState(isOpen);
-	const [cartId, setCartId] = useState<String>();
+	const [cartId, setCartId] = useState<string>();
 	const [cart, setCart] = useState<CartData | null>(null); // State to hold cart items
 	const [user, setUser] = useState<User | null>(null);
 	const [buyerId, setBuyerId] = useState<number | null>(null);
@@ -64,7 +64,6 @@ const ShoppingCartIcon: React.FC<ShoppingCartIconProps> = ({
 
 	const fetchCartData = async () => {
 		try {
-			// Replace with your logic to fetch the buyer ID
 			if (buyerId) {
 				const response = await fetch(`${apiBaseUrl}/cart/buyer/${buyerId}`, {
 					method: "GET",
@@ -77,7 +76,7 @@ const ShoppingCartIcon: React.FC<ShoppingCartIconProps> = ({
 					throw new Error("Failed to fetch cart id");
 				}
 				const data = await response.json();
-				setCartId(data.cart_id); // Assuming the API returns an array of items
+				setCartId(data.cart_id);
 			}
 			if (cartId) {
 				const response = await fetch(`${apiBaseUrl}/cart/${cartId}`, {
@@ -91,7 +90,7 @@ const ShoppingCartIcon: React.FC<ShoppingCartIconProps> = ({
 					throw new Error("Failed to fetch cart data");
 				}
 				const data = await response.json();
-				setCart(data); // Assuming the API returns an array of items
+				setCart(data);
 			}
 		} catch (error) {
 			console.error("Error fetching cart:", error);
@@ -99,7 +98,7 @@ const ShoppingCartIcon: React.FC<ShoppingCartIconProps> = ({
 	};
 
 	return (
-		<div>
+		<div className='relative'>
 			<button
 				onClick={handleToggleCart}
 				className='text-green-700 hover:text-green-900'

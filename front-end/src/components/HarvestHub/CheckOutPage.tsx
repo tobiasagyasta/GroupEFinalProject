@@ -1,36 +1,63 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useLocation, useNavigate } from "react-router";
+import { useParams } from "react-router";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { apiBaseUrl } from "@/lib/api";
+import { useNavigate } from "react-router-dom";
 
 interface OrderItem {
 	product_id: number;
 	product_name: string;
 	quantity: number;
-	price: string; // or you can use number if you convert the price on the backend
+	price: string;
 	product_picture_url: string;
 }
 
 interface Order {
 	order_id: number;
 	buyer_id: number;
-	total_price: string; // or number
+	total_price: string;
 	payment_method: string;
-	order_date: string; // ISO date string
+	order_date: string;
 	items: OrderItem[];
 }
+
 const CheckoutPage: React.FC = () => {
 	const { orderId } = useParams<{ orderId: string }>();
 	const [order, setOrder] = useState<Order | null>(null);
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [address, setAddress] = useState("Alamat belum diisi");
 	const [newAddress, setNewAddress] = useState(address);
+	const [discountCode, setDiscountCode] = useState("");
+	const [discount, setDiscount] = useState(0);
+	const navigate = useNavigate();
+
+	const discountCodes: Record<string, number> = {
+		HUTRI2024: 0.17,
+		HarvestHub: 0.05,
+		RevoU: 0.1,
+	};
+
+	const applyDiscount = () => {
+		const discountValue = discountCodes[discountCode];
+		if (discountValue && order) {
+			setDiscount(Number(order.total_price) * discountValue);
+		} else {
+			setDiscount(0);
+		}
+	};
+
+	const handleDiscountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setDiscountCode(e.target.value);
+	};
+
+	const totalCostWithoutDiscount =
+		Number(order?.total_price || 0) + 8000 + 500 + 1000;
+	const totalCostWithDiscount = totalCostWithoutDiscount - discount;
 
 	useEffect(() => {
-		// Fetch the order data
 		const fetchOrder = async () => {
 			try {
 				const response = await fetch(`${apiBaseUrl}/order/${orderId}`);
@@ -66,13 +93,30 @@ const CheckoutPage: React.FC = () => {
 		closeAddressDialog();
 	};
 
-	const handlePaymentClick = () => {
-		alert("Pembayaran berhasil");
+	const handlePaymentClick = async () => {
+		try {
+			// Send a PATCH request to update the order status
+			const response = await fetch(`${apiBaseUrl}/order/${orderId}/status`, {
+				method: "PATCH",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ status: "processing" }),
+			});
+
+			if (!response.ok) {
+				throw new Error("Failed to update order status");
+			}
+
+			// Navigate to the transfer instructions page if status update is successful
+			navigate(`/transfer/${orderId}`);
+		} catch (error) {
+			console.error("Error updating order status:", error);
+			alert("Failed to process payment. Please try again.");
+		}
 	};
 
 	if (!order) return <p>Loading...</p>;
-
-	const totalCost = Number(order.total_price) + 8000 + 500 + 1000;
 
 	return (
 		<div className='flex flex-col md:flex-row gap-4 p-4 bg-gray-100'>
@@ -137,9 +181,35 @@ const CheckoutPage: React.FC = () => {
 							<p>Biaya Jasa Aplikasi</p>
 							<p>{formatPrice(1000)}</p>
 						</div>
+
+						{discount > 0 && (
+							<div className='flex justify-between text-green-600 font-semibold'>
+								<p>Penghematan Diskon</p>
+								<p>- {formatPrice(discount)}</p>
+							</div>
+						)}
+
 						<div className='flex justify-between font-semibold'>
 							<p>Total Belanja</p>
-							<p>{formatPrice(totalCost)}</p>
+							<p>{formatPrice(totalCostWithDiscount)}</p>
+						</div>
+
+						<div className='mt-4'>
+							<Label htmlFor='discountCode'>Kode Diskon</Label>
+							<Input
+								id='discountCode'
+								type='text'
+								value={discountCode}
+								onChange={handleDiscountChange}
+								placeholder='Masukkan kode diskon'
+								className='mt-1 p-2 border border-gray-300 rounded-lg'
+							/>
+							<Button
+								onClick={applyDiscount}
+								className='mt-2 bg-blue-500 text-white'
+							>
+								Terapkan Diskon
+							</Button>
 						</div>
 						<button
 							className='mt-4 bg-green-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-green-600 w-full'

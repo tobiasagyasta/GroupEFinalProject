@@ -55,7 +55,8 @@ def create_user():
                     user_id=user.id,  # Foreign key reference
                     farm_name=validated_data['farm_name'],
                     farm_location=validated_data.get('farm_location'),
-                    bio=validated_data.get('bio')
+                    bio=validated_data.get('bio'),
+                    account_number = validated_data.get('account_number')
                 )
                 session.add(seller)
             elif role == UserRole.buyer.value:
@@ -108,6 +109,7 @@ def get_current_user():
                 user_data["farm_name"] = seller.farm_name
                 user_data["farm_location"] = seller.farm_location
                 user_data["bio"] = seller.bio
+                user_data["account_number"] = seller.account_number
             # elif user.role == UserRole.buyer:
             #     buyer = user.buyers
             #     if buyer:
@@ -213,6 +215,25 @@ def get_buyer_id(user_id):
                     return jsonify({'buyer_id': buyer.id})
                 else:
                     return jsonify({'error': 'Buyer not found'}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        session.close()
+        
+@user_bp.route('/seller/<int:seller_id>', methods=['GET'])
+def get_seller_info(seller_id):
+    Session = sessionmaker(bind=engine)
+    try:
+        with Session() as session:
+            seller = session.query(Seller).filter(Seller.id == seller_id).first()
+            if not seller:
+                return jsonify({'error': 'Seller not found'}), 404
+
+            # Return seller's bank account information
+            return jsonify({
+                'seller_id': seller.id,
+                'account_number': seller.account_number
+            }), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     finally:

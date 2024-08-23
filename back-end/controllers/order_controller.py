@@ -5,6 +5,7 @@ from models.order import Order
 from models.order_item import OrderItem
 from models.cart_item import CartItem
 from models.product import Product
+from models.seller import Seller  # Ensure Seller model is imported
 from connectors.sql_connector import engine
 
 order_bp = Blueprint('order_bp', __name__, url_prefix='/order')
@@ -25,13 +26,14 @@ def checkout():
         if not cart:
             return jsonify({'message': 'Cart not found'}), 404
         
-        # Fetch product prices for the items in the cart
-        product_ids = [item.product_id for item in cart.cart_items]
+        # Fetch product details for the items in the cart
+        cart_items = session.query(CartItem).filter(CartItem.cart_id == cart_id).all()
+        product_ids = [item.product_id for item in cart_items]
         products = session.query(Product).filter(Product.id.in_(product_ids)).all()
-        product_dict = {product.id: product.price for product in products}
+        product_dict = {product.id: product for product in products}
         
         # Calculate total price
-        total_price = sum(product_dict[item.product_id] * item.quantity for item in cart.cart_items)
+        total_price = sum(product_dict[item.product_id].price * item.quantity for item in cart_items)
 
         # Create a new order
         order = Order(
@@ -42,8 +44,19 @@ def checkout():
         session.add(order)
         session.commit()
 
-        # Add cart items to the order
-        order_items = [OrderItem(order_id=order.id, product_id=item.product_id, quantity=item.quantity) for item in cart.cart_items]
+        # Add cart items to the order, including seller_id
+        order_items = []
+        for item in cart_items:
+            product = product_dict.get(item.product_id)
+            if product:
+                order_item = OrderItem(
+                    order_id=order.id,
+                    product_id=item.product_id,
+                    quantity=item.quantity,
+                    seller_id=product.seller_id  # Set seller_id from Product
+                )
+                order_items.append(order_item)
+        
         session.add_all(order_items)
         session.commit()
 
@@ -52,8 +65,7 @@ def checkout():
         session.commit()
 
         return jsonify({'message': 'Order created successfully', 'order_id': order.id}), 201
-    
-    
+
 @order_bp.route('/<int:order_id>', methods=['GET'])
 def get_order(order_id):
     Session = sessionmaker(bind=engine)
@@ -78,16 +90,87 @@ def get_order(order_id):
             'total_price': order.total_price,
             'payment_method': order.payment_method,
             'order_date': order.order_date,
+            'status': order.status,
             'items': [
                 {
                     'product_id': item.product_id,
+                    'seller_id': product_dict[item.product_id].seller_id,
                     'product_name': product_dict[item.product_id].name,
                     'quantity': item.quantity,
                     'price': product_dict[item.product_id].price,
-                    'product_picture_url':  product_dict[item.product_id].product_picture_url
+                    'product_picture_url': product_dict[item.product_id].product_picture_url
                 }
                 for item in order_items
-            ]
+            ],
+            'transaction_id': order.transaction_id
         }
 
         return jsonify(order_data), 200
+@order_bp.route('/<int:order_id>/status', methods=['PATCH'])
+def update_order_status(order_id):
+    # Retrieve the new status from the request body
+    new_status = request.json.get('status')
+    
+    # Validate the new status
+    valid_statuses = ['pending', 'processing', 'accepted', 'shipped', 'cancelled']
+    if new_status not in valid_statuses:
+        return jsonify({'message': 'Invalid status value'}), 400
+
+    Session = sessionmaker(bind=engine)
+    with Session() as session:
+        # Retrieve the order by ID
+        order = session.query(Order).get(order_id)
+        if not order:
+            return jsonify({'message': 'Order not found'}), 404
+
+        # Update the order status
+        order.status = new_status
+        session.commit()
+
+        return jsonify({'message': 'Order status updated successfully', 'order_id': order.id, 'new_status': new_status}), 200
+
+@order_bp.route('/buyer/<int:buyer_id>', methods=['GET'])
+def get_orders_by_buyer(buyer_id):
+    Session = sessionmaker(bind=engine)
+    with Session() as session:
+        # Retrieve all orders for the given buyer ID
+        orders = session.query(Order).filter(Order.buyer_id == buyer_id).all()
+        
+        if not orders:
+            return jsonify({'message': 'No orders found for this buyer'}), 404
+        
+        # Prepare the orders details
+        orders_data = []
+        for order in orders:
+            # Retrieve the order items associated with the order
+            order_items = session.query(OrderItem).filter_by(order_id=order.id).all()
+
+            # Retrieve product details for each order item
+            product_ids = [item.product_id for item in order_items]
+            products = session.query(Product).filter(Product.id.in_(product_ids)).all()
+            product_dict = {product.id: product for product in products}
+
+            # Prepare the order details
+            order_data = {
+                'order_id': order.id,
+                'buyer_id': order.buyer_id,
+                'total_price': order.total_price,
+                'payment_method': order.payment_method,
+                'order_date': order.order_date,
+                'status': order.status,
+                'items': [
+                    {
+                        'product_id': item.product_id,
+                        'seller_id': product_dict[item.product_id].seller_id,
+                        'product_name': product_dict[item.product_id].name,
+                        'quantity': item.quantity,
+                        'price': product_dict[item.product_id].price,
+                        'product_picture_url': product_dict[item.product_id].product_picture_url
+                    }
+                    for item in order_items
+                ],
+                'transaction_id': order.transaction_id
+            }
+            orders_data.append(order_data)
+        
+        return jsonify({'orders': orders_data}), 200

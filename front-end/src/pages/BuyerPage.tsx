@@ -17,6 +17,25 @@ import {
 import { User } from "@/lib/types";
 import ReviewsByBuyer from "@/components/cards/ReviewsByBuyer";
 import ShoppingCart from "../components/cards/ShoppingCart";
+import LikesByUser from "@/components/cards/LikesByUser";
+interface OrderItem {
+	product_id: number;
+	product_name: string;
+	quantity: number;
+	price: string;
+	product_picture_url: string;
+}
+
+interface Order {
+	order_id: number;
+	buyer_id: number;
+	total_price: string;
+	payment_method: string;
+	order_date: string;
+	status: string;
+	items: OrderItem[];
+	transaction_id: string;
+}
 
 export default function BuyerPage() {
 	const [buyerId, setBuyerId] = useState<string | null>(null);
@@ -64,7 +83,7 @@ export default function BuyerPage() {
 	};
 
 	const menuItems = [
-		{ label: "Pesananan Saya", icon: <FaBoxOpen /> },
+		{ label: "Pesanan Saya", icon: <FaBoxOpen /> },
 		{ label: "Menunggu Pembayaran", icon: <FaTruckLoading /> },
 		{ label: "Kotak Masuk", icon: <FaInbox /> },
 		{ label: "Diskusi Produk", icon: <FaCommentAlt /> },
@@ -286,7 +305,7 @@ export default function BuyerPage() {
 					)}
 
 					{/* Pesananan Saya */}
-					{selectedMenu === "Pesananan Saya" && (
+					{selectedMenu === "Pesanan Saya" && (
 						<Tabs>
 							<TabsList>
 								<TabsTrigger value='semua'>Semua</TabsTrigger>
@@ -376,115 +395,7 @@ export default function BuyerPage() {
 					)}
 
 					{/* Favorit Saya */}
-					{selectedMenu === "Favorit Saya" && (
-						<Tabs>
-							<TabsList>
-								<TabsTrigger value='semua-favorit'>Semua Favorit</TabsTrigger>
-								<TabsTrigger value='rekomendasi'>
-									Rekomendasi Produk
-								</TabsTrigger>
-								<TabsTrigger value='terakhir-dilihat'>
-									Terakhir Dilihat
-								</TabsTrigger>
-							</TabsList>
-							<TabsContent
-								value='semua-favorit'
-								className='p-4 bg-white shadow-md rounded-lg'
-							>
-								<h3 className='text-lg font-semibold'>
-									Semua Favorit{" "}
-									<span className='text-sm text-gray-600'>(3 Produk)</span>
-								</h3>
-
-								<div className='grid grid-cols-3 gap-4 mt-4'>
-									<ProductCard
-										imageUrl='/images/almond.jpg'
-										name='Almond'
-										price='Rp 100.000'
-										location='Jakarta'
-									/>
-									<ProductCard
-										imageUrl='/images/anggur.jpg'
-										name='Anggur'
-										price='Rp 200.000'
-										location='Bandung'
-									/>
-									<ProductCard
-										imageUrl='/images/bayam.jpg'
-										name='Bayam'
-										price='Rp 300.000'
-										location='Surabaya'
-									/>
-								</div>
-
-								<p className='mt-2 text-gray-700'>
-									Atur Favorit Saya pakai fitur Koleksi, yuk! Kelompokkan barang
-									impianmu sesuai tema, jenis barang, atau apa pun sesukamu.
-									Produk Favoritmu jadi rapi, barang lebih gampang dicari.
-								</p>
-								<button className='bg-green-500 text-white px-4 py-2 rounded'>
-									+ Koleksi Baru
-								</button>
-							</TabsContent>
-							<TabsContent
-								value='rekomendasi'
-								className='p-4 bg-white shadow-md rounded-lg'
-							>
-								<h3 className='text-lg font-semibold'>Rekomendasi Produk</h3>
-								<div className='grid grid-cols-3 gap-4 mt-4'>
-									<ProductCard
-										imageUrl='/images/belimbing.jpg'
-										name='Belimbing'
-										price='Rp 150.000'
-										location='Yogyakarta'
-									/>
-									<ProductCard
-										imageUrl='/images/blueberry.jpg'
-										name='Blueberry'
-										price='Rp 250.000'
-										location='Malang'
-									/>
-									<ProductCard
-										imageUrl='/images/Beras Merah.jpg'
-										name='Beras Merah'
-										price='Rp 350.000'
-										location='Semarang'
-									/>
-								</div>
-							</TabsContent>
-							<TabsContent
-								value='terakhir-dilihat'
-								className='p-4 bg-white shadow-md rounded-lg'
-							>
-								<h3 className='text-lg font-semibold flex justify-between items-center'>
-									Terakhir Dilihat
-									<button className='bg-blue-500 text-white px-4 py-2 rounded'>
-										Lihat Semua
-									</button>
-								</h3>
-								<div className='grid grid-cols-3 gap-4 mt-4'>
-									<ProductCard
-										imageUrl='/images/Brokoli.jpg'
-										name='Brokoli'
-										price='Rp 120.000'
-										location='Bali'
-									/>
-									<ProductCard
-										imageUrl='/images/Cabe Rawit.jpg'
-										name='Cabe Rawit'
-										price='Rp 220.000'
-										location='Makassar'
-									/>
-									<ProductCard
-										imageUrl='/images/Bawang Putih.jpg'
-										name='Bawang Putih'
-										price='Rp 320.000'
-										location='Medan'
-									/>
-								</div>
-							</TabsContent>
-						</Tabs>
-					)}
+					{selectedMenu === "Favorit Saya" && <LikesByUser></LikesByUser>}
 				</main>
 			</div>
 		</div>

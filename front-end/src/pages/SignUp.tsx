@@ -30,6 +30,8 @@ interface FormData {
 	farm_name?: string;
 	farm_location?: string;
 	bio?: string;
+	account_number?: string;
+	shipping_address?: string;
 }
 
 export default function MultiStepSignUp() {
@@ -84,7 +86,6 @@ export default function MultiStepSignUp() {
 				valid = false;
 			}
 
-
 			if (!sanitizedPassword) {
 				newErrors.password = "Kata Sandi tidak boleh kosong.";
 				valid = false;
@@ -93,7 +94,6 @@ export default function MultiStepSignUp() {
 					"Kata Sandi harus berisi huruf besar, huruf kecil, dan angka, serta antara 6-8 karakter.";
 				valid = false;
 			}
-
 
 			if (!sanitizedPhone) {
 				newErrors.phone = "Nomor handphone tidak boleh kosong.";
@@ -503,11 +503,11 @@ export default function MultiStepSignUp() {
 								</div>
 								<div className='grid gap-2'>
 									<Label htmlFor='bio' className='text-black'>
-										Deskripsi Toko
+										Deskripsi Bisnis
 									</Label>
 									<textarea
 										id='bio'
-										placeholder='Masukkan deskripsi toko'
+										placeholder='Masukkan deskripsi bisnis'
 										value={formData.bio}
 										onChange={handleChange}
 										required
@@ -516,6 +516,30 @@ export default function MultiStepSignUp() {
 									{errors.bio && (
 										<div className='text-red-500 text-sm mt-1'>
 											{errors.bio}
+										</div>
+									)}
+								</div>
+								<div className='grid gap-2'>
+									<Label htmlFor='accountNumber' className='text-black'>
+										Nomor rekening
+									</Label>
+									<Input
+										id='accountNumber'
+										type='text'
+										placeholder='Masukkan nomor rekening pembayaran anda'
+										value={formData.account_number}
+										onChange={(event) => {
+											setFormData({
+												...formData,
+												account_number: event.target.value,
+											});
+										}}
+										required
+										className='border-green-600'
+									/>
+									{errors.account_number && (
+										<div className='text-red-500 text-sm mt-1'>
+											{errors.account_number}
 										</div>
 									)}
 								</div>

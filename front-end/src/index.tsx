@@ -15,7 +15,7 @@ import CompanyProfile from "./pages/CompanyProfile";
 import BundlingPackagePage from "./pages/ProductPageBun";
 
 import { Toaster } from "./components/ui/toaster";
-import Footer from "./components/cards/Footer";
+import TransferInstructions from "./pages/TransferInstructions";
 import ProductPage from "./pages/ProductPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 
@@ -62,6 +62,7 @@ root.render(
 					<Route path='/product/:id' element={<ProductDetailPage />} />
 					<Route path='/review/:id' element={<ReviewDetailPage />} />
 					<Route path='/checkout/:orderId' element={<CheckoutPage />} />
+					<Route path='/transfer/:orderId' element={<TransferInstructions />} />
 				</Route>
 			</Routes>
 		</Router>

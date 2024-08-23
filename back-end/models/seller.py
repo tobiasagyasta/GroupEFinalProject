@@ -11,10 +11,12 @@ class Seller(Base):
     farm_name = Column(String(255), nullable=False)
     farm_location = Column(String(255), nullable=True)
     bio = Column(Text, nullable=True)
+    account_number = Column(String(255), nullable = True)
 
     # Define the relationship back to the User model
     user = relationship('User', back_populates='sellers')
     products = relationship('Product', back_populates='seller', lazy='dynamic')
+    order_items = relationship('OrderItem', back_populates= 'seller')
 
     def __repr__(self):
         return f"<Seller(id={self.id}, farm_name={self.farm_name}, farm_location={self.farm_location}, bio={self.bio})>"
