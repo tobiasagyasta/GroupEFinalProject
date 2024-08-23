@@ -14,6 +14,7 @@ from models.base import Base
 from models.user import User, UserRole
 from models.seller import Seller
 from models.buyer import Buyer
+from models.order import Order
 from models.product import Product
 from models.review import Review
 from models.cart import Cart

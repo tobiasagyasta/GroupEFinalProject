@@ -1,8 +1,8 @@
-from sqlalchemy import Column, Integer, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-from datetime import datetime
 from models.base import Base
 from models.product import Product
+
 class CartItem(Base):
     __tablename__ = 'cart_item'
 
@@ -11,7 +11,6 @@ class CartItem(Base):
     product_id = Column(Integer, ForeignKey('products.id'), nullable=False)
     quantity = Column(Integer, nullable=False)
 
-    # Relationships to the Cart, Product, and Bundle models
+    # Relationships to the Cart and Product models
     cart = relationship('Cart', back_populates='cart_items')
     product = relationship('Product')
-   

@@ -5,6 +5,17 @@ import { Product } from "@/lib/types";
 import { apiBaseUrl, fetchCurrentUser } from "@/lib/api";
 import { User } from "@/lib/types";
 import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {
 	Pagination,
 	PaginationContent,
 	PaginationItem,
@@ -91,6 +102,22 @@ const ProductPage = ({ category = "" }) => {
 		}
 	};
 
+	// Function to handle favoriting and unfavoriting
+	const handleFavoriteToggle = async (productId: number) => {
+		try {
+			if (favoritedProducts.includes(productId)) {
+				// Product is already favorited, unfavorite it
+				await handleUnfavorite(productId);
+			} else {
+				// Product is not favorited, favorite it
+				await handleFavorite(productId);
+			}
+			// Optionally update state here
+		} catch (error) {
+			console.error("Error toggling favorite:", error);
+		}
+	};
+
 	const handleFavorite = async (product_id: number) => {
 		if (!user) {
 			console.error("User must be logged in to add favorites");
@@ -119,6 +146,34 @@ const ProductPage = ({ category = "" }) => {
 			}
 		} catch (error) {
 			console.error("Error adding product to favorites:", error);
+		}
+	};
+
+	// Function to unfavorite a product
+	const handleUnfavorite = async (productId: number) => {
+		try {
+			// Show a confirmation
+			// eslint-disable-next-line no-restricted-globals
+			let confirmed = confirm("Apakah anda mau delete favorite produk ini?");
+
+			if (confirmed) {
+				const response = await fetch(`${apiBaseUrl}/favorites/${productId}`, {
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					credentials: "include",
+				});
+
+				if (response.ok) {
+					// Update state to remove the unfavorited product
+					setFavoritedProducts((prev) => prev.filter((id) => id !== productId));
+				} else {
+					console.error("Failed to remove product from favorites");
+				}
+			}
+		} catch (error) {
+			console.error("Error removing from favorites:", error);
 		}
 	};
 
@@ -155,7 +210,7 @@ const ProductPage = ({ category = "" }) => {
 							</Link>
 							{user?.role === "buyer" && (
 								<button
-									onClick={() => handleFavorite(product.id)}
+									onClick={() => handleFavoriteToggle(product.id)}
 									className='w-1/3 mx-auto px-4 py-2 bg-gray-500 text-white rounded-lg shadow-md hover:bg-gray-600 flex items-center justify-center mt-2'
 								>
 									<FaHeart

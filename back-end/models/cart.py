@@ -10,10 +10,11 @@ class Cart(Base):
     buyer_id = Column(Integer, ForeignKey('buyer.id'), nullable=False, index=True)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
-
+    
     # Relationship to the Buyer model
     buyer = relationship('Buyer', back_populates='cart')
-    cart_items = relationship('CartItem', back_populates='cart', cascade='all, delete-orphan')
+    cart_items = relationship('CartItem', back_populates='cart', cascade='all, delete-orphan')  # This ensures cart items are deleted with the cart
+  
 
     def __repr__(self):
         return f"<Cart(id={self.id}, buyer_id={self.buyer_id})>"

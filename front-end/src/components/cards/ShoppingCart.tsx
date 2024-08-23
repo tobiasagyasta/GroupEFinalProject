@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaShoppingCart, FaTrashAlt } from "react-icons/fa";
 import { apiBaseUrl } from "@/lib/api";
+import { useToast } from "@/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface CartItem {
 	cart_item_id: number;
@@ -46,6 +48,8 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
 }) => {
 	const [items, setItems] = useState<Product[]>([]);
 	const cartRef = useRef<HTMLDivElement>(null);
+	const { toast } = useToast();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (cartData) {
@@ -91,6 +95,72 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
 					: item
 			)
 		);
+	};
+	const handleCheckout = async () => {
+		if (cartData) {
+			try {
+				// Update the cart items
+				const updateResponse = await fetch(
+					`${apiBaseUrl}/cart/${cartData.cart_id}/update_items`,
+					{
+						method: "PUT",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							items: items.map((item) => ({
+								product_id: item.id,
+								quantity: item.quantity,
+							})),
+						}),
+					}
+				);
+
+				if (updateResponse.ok) {
+					console.log("Cart items updated successfully.");
+
+					// Create the order
+					const createOrderResponse = await fetch(
+						`${apiBaseUrl}/order/checkout`,
+						{
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify({
+								cart_id: cartData.cart_id,
+								buyer_id: cartData.buyer_id, // Assuming you have buyer_id in cartData
+								payment_method: "bank_transfer", // You can modify this to use a selected payment method
+							}),
+						}
+					);
+
+					if (createOrderResponse.ok) {
+						const data = await createOrderResponse.json();
+						console.log("Order created successfully:", data);
+						setItems([]);
+
+						toast({
+							title: "Pesanan diterima!",
+							description: `Membawa anda ke checkout page...`,
+							className: "bg-green-500",
+						});
+						setTimeout(() => {
+							navigate(`/checkout/${data.order_id}`);
+						}, 3000);
+					} else {
+						console.error(
+							"Failed to create order:",
+							createOrderResponse.statusText
+						);
+					}
+				} else {
+					console.error("Failed to update cart items during checkout.");
+				}
+			} catch (error) {
+				console.error("Error during checkout:", error);
+			}
+		}
 	};
 
 	const handleRemoveItem = async (productId: number) => {
@@ -213,7 +283,10 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
 							.toLocaleString()}
 					</p>
 				</div>
-				<button className='mt-4 w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-800'>
+				<button
+					onClick={handleCheckout}
+					className='mt-4 w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-800'
+				>
 					Checkout
 				</button>
 				<p className='mt-2 text-center text-green-600 cursor-pointer hover:underline'>

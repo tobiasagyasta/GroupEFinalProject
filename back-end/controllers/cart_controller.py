@@ -141,3 +141,27 @@ def get_cart_by_buyer_id(buyer_id):
             return jsonify({'cart_id': cart.id}), 200
         else:
             return jsonify({'message': 'No cart found for this buyer'}), 404
+        
+        
+@cart_bp.route('/<int:cart_id>/update_items', methods=['PUT'])
+def update_cart_items(cart_id):
+    """Update the quantities of items in the cart."""
+    items = request.json.get('items', [])
+    
+    if not items:
+        return jsonify({'message': 'No items provided'}), 400
+
+    Session = sessionmaker(bind=engine)
+    with Session() as session:
+        cart = session.query(Cart).get(cart_id)
+        if not cart:
+            return jsonify({'message': 'Cart not found'}), 404
+        
+        # Loop through items and update quantities
+        for item in items:
+            cart_item = session.query(CartItem).filter_by(cart_id=cart_id, product_id=item['product_id']).first()
+            if cart_item:
+                cart_item.quantity = item['quantity']
+        
+        session.commit()
+        return jsonify({'message': 'Cart updated successfully'}), 200
