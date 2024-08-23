@@ -6,6 +6,7 @@ from models.order_item import OrderItem
 from models.cart_item import CartItem
 from models.product import Product
 from models.seller import Seller  # Ensure Seller model is imported
+from models.buyer import Buyer
 from connectors.sql_connector import engine
 
 order_bp = Blueprint('order_bp', __name__, url_prefix='/order')
@@ -129,15 +130,20 @@ def update_order_status(order_id):
 
         return jsonify({'message': 'Order status updated successfully', 'order_id': order.id, 'new_status': new_status}), 200
 
-@order_bp.route('/buyer/<int:buyer_id>', methods=['GET'])
-def get_orders_by_buyer(buyer_id):
+@order_bp.route('/user/<int:user_id>', methods=['GET'])
+def get_orders_by_user(user_id):
     Session = sessionmaker(bind=engine)
     with Session() as session:
-        # Retrieve all orders for the given buyer ID
-        orders = session.query(Order).filter(Order.buyer_id == buyer_id).all()
+        # Retrieve all orders for the given user ID
+        orders = (
+            session.query(Order)
+            .join(Buyer, Order.buyer_id == Buyer.id)
+            .filter(Buyer.user_id == user_id)
+            .all()
+        )
         
         if not orders:
-            return jsonify({'message': 'No orders found for this buyer'}), 404
+            return jsonify({'message': 'No orders found for this user'}), 404
         
         # Prepare the orders details
         orders_data = []
@@ -150,13 +156,16 @@ def get_orders_by_buyer(buyer_id):
             products = session.query(Product).filter(Product.id.in_(product_ids)).all()
             product_dict = {product.id: product for product in products}
 
+            # Get the actual user ID
+            user_id = order.buyer.user_id
+
             # Prepare the order details
             order_data = {
                 'order_id': order.id,
-                'buyer_id': order.buyer_id,
-                'total_price': order.total_price,
+                'user_id': user_id,  # Use the actual user_id value
+                'total_price': float(order.total_price),
                 'payment_method': order.payment_method,
-                'order_date': order.order_date,
+                'order_date': order.order_date.isoformat(),  # Convert datetime to ISO format
                 'status': order.status,
                 'items': [
                     {
@@ -164,7 +173,7 @@ def get_orders_by_buyer(buyer_id):
                         'seller_id': product_dict[item.product_id].seller_id,
                         'product_name': product_dict[item.product_id].name,
                         'quantity': item.quantity,
-                        'price': product_dict[item.product_id].price,
+                        'price': float(product_dict[item.product_id].price),
                         'product_picture_url': product_dict[item.product_id].product_picture_url
                     }
                     for item in order_items

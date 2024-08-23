@@ -18,6 +18,7 @@ import { User } from "@/lib/types";
 import ReviewsByBuyer from "@/components/cards/ReviewsByBuyer";
 import ShoppingCart from "../components/cards/ShoppingCart";
 import LikesByUser from "@/components/cards/LikesByUser";
+import OrdersListBuyer from "@/components/cards/OrdersListBuyer";
 interface OrderItem {
 	product_id: number;
 	product_name: string;
@@ -84,11 +85,7 @@ export default function BuyerPage() {
 
 	const menuItems = [
 		{ label: "Pesanan Saya", icon: <FaBoxOpen /> },
-		{ label: "Menunggu Pembayaran", icon: <FaTruckLoading /> },
 		{ label: "Kotak Masuk", icon: <FaInbox /> },
-		{ label: "Diskusi Produk", icon: <FaCommentAlt /> },
-		{ label: "Pesan Bantuan", icon: <FaHeart /> },
-		{ label: "Pesanan Dikomplain", icon: <FaStar /> },
 		{ label: "Ulasan", icon: <FaStar /> },
 		{ label: "Favorit Saya", icon: <FaHeart /> },
 		{ label: "Pengaturan", icon: <FaUserCog /> },
@@ -306,92 +303,7 @@ export default function BuyerPage() {
 
 					{/* Pesananan Saya */}
 					{selectedMenu === "Pesanan Saya" && (
-						<Tabs>
-							<TabsList>
-								<TabsTrigger value='semua'>Semua</TabsTrigger>
-								<TabsTrigger value='berlangsung'>Berlangsung</TabsTrigger>
-								<TabsTrigger value='berhasil'>Berhasil</TabsTrigger>
-								<TabsTrigger value='tidak-berhasil'>Tidak Berhasil</TabsTrigger>
-							</TabsList>
-							<TabsContent
-								value='semua'
-								className='p-4 bg-white shadow-md rounded-lg'
-							>
-								<h3 className='text-lg font-semibold'>Semua Transaksi</h3>
-								<p>Daftar semua pesanan kamu.</p>
-							</TabsContent>
-							<TabsContent
-								value='berlangsung'
-								className='p-4 bg-white shadow-md rounded-lg'
-							>
-								<Tabs>
-									<TabsList>
-										<TabsTrigger value='menunggu-konfirmasi'>
-											Menunggu Konfirmasi
-										</TabsTrigger>
-										<TabsTrigger value='diproses'>Diproses</TabsTrigger>
-										<TabsTrigger value='dikirim'>Dikirim</TabsTrigger>
-										<TabsTrigger value='tiba-tujuan'>
-											Tiba di Tujuan
-										</TabsTrigger>
-										<TabsTrigger value='dikomplain'>Dikomplain</TabsTrigger>
-									</TabsList>
-									<TabsContent
-										value='menunggu-konfirmasi'
-										className='p-4 bg-white shadow-md rounded-lg'
-									>
-										<h3 className='text-lg font-semibold'>
-											Menunggu Konfirmasi
-										</h3>
-										<p>Transaksi yang menunggu konfirmasi.</p>
-									</TabsContent>
-									<TabsContent
-										value='diproses'
-										className='p-4 bg-white shadow-md rounded-lg'
-									>
-										<h3 className='text-lg font-semibold'>Diproses</h3>
-										<p>Transaksi yang sedang diproses.</p>
-									</TabsContent>
-									<TabsContent
-										value='dikirim'
-										className='p-4 bg-white shadow-md rounded-lg'
-									>
-										<h3 className='text-lg font-semibold'>Dikirim</h3>
-										<p>Transaksi yang sudah dikirim.</p>
-									</TabsContent>
-									<TabsContent
-										value='tiba-tujuan'
-										className='p-4 bg-white shadow-md rounded-lg'
-									>
-										<h3 className='text-lg font-semibold'>Tiba di Tujuan</h3>
-										<p>Transaksi yang sudah tiba di tujuan.</p>
-									</TabsContent>
-									<TabsContent
-										value='dikomplain'
-										className='p-4 bg-white shadow-md rounded-lg'
-									>
-										<h3 className='text-lg font-semibold'>Dikomplain</h3>
-										<p>Transaksi yang telah dikomplain.</p>
-									</TabsContent>
-								</Tabs>
-							</TabsContent>
-							<TabsContent
-								value='berhasil'
-								className='p-4 bg-white shadow-md rounded-lg'
-							>
-								<h3 className='text-lg font-semibold'>Transaksi Berhasil</h3>
-								<p>Transaksi yang berhasil.</p>
-							</TabsContent>
-							<TabsContent
-								value='tidak-berhasil'
-								className='p-4 bg-white shadow-md rounded-lg'
-							>
-								<h3 className='text-lg font-semibold'>
-									Transaksi Tidak Berhasil
-								</h3>
-								<p>Transaksi yang tidak berhasil.</p>
-							</TabsContent>
-						</Tabs>
+						<OrdersListBuyer></OrdersListBuyer>
 					)}
 
 					{/* Favorit Saya */}

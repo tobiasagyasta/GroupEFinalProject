@@ -7,7 +7,6 @@ import {
 	CardContent,
 	CardFooter,
 } from "../ui/card"; // Adjust import paths as needed
-import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar"; // Adjust import paths as needed
 import { apiBaseUrl } from "@/lib/api"; // Adjust import path as needed
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";

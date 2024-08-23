@@ -232,6 +232,7 @@ def get_seller_info(seller_id):
             # Return seller's bank account information
             return jsonify({
                 'seller_id': seller.id,
+                'farm_name': seller.farm_name,
                 'account_number': seller.account_number
             }), 200
     except Exception as e:
