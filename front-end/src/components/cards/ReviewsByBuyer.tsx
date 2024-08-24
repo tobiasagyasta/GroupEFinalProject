@@ -10,7 +10,6 @@ import {
 import { apiBaseUrl } from "@/lib/api"; // Adjust import path as needed
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
-import { User } from "@/lib/types";
 
 const ReviewsByBuyer = ({ buyer_id }: { buyer_id: string }) => {
 	const [buyerId, setBuyerId] = useState<string | null>(buyer_id);
@@ -39,17 +38,33 @@ const ReviewsByBuyer = ({ buyer_id }: { buyer_id: string }) => {
 		fetchReviews();
 	}, [buyerId]);
 
+	const deleteReview = async (reviewId: number) => {
+		try {
+			const response = await fetch(`${apiBaseUrl}/review/${reviewId}`, {
+				method: "DELETE",
+			});
+			if (!response.ok) {
+				throw new Error("Network response was not ok");
+			}
+			// Remove the deleted review from the state
+			setReviews(reviews.filter((review) => review.id !== reviewId));
+		} catch (error) {
+			setError("Error deleting review");
+			console.error(error);
+		}
+	};
+
 	if (loading) return <div>Loading...</div>;
 	// if (error) return <div>{error}</div>;
 
 	return (
-		<div className='space-y-2'>
+		<div className="space-y-2">
 			{reviews.length > 0 ? (
 				reviews.map((review: any) => (
 					<Card key={review.id}>
 						<CardHeader>
-							<div className='flex items-center'>
-								<div className='ml-4'>
+							<div className="flex items-center">
+								<div className="ml-4">
 									<CardTitle>Review for Product #{review.product_id}</CardTitle>
 									<CardDescription>Rating: {review.rating} / 5</CardDescription>
 								</div>
@@ -62,6 +77,9 @@ const ReviewsByBuyer = ({ buyer_id }: { buyer_id: string }) => {
 							<Link to={`/product/${review.product_id}`}>
 								<Button>View Product</Button>
 							</Link>
+							<Button onClick={() => deleteReview(review.id)} className="ml-2">
+								Delete Review
+							</Button>
 						</CardFooter>
 					</Card>
 				))

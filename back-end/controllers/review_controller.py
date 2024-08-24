@@ -87,3 +87,19 @@ def get_reviews_by_buyer(buyer_id):
         ]
         
         return jsonify(reviews_list), 200
+    
+@review_bp.route('/<int:review_id>', methods=['DELETE'])
+def delete_review(review_id):
+    Session = sessionmaker(bind=engine)
+    
+    with Session() as session:
+        # Query for the review to delete
+        review = session.query(Review).filter_by(id=review_id).first()
+        
+        if not review:
+            return jsonify({'message': 'Review not found'}), 404
+
+        # Delete the review
+        session.delete(review)
+        session.commit()
+        return jsonify({'message': 'Review deleted successfully'}), 200

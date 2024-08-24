@@ -53,6 +53,13 @@ export default function Dashboard() {
 	const toggleRevenueVisibility = () => {
 		setRevenueHidden(!isRevenueHidden);
 	};
+	if (!user || user?.role !== "seller") {
+		return (
+			<h1 className="text-4xl text-center mt-4">
+				Anda tidak bisa masuk ke sini! Silakan kembali ke beranda dan log in.
+			</h1>
+		);
+	}
 
 	return (
 		<div className="min-h-screen flex flex-col">
