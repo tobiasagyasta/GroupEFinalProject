@@ -204,70 +204,71 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
 	return (
 		<div
 			ref={cartRef}
-			className='fixed top-0 right-0 w-96 max-h-screen shadow-lg rounded-lg z-40 bg-white overflow-y-auto'
+			className="fixed top-0 right-0 w-96 max-h-screen shadow-lg rounded-lg z-40 bg-white overflow-y-auto"
 		>
-			<div className='p-4 border-b flex items-center justify-between bg-green-700 text-white'>
-				<h2 className='text-lg font-semibold'>Shopping Cart</h2>
-				<button onClick={toggleCart} className='text-white hover:text-gray-200'>
-					<FaShoppingCart className='w-6 h-6' />
+			<div className="p-4 border-b flex items-center justify-between bg-green-700 text-white">
+				<h2 className="text-lg font-semibold">Shopping Cart</h2>
+				<button onClick={toggleCart} className="text-white hover:text-gray-200">
+					<FaShoppingCart className="w-6 h-6" />
 				</button>
 			</div>
-			<div className='p-4'>
+			<div className="p-4">
 				{/* Button to Remove All Items */}
-				<div className='flex items-center space-x-2 mb-4'>
+				<div className="flex items-center space-x-2 mb-4">
 					<button
 						onClick={handleRemoveAllItems}
-						className='p-2 bg-red-600 text-white rounded-md hover:bg-red-700'
+						className="p-2 bg-red-600 text-white rounded-md hover:bg-red-700"
 					>
 						Clear Cart
 					</button>
 				</div>
-				<ul className='space-y-4'>
+				<ul className="space-y-4">
 					{items.map((item) => (
 						<li
 							key={item.id}
-							className='flex items-start space-x-4 border-b pb-4'
+							className="flex items-start space-x-4 border-b pb-4"
 						>
-							<div className='flex items-center space-x-4 w-full'>
+							<div className="flex items-center space-x-4 w-full">
 								<img
-									src={`/images/${item.product_picture_url}`}
+									src={`${apiBaseUrl}/uploads/products/${item.product_picture_url}`}
 									alt={item.name}
-									className='w-16 h-16 object-cover rounded-md'
+									className="w-16 h-16 object-cover rounded-md"
 								/>
-								<div className='flex-grow'>
-									<h3 className='text-sm font-medium'>{item.name}</h3>
-									<p className='text-xs text-gray-500'>
+
+								<div className="flex-grow">
+									<h3 className="text-sm font-medium">{item.name}</h3>
+									<p className="text-xs text-gray-500">
 										Category: {item.category}
 									</p>
-									<p className='text-xs text-gray-500'>
+									<p className="text-xs text-gray-500">
 										Store: {item.seller_id}
 									</p>
-									<div className='flex items-center space-x-2 mt-2'>
+									<div className="flex items-center space-x-2 mt-2">
 										<button
 											onClick={() => handleQuantityChange(item.id, -1)}
-											className='px-2 py-1 bg-green-200 rounded-md'
+											className="px-2 py-1 bg-green-200 rounded-md"
 										>
 											-
 										</button>
 										<span>{item.quantity}</span>
 										<button
 											onClick={() => handleQuantityChange(item.id, 1)}
-											className='px-2 py-1 bg-green-200 rounded-md'
+											className="px-2 py-1 bg-green-200 rounded-md"
 										>
 											+
 										</button>
 									</div>
 								</div>
-								<div className='text-right'>
-									<p className='text-sm font-semibold text-red-600'>
+								<div className="text-right">
+									<p className="text-sm font-semibold text-red-600">
 										Rp {item.price.toLocaleString()}
 									</p>
 								</div>
 							</div>
-							<div className='flex flex-col items-center space-y-2'>
+							<div className="flex flex-col items-center space-y-2">
 								<button
 									onClick={() => handleRemoveItem(item.id)}
-									className='text-gray-500 hover:text-red-600'
+									className="text-gray-500 hover:text-red-600"
 								>
 									<FaTrashAlt />
 								</button>
@@ -275,8 +276,8 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
 						</li>
 					))}
 				</ul>
-				<div className='mt-4'>
-					<p className='text-right text-lg font-semibold'>
+				<div className="mt-4">
+					<p className="text-right text-lg font-semibold">
 						Total: Rp{" "}
 						{items
 							.reduce((total, item) => total + item.price * item.quantity, 0)
@@ -285,11 +286,11 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
 				</div>
 				<button
 					onClick={handleCheckout}
-					className='mt-4 w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-800'
+					className="mt-4 w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-800"
 				>
 					Checkout
 				</button>
-				<p className='mt-2 text-center text-green-600 cursor-pointer hover:underline'>
+				<p className="mt-2 text-center text-green-600 cursor-pointer hover:underline">
 					View More Products
 				</p>
 			</div>

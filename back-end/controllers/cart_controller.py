@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, joinedload
 from models.cart import Cart
 from models.cart_item import CartItem
 from models.product import Product
@@ -73,16 +73,21 @@ def get_cart(cart_id):
     """Retrieve the details of a cart."""
     Session = sessionmaker(bind=engine)
     with Session() as session:
+        # Query the Cart to check if it exists
         cart = session.query(Cart).get(cart_id)
         if not cart:
             return jsonify({'message': 'Cart not found'}), 404
+
+        # Query the CartItem and join with the Product table
+        cart_items = session.query(CartItem).join(CartItem.product).options(joinedload(CartItem.product)).filter(CartItem.cart_id == cart_id).all()
         
-        cart_items = session.query(CartItem).filter(CartItem.cart_id == cart_id).all()
-        
+        # Prepare the cart data with product details including picture URL
         items = [
             {
-                'product_id': item.id,
-                'product_id': item.product_id,
+                'cart_item_id': item.id,
+                'product_id': item.product.id,
+                'product_name': item.product.name,
+                'product_picture_url': item.product.product_picture_url,
                 'quantity': item.quantity
             }
             for item in cart_items
