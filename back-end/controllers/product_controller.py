@@ -9,26 +9,27 @@ product_bp = Blueprint('product_bp', __name__, url_prefix='/product')
 
 @product_bp.route('/', methods=['GET'])
 def get_products():
-    """Retrieve all products with pagination, optional category filtering, and price sorting."""
+    """Retrieve all products with pagination, optional category filtering, search, and price sorting."""
     Session = sessionmaker(bind=engine)
     with Session() as session:
         # Get pagination parameters from query string, default to page 1 and 10 items per page
         page = request.args.get('page', default=1, type=int)
         per_page = request.args.get('per_page', default=10, type=int)
         
-        # Get category filter from query string, default to None
+        # Get filters from query string
         category = request.args.get('category', default=None, type=str)
-        
-        # Get sort order from query string, default to ascending ('asc')
+        search = request.args.get('search', default=None, type=str)  # New search parameter
         sort_order = request.args.get('sort_order', default='desc', type=str).lower()
         
         # Calculate offset
         offset = (page - 1) * per_page
         
-        # Build query with optional category filter
+        # Build query with optional category filter and search filter
         query = session.query(Product)
         if category:
             query = query.filter(Product.category == category)
+        if search:
+            query = query.filter(Product.name.ilike(f'%{search}%'))  # Case-insensitive search
         
         # Add sorting by price
         if sort_order == 'desc':
@@ -43,6 +44,8 @@ def get_products():
         total_products_query = session.query(Product)
         if category:
             total_products_query = total_products_query.filter(Product.category == category)
+        if search:
+            total_products_query = total_products_query.filter(Product.name.ilike(f'%{search}%'))
         total_products = total_products_query.count()
         
         # Prepare response data
