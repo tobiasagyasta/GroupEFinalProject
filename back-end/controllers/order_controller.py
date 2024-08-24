@@ -183,3 +183,54 @@ def get_orders_by_user(user_id):
             orders_data.append(order_data)
         
         return jsonify({'orders': orders_data}), 200
+    
+@order_bp.route('/seller/<int:seller_id>', methods=['GET'])
+def get_orders_by_seller(seller_id):
+    Session = sessionmaker(bind=engine)
+    with Session() as session:
+        # Query for order items that are associated with the given seller_id
+        order_items = (
+            session.query(OrderItem)
+            .join(Product, OrderItem.product_id == Product.id)
+            .filter(Product.seller_id == seller_id)
+            .all()
+        )
+        
+        if not order_items:
+            return jsonify({'message': 'No orders found for this seller'}), 404
+        
+        # Collect order IDs related to this seller
+        order_ids = {item.order_id for item in order_items}
+        
+        # Fetch orders using the collected order IDs
+        orders = session.query(Order).filter(Order.id.in_(order_ids)).all()
+        
+        # Prepare the orders data
+        orders_data = []
+        for order in orders:
+            # Retrieve the order items for the current order
+            items = [
+                {
+                    'product_id': item.product_id,
+                    'product_name': item.product.name,
+                    'quantity': item.quantity,
+                    'price': float(item.product.price),
+                    'product_picture_url': item.product.product_picture_url
+                }
+                for item in order_items if item.order_id == order.id
+            ]
+            
+            # Prepare order details
+            order_data = {
+                'order_id': order.id,
+                'buyer_id': order.buyer_id,
+                'total_price': float(order.total_price),
+                'payment_method': order.payment_method,
+                'order_date': order.order_date.isoformat(),
+                'status': order.status,
+                'items': items,
+                'transaction_id': order.transaction_id
+            }
+            orders_data.append(order_data)
+        
+        return jsonify({'orders': orders_data}), 200

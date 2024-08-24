@@ -31,6 +31,7 @@ import {
 	faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 import { Button } from "@/components/ui/button";
+import OrdersListSeller from "@/components/cards/OrdersListSeller";
 
 export default function Dashboard() {
 	const [isRevenueHidden, setRevenueHidden] = useState(false);
@@ -39,6 +40,7 @@ export default function Dashboard() {
 	const showSettings = () => setDashboardState("settings");
 	const showAddProduct = () => setDashboardState("addProducts");
 	const showProducts = () => setDashboardState("products");
+	const showOrders = () => setDashboardState("orders");
 	const [user, setUser] = useState<User | null>(null);
 	useEffect(() => {
 		const fetchUser = async () => {
@@ -94,9 +96,12 @@ export default function Dashboard() {
 							>
 								<SidebarItem icon={<FaList />} label="Daftar Produk" />
 							</Button>
-
-							<SidebarItem icon={<FaTruck />} label="Pemesanan" />
-
+							<Button
+								onClick={showOrders}
+								className="bg-transparent hover:bg-transparent p-4"
+							>
+								<SidebarItem icon={<FaTruck />} label="Pemesanan" />
+							</Button>
 							<Button
 								onClick={showSettings}
 								className="bg-transparent hover:bg-transparent p-4"
@@ -161,6 +166,7 @@ export default function Dashboard() {
 				{dashboardState == "settings" && <UserSettings></UserSettings>}
 				{dashboardState === "products" && <MyProducts />}
 				{dashboardState === "addProducts" && <AddProduct />}
+				{dashboardState === "orders" && <OrdersListSeller />}
 			</div>
 		</div>
 	);
