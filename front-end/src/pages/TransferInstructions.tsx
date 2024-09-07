@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { apiBaseUrl } from "@/lib/api";
+import {
+	Card,
+	CardHeader,
+	CardTitle,
+	CardDescription,
+	CardContent,
+	CardFooter,
+} from "@/components/ui/card";
 
 interface OrderItem {
 	product_id: number;
@@ -22,9 +30,16 @@ interface TransferInstructionsData {
 	status: string;
 }
 
+interface SellerInfo {
+	seller_id: number;
+	account_number: string;
+	farm_name: string;
+}
+
 const TransferInstructions: React.FC = () => {
 	const { orderId } = useParams<{ orderId: string }>();
 	const [data, setData] = useState<TransferInstructionsData | null>(null);
+	const [sellersInfo, setSellersInfo] = useState<SellerInfo[]>([]);
 	const [loading, setLoading] = useState(true);
 	const navigate = useNavigate();
 
@@ -40,6 +55,22 @@ const TransferInstructions: React.FC = () => {
 					navigate("/");
 				} else {
 					setData(orderData);
+
+					// Collect unique seller IDs from order items
+					const sellerIds = Array.from(
+						new Set(orderData.items.map((item) => item.seller_id))
+					);
+
+					// Fetch seller info for each seller ID
+					const sellerRequests = sellerIds.map((sellerId) =>
+						fetch(`${apiBaseUrl}/users/seller/${sellerId}`).then((res) =>
+							res.json()
+						)
+					);
+
+					// Wait for all seller info requests to complete
+					const sellersData = await Promise.all(sellerRequests);
+					setSellersInfo(sellersData);
 				}
 			} catch (error) {
 				console.log(error);
@@ -59,7 +90,21 @@ const TransferInstructions: React.FC = () => {
 		return <p>No data available</p>;
 	}
 
-	const { items, total_price, transaction_id, payment_method } = data;
+	const { items, total_price, transaction_id } = data;
+
+	// Create a map for quick lookup of seller info by seller_id
+	const sellerInfoMap = new Map<number, SellerInfo>();
+	sellersInfo.forEach((seller) => sellerInfoMap.set(seller.seller_id, seller));
+
+	// Group items by seller_id and calculate total per seller
+	const groupedItems = items.reduce((acc, item) => {
+		if (!acc[item.seller_id]) {
+			acc[item.seller_id] = { items: [], total: 0 };
+		}
+		acc[item.seller_id].items.push(item);
+		acc[item.seller_id].total += parseFloat(item.price) * item.quantity;
+		return acc;
+	}, {} as Record<number, { items: OrderItem[]; total: number }>);
 
 	return (
 		<div className='max-w-3xl mx-auto my-8 p-6 bg-white shadow-md rounded-lg'>
@@ -68,31 +113,46 @@ const TransferInstructions: React.FC = () => {
 			</h1>
 
 			<div className='mb-6'>
-				<h2 className='text-xl font-semibold text-gray-700'>Rincian Produk</h2>
-				{items.map((item) => (
-					<div key={item.product_id} className='mb-4'>
-						<p className='text-gray-600'>
-							<strong>Nama Produk:</strong> {item.product_name}
-						</p>
-						<p className='text-gray-600'>
-							<strong>Harga:</strong> Rp{" "}
-							{parseFloat(item.price).toLocaleString("id-ID")}
-						</p>
-						<p className='text-gray-600'>
-							<strong>ID Transaksi:</strong> {transaction_id}
-						</p>
-					</div>
-				))}
-			</div>
-
-			<div className='mb-6'>
-				<h2 className='text-xl font-semibold text-gray-700'>
-					Nomor Rekening Penjual
+				<h2 className='text-2xl font-semibold text-gray-700 mb-4'>
+					Rincian Produk
 				</h2>
-				{/* Display seller bank account info (assuming you have this data) */}
-				<p className='text-gray-600 text-lg font-mono'>
-					{/* Bank account info should be fetched from seller data */}
-				</p>
+				{Object.entries(groupedItems).map(([sellerId, { items, total }]) => {
+					const sellerInfo = sellerInfoMap.get(Number(sellerId));
+					return (
+						<Card key={sellerId} className='mb-6 border-black'>
+							<CardHeader>
+								<CardTitle>
+									{sellerInfo?.farm_name || "Nama Bisnis Tidak Tersedia"}
+								</CardTitle>
+								<CardDescription>
+									<strong>Nomor Rekening:</strong>{" "}
+									{sellerInfo?.account_number || "Loading..."}
+								</CardDescription>
+							</CardHeader>
+							<CardContent>
+								{items.map((item) => (
+									<div key={item.product_id} className='mb-4'>
+										<p className='text-gray-600'>
+											<strong>Nama Produk:</strong> {item.product_name}
+										</p>
+										<p className='text-gray-600'>
+											<strong>Harga:</strong> Rp{" "}
+											{parseFloat(item.price).toLocaleString("id-ID")}
+										</p>
+										<p className='text-gray-600'>
+											<strong>Jumlah:</strong> {item.quantity}
+										</p>
+									</div>
+								))}
+							</CardContent>
+							<CardFooter>
+								<p className='text-gray-600 font-bold'>
+									<strong>Total:</strong> Rp {total.toLocaleString("id-ID")}
+								</p>
+							</CardFooter>
+						</Card>
+					);
+				})}
 			</div>
 
 			<div className='mb-6'>
@@ -102,14 +162,12 @@ const TransferInstructions: React.FC = () => {
 				<ol className='list-decimal list-inside text-gray-600'>
 					<li>Buka aplikasi perbankan atau kunjungi ATM terdekat.</li>
 					<li>
-						Pilih opsi "Transfer" dan masukkan nomor rekening penjual di atas.
+						Pilih opsi "Transfer" dan masukkan nomor rekening penjual - penjual
+						di atas.
 					</li>
 					<li>
-						Masukkan jumlah sebesar{" "}
-						<strong>
-							Rp {parseFloat(total_price).toLocaleString("id-ID")}
-						</strong>
-						.
+						Masukkan jumlah sesuai rincian di atas ke nomor rekening sesuai
+						setiap produk juga.
 					</li>
 					<li>
 						Pada keterangan, masukkan ID Transaksi:{" "}
@@ -121,11 +179,16 @@ const TransferInstructions: React.FC = () => {
 
 			<div className='text-center'>
 				<p className='text-gray-700'>
-					Setelah transfer berhasil, harap konfirmasi pembayaran Anda melalui
-					halaman konfirmasi di situs kami.
+					Setelah transfer berhasil, harap menunggu produsen menyelesaikan dan
+					mengirimkan produk anda!
 				</p>
-				<button className='mt-4 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600'>
-					Konfirmasi Pembayaran
+				<button
+					onClick={() => {
+						navigate("/");
+					}}
+					className='mt-4 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600'
+				>
+					Kembali ke Beranda{" "}
 				</button>
 			</div>
 		</div>
