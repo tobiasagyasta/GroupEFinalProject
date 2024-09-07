@@ -89,7 +89,7 @@ export default function Dashboard() {
 							>
 								<SidebarItem icon={<FaHome />} label="Home" />
 							</Button>
-							<SidebarItem icon={<FaComments />} label="Chat" />
+
 							<Button
 								onClick={showAddProduct}
 								className="bg-transparent hover:bg-transparent p-4"

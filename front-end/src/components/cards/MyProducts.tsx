@@ -11,20 +11,35 @@ import {
 	PaginationNext,
 	PaginationPrevious,
 } from "@/components/ui/pagination";
+import { debounce } from "lodash";
 
 const MyProducts = () => {
 	const [products, setProducts] = useState<Product[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(0);
+	const [category, setCategory] = useState("");
+	const [search, setSearch] = useState("");
+	const [sortBy, setSortBy] = useState("price"); // Default to sorting by price
+	const [sortOrder, setSortOrder] = useState("desc"); // Default to descending order
 
 	useEffect(() => {
 		const fetchUserAndProducts = async () => {
 			try {
 				const user = await fetchCurrentUser();
 
-				// Fetch products based on the currentPage
+				// Construct query parameters for filters and sorting
+				const queryParams = new URLSearchParams({
+					page: currentPage.toString(),
+					per_page: "10",
+					category,
+					search,
+					sort_by: sortBy,
+					sort_order: sortOrder,
+				}).toString();
+
+				// Fetch products based on filters, sorting, and pagination
 				const response = await fetch(
-					`${apiBaseUrl}/product/by_user/${user.id}?page=${currentPage}&per_page=10`, // Adjust per_page if needed
+					`${apiBaseUrl}/product/by_user/${user.id}?${queryParams}`,
 					{
 						method: "GET",
 						headers: {
@@ -45,7 +60,13 @@ const MyProducts = () => {
 		};
 
 		fetchUserAndProducts();
-	}, [currentPage]); // Depend on currentPage to refetch products when page changes
+	}, [currentPage, category, search, sortBy, sortOrder]);
+
+	// Debounced search handler
+	const handleSearch = debounce((query: string) => {
+		setSearch(query);
+		setCurrentPage(1); // Reset to the first page when changing search term
+	}, 500);
 
 	const handlePageChange = (pageNumber: number) => {
 		setCurrentPage(pageNumber);
@@ -54,6 +75,68 @@ const MyProducts = () => {
 	return (
 		<div className="p-8">
 			<h1 className="text-2xl font-semibold mb-4">Daftar Produk</h1>
+
+			{/* Filters */}
+			<div className="mb-6 flex flex-wrap gap-4">
+				<input
+					type="text"
+					placeholder="Search..."
+					onChange={(e) => handleSearch(e.target.value)}
+					className="border px-3 h-11 flex-1"
+				/>
+
+				{/* Category Filter */}
+				<div className="mb-4 w-1/4">
+					<select
+						value={category}
+						aria-placeholder="Categories"
+						onChange={(e) => {
+							setCategory(e.target.value);
+							setCurrentPage(1); // Reset to the first page when changing category
+						}}
+						className="px-4 py-2 border border-gray-300 rounded-lg w-full"
+					>
+						<option value="">All Categories</option>
+						<option value="Sayuran">Sayuran</option>
+						<option value="Buah">Buah</option>
+						<option value="Kacang">Kacang</option>
+						<option value="Rempah">Rempah</option>
+						<option value="Snacks">Snacks</option>
+					</select>
+				</div>
+
+				{/* Sort by Price Dropdown */}
+				<div className="mb-4 w-1/4">
+					<select
+						value={sortBy}
+						onChange={(e) => {
+							setSortBy(e.target.value);
+							setCurrentPage(1); // Reset to the first page when changing sort field
+						}}
+						className="px-4 py-2 border border-gray-300 rounded-lg w-full"
+					>
+						<option value="price">Sort by Price</option>
+						<option value="quantity">Sort by Quantity</option>
+					</select>
+				</div>
+
+				{/* Sort Order Dropdown */}
+				<div className="mb-4 w-1/4">
+					<select
+						value={sortOrder}
+						onChange={(e) => {
+							setSortOrder(e.target.value);
+							setCurrentPage(1); // Reset to the first page when changing sort order
+						}}
+						className="px-4 py-2 border border-gray-300 rounded-lg w-full"
+					>
+						<option value="desc">Descending</option>
+						<option value="asc">Ascending</option>
+					</select>
+				</div>
+			</div>
+
+			{/* Product List */}
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 				{products.map((product) => (
 					<div key={product.id} className="bg-white p-4 rounded-lg shadow-md">
@@ -71,6 +154,9 @@ const MyProducts = () => {
 							}).format(product.price)}{" "}
 							/ {product.unit}
 						</p>
+						<p className="text-lg font-semibold mb-2">
+							Quantity : {product.quantity}
+						</p>
 						<Link to={`/product/${product.id}`}>
 							<button className="px-4 py-2 bg-gray-500 text-white rounded-lg shadow-md hover:bg-gray-600">
 								Lihat produk
@@ -79,6 +165,8 @@ const MyProducts = () => {
 					</div>
 				))}
 			</div>
+
+			{/* Pagination */}
 			<div className="flex justify-center mt-8 text-2xl">
 				<Pagination>
 					<PaginationContent>

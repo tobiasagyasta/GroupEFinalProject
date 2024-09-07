@@ -131,7 +131,7 @@ def delete_product(product_id):
         
 @product_bp.route('/by_user/<int:user_id>', methods=['GET'])
 def get_products_by_user(user_id):
-    """Retrieve all products by user ID by first getting the seller ID."""
+    """Retrieve all products by user ID, with optional filtering by category, price, quantity, and sorting."""
     Session = sessionmaker(bind=engine)
     with Session() as session:
         # Retrieve the seller ID for the given user ID
@@ -145,8 +145,13 @@ def get_products_by_user(user_id):
         page = request.args.get('page', default=1, type=int)
         per_page = request.args.get('per_page', default=10, type=int)
         
-        # Get sort order from query string, default to descending ('desc')
-        sort_order = request.args.get('sort_order', default='desc', type=str).lower()
+        # Get filters from query string
+        category = request.args.get('category', default=None, type=str)
+        search = request.args.get('search', default=None, type=str)  # Search parameter
+        
+        # Get sort parameters from query string
+        sort_by = request.args.get('sort_by', default='price', type=str).lower()  # 'price' or 'quantity'
+        sort_order = request.args.get('sort_order', default='desc', type=str).lower()  # 'asc' or 'desc'
         
         # Calculate offset
         offset = (page - 1) * per_page
@@ -154,23 +159,45 @@ def get_products_by_user(user_id):
         # Build query to filter products by seller ID
         query = session.query(Product).filter(Product.seller_id == seller_id)
         
-        # Add sorting by price
-        if sort_order == 'desc':
-            query = query.order_by(Product.price.desc())
-        else:
-            query = query.order_by(Product.price.asc())
+        # Apply category filter
+        if category:
+            query = query.filter(Product.category == category)
+        
+        # Apply search filter (case-insensitive)
+        if search:
+            query = query.filter(Product.name.ilike(f'%{search}%'))
+        
+        # Apply sorting
+        if sort_by == 'price':
+            if sort_order == 'desc':
+                query = query.order_by(Product.price.desc())
+            else:
+                query = query.order_by(Product.price.asc())
+        elif sort_by == 'quantity':
+            if sort_order == 'desc':
+                query = query.order_by(Product.quantity.desc())
+            else:
+                query = query.order_by(Product.quantity.asc())
         
         # Execute query with pagination
         products = query.offset(offset).limit(per_page).all()
         
-        # Get total count of products for pagination metadata
-        total_products = session.query(Product).filter(Product.seller_id == seller_id).count()
+        # Get total count of filtered products for pagination metadata
+        total_products_query = session.query(Product).filter(Product.seller_id == seller_id)
+        
+        if category:
+            total_products_query = total_products_query.filter(Product.category == category)
+        if search:
+            total_products_query = total_products_query.filter(Product.name.ilike(f'%{search}%'))
+        
+        total_products = total_products_query.count()
         
         # Prepare response data
         response = {
             'total': total_products,
             'page': page,
             'per_page': per_page,
+            'sort_by': sort_by,
             'sort_order': sort_order,
             'products': [product.to_dict() for product in products]
         }

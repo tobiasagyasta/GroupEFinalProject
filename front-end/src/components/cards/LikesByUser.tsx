@@ -88,23 +88,23 @@ const LikesByUser = () => {
 	return (
 		<div>
 			<h2>Liked Products</h2>
-			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 				{favoritedProducts.map((product) => (
-					<div key={product.product_id} className='border p-4 rounded-lg'>
+					<div key={product.product_id} className="border p-4 rounded-lg">
 						<img
 							src={`${apiBaseUrl}/uploads/products/${product.product_picture_url}`}
 							alt={product.product_name}
-							className='w-full h-48 object-cover rounded-lg mb-4'
+							className="w-full h-48 object-cover rounded-lg mb-4"
 						/>
-						<h3 className='text-xl font-semibold'>{product.product_name}</h3>
-						<p className='text-lg font-medium text-gray-700'>
+						<h3 className="text-xl font-semibold">{product.product_name}</h3>
+						<p className="text-lg font-medium text-gray-700">
 							Price: Rp {Number(product.price).toLocaleString("id-ID")}
 						</p>
 						<Link to={`/product/${product.product_id}`}>
-							<Button>Lihat Product</Button>
+							<Button className="mx-4">Lihat Product</Button>
 						</Link>
 						<Button
-							variant='destructive'
+							variant="destructive"
 							onClick={() => handleUnfavorite(product.product_id)}
 						>
 							Unfavorite Product
