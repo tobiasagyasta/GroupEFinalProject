@@ -4,7 +4,9 @@
 
 ## About
 
-![Harvesthub Logo](https://raw.githubusercontent.com/tobiasagyasta/HarvestHub/development/front-end/public/images/logoharvest.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/tobiasagyasta/HarvestHub/development/front-end/public/images/logoharvest.png" alt="Harvest Hub Logo" />
+</p>
 
 Harvesthub is an e-commerce web application focusing on connecting local farmers and consumers to easily conduct business transactions. Local farmers can receive earnings directly without the use of costly third part distributors, while consumers can receive fresh local products straight from the farm!
 
